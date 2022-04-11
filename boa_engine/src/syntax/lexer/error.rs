@@ -7,7 +7,7 @@
 
 use super::Position;
 use core::fmt;
-use crate::io::{self, StdError};
+use crate::io;
 
 #[derive(Debug)]
 pub enum Error {
@@ -46,15 +46,6 @@ impl fmt::Display for Error {
         match self {
             Self::IO(e) => write!(f, "I/O error: {e}"),
             Self::Syntax(e, pos) => write!(f, "Syntax Error: {e} at position: {pos}"),
-        }
-    }
-}
-
-impl StdError for Error {
-    fn source(&self) -> Option<&(dyn StdError + 'static)> {
-        match self {
-            Self::IO(err) => Some(err),
-            Self::Syntax(_, _) => None,
         }
     }
 }

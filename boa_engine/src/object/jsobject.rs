@@ -17,7 +17,6 @@ use core::{
 };
 use hashbrown::HashMap;
 use rustc_hash::FxHashMap;
-use crate::io::StdError as Error;
 
 /// A wrapper type for an immutably borrowed type T.
 pub type Ref<'a, T> = boa_gc::Ref<'a, T>;
@@ -711,8 +710,6 @@ impl Display for BorrowError {
     }
 }
 
-impl Error for BorrowError {}
-
 /// An error returned by [`JsObject::try_borrow_mut`](struct.JsObject.html#method.try_borrow_mut).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct BorrowMutError;
@@ -723,8 +720,6 @@ impl Display for BorrowMutError {
         Display::fmt("Object already borrowed", f)
     }
 }
-
-impl Error for BorrowMutError {}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum RecursionValueState {

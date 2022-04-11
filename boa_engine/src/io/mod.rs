@@ -7,10 +7,8 @@ use core::slice;
 
 mod error;
 mod impls;
-mod std_error;
 
 pub use error::{Error, ErrorKind, Result};
-pub use std_error::Error as StdError;
 
 pub trait Read {
     fn read(&mut self, buf: &mut [u8]) -> Result<usize>;

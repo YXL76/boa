@@ -1,4 +1,3 @@
-use super::StdError;
 use core::{fmt, result};
 
 pub type Result<T> = result::Result<T, Error>;
@@ -8,8 +7,6 @@ pub struct Error {
     kind: ErrorKind,
     error: &'static str,
 }
-
-impl StdError for Error {}
 
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

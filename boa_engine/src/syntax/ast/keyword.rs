@@ -560,8 +560,9 @@ impl fmt::Display for KeywordError {
     }
 }
 
+// TODO
 // This is important for other errors to wrap this one.
-impl crate::io::StdError for KeywordError {
+/* impl KeywordError {
     fn description(&self) -> &str {
         "invalid token"
     }
@@ -570,7 +571,8 @@ impl crate::io::StdError for KeywordError {
         // Generic error, underlying cause isn't tracked.
         None
     }
-}
+} */
+
 impl FromStr for Keyword {
     type Err = KeywordError;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
