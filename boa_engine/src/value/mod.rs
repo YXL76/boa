@@ -26,7 +26,7 @@ use core::{
     ops::Sub,
     str::FromStr,
 };
-use std::collections::HashSet;
+use hashbrown::HashSet;
 
 mod conversions;
 pub(crate) mod display;

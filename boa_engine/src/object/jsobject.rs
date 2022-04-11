@@ -10,16 +10,14 @@ use crate::{
     Context, JsResult, JsValue,
 };
 use boa_gc::{self, Finalize, Gc, Trace};
-use rustc_hash::FxHashMap;
 use core::{
     cell::RefCell,
     fmt::{self, Debug, Display},
     result::Result as StdResult,
 };
-use std::{
-    collections::HashMap,
-    error::Error,
-};
+use hashbrown::HashMap;
+use rustc_hash::FxHashMap;
+use std::error::Error;
 
 /// A wrapper type for an immutably borrowed type T.
 pub type Ref<'a, T> = boa_gc::Ref<'a, T>;

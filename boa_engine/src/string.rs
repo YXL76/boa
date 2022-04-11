@@ -740,7 +740,7 @@ mod tests {
     #[test]
     fn hash() {
         use core::hash::{Hash, Hasher};
-        use std::collections::hash_map::DefaultHasher;
+        use hashbrown::hash_map::DefaultHashBuilder as DefaultHasher;
 
         let s = "Hello, world!";
         let x = JsString::new(s);
