@@ -8,7 +8,7 @@ use crate::syntax::{
 use boa_interner::Interner;
 use boa_profiler::Profiler;
 use core::str;
-use std::io::{self, ErrorKind, Read};
+use crate::io::{self, ErrorKind, Read};
 
 /// String literal lexing.
 ///

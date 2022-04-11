@@ -13,7 +13,7 @@ use crate::syntax::{
 };
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use std::io::Read;
+use crate::io::Read;
 
 /// Labelled Statement Parsing
 ///

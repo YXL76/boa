@@ -9,7 +9,7 @@ use crate::syntax::{
 };
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use std::io::Read;
+use crate::io::Read;
 
 /// Parses a tagged template.
 ///

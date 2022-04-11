@@ -13,7 +13,7 @@ pub use self::error::{ParseError, ParseResult};
 use self::cursor::Cursor;
 use crate::syntax::{ast::node::StatementList, lexer::TokenKind};
 use boa_interner::Interner;
-use std::io::Read;
+use crate::io::Read;
 
 /// Trait implemented by parsers.
 ///

@@ -6,7 +6,7 @@ use crate::syntax::{
 };
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use std::io::Read;
+use crate::io::Read;
 
 /// `vop` tests the next token to see if we're on an assign operation of just a plain binary operation.
 ///

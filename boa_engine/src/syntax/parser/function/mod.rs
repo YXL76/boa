@@ -26,7 +26,7 @@ use crate::syntax::{
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
 use rustc_hash::FxHashSet;
-use std::io::Read;
+use crate::io::Read;
 
 /// Formal parameters parsing.
 ///

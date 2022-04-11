@@ -10,7 +10,7 @@ use crate::{
 };
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use std::io::{self, ErrorKind, Read};
+use crate::io::{self, ErrorKind, Read};
 
 #[cfg(feature = "deser")]
 use serde::{Deserialize, Serialize};

@@ -7,7 +7,7 @@
 
 use super::Position;
 use core::fmt;
-use std::{error::Error as StdError, io};
+use crate::io::{self, StdError};
 
 #[derive(Debug)]
 pub enum Error {

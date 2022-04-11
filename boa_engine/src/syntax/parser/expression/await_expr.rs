@@ -14,7 +14,7 @@ use crate::syntax::{
     parser::{AllowYield, Cursor, ParseError, TokenParser},
 };
 use boa_interner::Interner;
-use std::io::Read;
+use crate::io::Read;
 
 /// Parses an await expression.
 ///

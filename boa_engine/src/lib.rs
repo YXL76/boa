@@ -66,6 +66,7 @@
     clippy::let_unit_value,
     rustdoc::missing_doc_code_examples
 )]
+#![feature(strict_provenance)]
 
 extern crate alloc;
 
@@ -75,6 +76,7 @@ pub mod bytecompiler;
 pub mod class;
 pub mod context;
 pub mod environments;
+pub mod io;
 pub mod object;
 pub mod property;
 pub mod realm;

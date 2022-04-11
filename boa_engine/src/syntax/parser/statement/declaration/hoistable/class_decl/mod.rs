@@ -25,7 +25,7 @@ use crate::syntax::{
 use boa_interner::{Interner, Sym};
 use node::Node;
 use rustc_hash::FxHashMap;
-use std::io::Read;
+use crate::io::Read;
 
 /// Class declaration parsing.
 ///

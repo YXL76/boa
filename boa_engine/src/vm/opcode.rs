@@ -1344,7 +1344,7 @@ impl core::fmt::Display for InvalidOpcodeError {
     }
 }
 
-impl std::error::Error for InvalidOpcodeError {}
+impl crate::io::StdError for InvalidOpcodeError {}
 
 impl TryFrom<u8> for Opcode {
     type Error = InvalidOpcodeError;

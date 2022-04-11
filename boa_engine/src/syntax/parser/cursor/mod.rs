@@ -9,7 +9,7 @@ use crate::syntax::{
 use boa_interner::{Interner, Sym};
 use buffered_lexer::BufferedLexer;
 use rustc_hash::FxHashMap;
-use std::io::Read;
+use crate::io::Read;
 
 /// The result of a peek for a semicolon.
 #[derive(Debug)]

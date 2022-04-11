@@ -1,7 +1,7 @@
 //! Module implementing the lexer cursor. This is used for managing the input byte stream.
+use crate::io::{self, Bytes, Error, ErrorKind, Read};
 use crate::syntax::ast::Position;
 use boa_profiler::Profiler;
-use std::io::{self, Bytes, Error, ErrorKind, Read};
 
 /// Cursor over the source code.
 #[derive(Debug)]
@@ -163,7 +163,7 @@ where
             } else {
                 return Err(io::Error::new(
                     ErrorKind::UnexpectedEof,
-                    format!("Unexpected end of file when looking for character {stop}"),
+                    "Unexpected end of file when looking for character", // TODO
                 ));
             }
         }

@@ -28,7 +28,7 @@ use crate::syntax::{
 };
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use std::io::Read;
+use crate::io::Read;
 
 pub(super) use self::{assignment::AssignmentExpression, primary::Initializer};
 pub(in crate::syntax::parser) mod await_expr;

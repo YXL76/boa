@@ -9,7 +9,7 @@ use bitflags::bitflags;
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
 use core::str::{self, FromStr};
-use std::io::{self, ErrorKind, Read};
+use crate::io::{self, ErrorKind, Read};
 
 /// Regex literal lexing.
 ///

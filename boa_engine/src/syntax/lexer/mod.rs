@@ -45,7 +45,7 @@ use self::{
 use crate::syntax::ast::{Position, Punctuator, Span};
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use std::io::Read;
+use crate::io::Read;
 
 pub use self::{
     error::Error,

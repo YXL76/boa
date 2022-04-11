@@ -17,7 +17,7 @@ use core::{
 };
 use hashbrown::HashMap;
 use rustc_hash::FxHashMap;
-use std::error::Error;
+use crate::io::StdError as Error;
 
 /// A wrapper type for an immutably borrowed type T.
 pub type Ref<'a, T> = boa_gc::Ref<'a, T>;

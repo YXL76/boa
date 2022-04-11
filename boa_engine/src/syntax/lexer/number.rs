@@ -12,7 +12,7 @@ use boa_profiler::Profiler;
 use num_bigint::BigInt;
 use num_traits::Zero;
 use core::str;
-use std::io::Read;
+use crate::io::Read;
 
 /// Number literal lexing.
 ///

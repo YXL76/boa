@@ -3,7 +3,7 @@
 use super::*;
 use crate::{check_output, forward, forward_val, Context, TestAction};
 
-use std::collections::hash_map::DefaultHasher;
+use hashbrown::hash_map::DefaultHashBuilder as DefaultHasher;
 use core::hash::{Hash, Hasher};
 
 #[test]

@@ -9,7 +9,7 @@ use crate::syntax::{
     },
 };
 use boa_interner::Interner;
-use std::io::Read;
+use crate::io::Read;
 
 /// Function declaration parsing.
 ///

@@ -9,7 +9,7 @@ use boa_interner::Interner;
 use boa_profiler::Profiler;
 use boa_unicode::UnicodeProperties;
 use core::str;
-use std::io::Read;
+use crate::io::Read;
 
 const STRICT_FORBIDDEN_IDENTIFIERS: [&str; 9] = [
     "implements",

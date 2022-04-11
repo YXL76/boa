@@ -10,7 +10,6 @@
 use crate::syntax::ast::op::{BinOp, CompOp};
 use boa_interner::{Interner, Sym};
 use core::{convert::TryInto, fmt, str::FromStr};
-use std::error;
 
 #[cfg(feature = "deser")]
 use serde::{Deserialize, Serialize};
@@ -562,12 +561,12 @@ impl fmt::Display for KeywordError {
 }
 
 // This is important for other errors to wrap this one.
-impl error::Error for KeywordError {
+impl crate::io::StdError for KeywordError {
     fn description(&self) -> &str {
         "invalid token"
     }
 
-    fn cause(&self) -> Option<&dyn error::Error> {
+    fn cause(&self) -> Option<&dyn crate::io::StdError> {
         // Generic error, underlying cause isn't tracked.
         None
     }

@@ -11,7 +11,7 @@ use crate::syntax::{
 };
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use std::io::Read;
+use crate::io::Read;
 
 /// The possible `TokenKind` which indicate the end of a case statement.
 const CASE_BREAK_TOKENS: [TokenKind; 3] = [
