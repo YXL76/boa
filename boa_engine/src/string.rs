@@ -1,16 +1,18 @@
 use crate::builtins::string::is_trimmable_whitespace;
-use boa_gc::{unsafe_empty_trace, Finalize, Trace};
-use rustc_hash::FxHashSet;
-use std::{
+use ::alloc::{
     alloc::{alloc, dealloc, handle_alloc_error, Layout},
     borrow::Borrow,
+    rc::Rc,
+};
+use boa_gc::{unsafe_empty_trace, Finalize, Trace};
+use core::{
     cell::Cell,
     hash::{Hash, Hasher},
     marker::PhantomData,
     ops::Deref,
     ptr::{copy_nonoverlapping, NonNull},
-    rc::Rc,
 };
+use rustc_hash::FxHashSet;
 
 const CONSTANTS_ARRAY: [&str; 127] = [
     // Empty string
@@ -236,7 +238,7 @@ impl Inner {
             // Get offset into the string data.
             let data = (*inner).data.as_mut_ptr();
 
-            debug_assert!(std::ptr::eq(inner.cast::<u8>().add(offset), data));
+            debug_assert!(core::ptr::eq(inner.cast::<u8>().add(offset), data));
 
             // Copy string data into data offset.
             copy_nonoverlapping(s.as_ptr(), data, s.len());
@@ -276,7 +278,7 @@ impl Inner {
             // Get offset into the string data.
             let data = (*inner).data.as_mut_ptr();
 
-            debug_assert!(std::ptr::eq(inner.cast::<u8>().add(offset), data));
+            debug_assert!(core::ptr::eq(inner.cast::<u8>().add(offset), data));
 
             // Copy the two string data into data offset.
             let mut offset = 0;
@@ -400,8 +402,8 @@ impl JsString {
         let inner = self.inner();
 
         unsafe {
-            let slice = std::slice::from_raw_parts(inner.data.as_ptr(), inner.len);
-            std::str::from_utf8_unchecked(slice)
+            let slice = core::slice::from_raw_parts(inner.data.as_ptr(), inner.len);
+            core::str::from_utf8_unchecked(slice)
         }
     }
 
@@ -413,7 +415,7 @@ impl JsString {
 
     /// Returns `true` if the two `JsString`s point to the same allocation (in a vein similar to [`ptr::eq`]).
     ///
-    /// [`ptr::eq`]: std::ptr::eq
+    /// [`ptr::eq`]: core::ptr::eq
     #[inline]
     pub fn ptr_eq(x: &Self, y: &Self) -> bool {
         x.inner == y.inner
@@ -554,16 +556,16 @@ impl Drop for JsString {
     }
 }
 
-impl std::fmt::Debug for JsString {
+impl core::fmt::Debug for JsString {
     #[inline]
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         self.as_str().fmt(f)
     }
 }
 
-impl std::fmt::Display for JsString {
+impl core::fmt::Display for JsString {
     #[inline]
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         self.as_str().fmt(f)
     }
 }
@@ -635,14 +637,14 @@ impl Hash for JsString {
 
 impl PartialOrd for JsString {
     #[inline]
-    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+    fn partial_cmp(&self, other: &Self) -> Option<core::cmp::Ordering> {
         self.as_str().partial_cmp(other.as_str())
     }
 }
 
 impl Ord for JsString {
     #[inline]
-    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+    fn cmp(&self, other: &Self) -> core::cmp::Ordering {
         self.as_str().cmp(other)
     }
 }
@@ -678,7 +680,7 @@ impl PartialEq<JsString> for &str {
 #[cfg(test)]
 mod tests {
     use super::JsString;
-    use std::mem::size_of;
+    use core::mem::size_of;
 
     #[test]
     fn empty() {
@@ -737,8 +739,8 @@ mod tests {
 
     #[test]
     fn hash() {
+        use core::hash::{Hash, Hasher};
         use std::collections::hash_map::DefaultHasher;
-        use std::hash::{Hash, Hasher};
 
         let s = "Hello, world!";
         let x = JsString::new(s);

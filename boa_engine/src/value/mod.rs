@@ -21,12 +21,12 @@ use num_bigint::BigInt;
 use num_integer::Integer;
 use num_traits::Zero;
 use once_cell::sync::Lazy;
-use std::{
-    collections::HashSet,
+use core::{
     fmt::{self, Display},
     ops::Sub,
     str::FromStr,
 };
+use std::collections::HashSet;
 
 mod conversions;
 pub(crate) mod display;

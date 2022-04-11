@@ -26,10 +26,10 @@ use crate::{
     Context, JsResult, JsString, JsValue,
 };
 use boa_profiler::Profiler;
-use std::{
+use alloc::string::String as StdString;
+use core::{
     char::from_u32,
     cmp::{max, min},
-    string::String as StdString,
 };
 use tap::{Conv, Pipe};
 use unicode_normalization::UnicodeNormalization;
@@ -394,7 +394,7 @@ impl String {
         // 4. Return the String value whose code units are the elements in the List elements.
         //    If codeUnits is empty, the empty String is returned.
 
-        let s = std::string::String::from_utf16_lossy(elements.as_slice());
+        let s = alloc::string::String::from_utf16_lossy(elements.as_slice());
         Ok(JsValue::String(JsString::new(s)))
     }
 
@@ -668,9 +668,9 @@ impl String {
                     return Ok("".into());
                 }
                 let n = n as usize;
-                let mut result = std::string::String::with_capacity(n * len);
+                let mut result = alloc::string::String::with_capacity(n * len);
 
-                std::iter::repeat(&string[..])
+                core::iter::repeat(&string[..])
                     .take(n)
                     .for_each(|s| result.push_str(s));
 
@@ -1449,8 +1449,7 @@ impl String {
             .encode_utf16()
             .take(fill_len)
             .collect::<Vec<_>>();
-        let truncated_string_filler =
-            std::string::String::from_utf16_lossy(truncated_string_filler.as_slice());
+        let truncated_string_filler = alloc::string::String::from_utf16_lossy(truncated_string_filler.as_slice());
 
         // 10. If placement is start, return the string-concatenation of truncatedStringFiller and S.
         if placement == Placement::Start {

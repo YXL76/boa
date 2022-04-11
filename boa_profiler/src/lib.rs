@@ -4,7 +4,7 @@
 use measureme::{EventId, Profiler as MeasuremeProfiler, TimingGuard};
 #[cfg(feature = "profiler")]
 use once_cell::sync::OnceCell;
-use std::fmt::{self, Debug};
+use core::fmt::{self, Debug};
 #[cfg(feature = "profiler")]
 use std::{
     path::Path,
@@ -59,7 +59,7 @@ impl Profiler {
     // https://github.com/rust-lang/rust/pull/68531/commits/ea42b1c5b85f649728e3a3b334489bac6dce890a
     // Until then our options are: use rust-nightly or use unsafe {}
     fn thread_id_to_u32(tid: ThreadId) -> u32 {
-        unsafe { std::mem::transmute::<ThreadId, u64>(tid) as u32 }
+        unsafe { core::mem::transmute::<ThreadId, u64>(tid) as u32 }
     }
 }
 

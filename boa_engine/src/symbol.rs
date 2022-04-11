@@ -16,12 +16,12 @@
 //! [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
 
 use crate::JsString;
+use alloc::rc::Rc;
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
-use std::{
+use core::{
     cell::Cell,
     fmt::{self, Display},
     hash::{Hash, Hasher},
-    rc::Rc,
 };
 
 /// A structure that contains the JavaScript well known symbols.
@@ -330,14 +330,14 @@ impl PartialEq for JsSymbol {
 
 impl PartialOrd for JsSymbol {
     #[inline]
-    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+    fn partial_cmp(&self, other: &Self) -> Option<core::cmp::Ordering> {
         self.inner.hash.partial_cmp(&other.inner.hash)
     }
 }
 
 impl Ord for JsSymbol {
     #[inline]
-    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+    fn cmp(&self, other: &Self) -> core::cmp::Ordering {
         self.inner.hash.cmp(&other.inner.hash)
     }
 }

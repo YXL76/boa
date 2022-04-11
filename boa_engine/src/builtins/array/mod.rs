@@ -32,7 +32,7 @@ use crate::{
     value::{IntegerOrInfinity, JsValue},
     Context, JsResult, JsString,
 };
-use std::cmp::{max, min, Ordering};
+use core::cmp::{max, min, Ordering};
 
 /// JavaScript `Array` built-in implementation.
 #[derive(Debug, Clone, Copy)]

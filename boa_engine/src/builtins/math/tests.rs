@@ -1,7 +1,7 @@
 #![allow(clippy::float_cmp)]
 
 use crate::{forward, forward_val, Context};
-use std::f64;
+use core::f64;
 
 #[test]
 fn abs() {

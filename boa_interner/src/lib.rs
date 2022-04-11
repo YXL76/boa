@@ -72,7 +72,7 @@
 #[cfg(test)]
 mod tests;
 
-use std::{fmt::Display, num::NonZeroUsize};
+use core::{fmt::Display, num::NonZeroUsize};
 
 use gc::{unsafe_empty_trace, Finalize, Trace};
 #[cfg(feature = "serde")]

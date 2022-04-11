@@ -3,11 +3,11 @@ use indexmap::{
     set::{IntoIter, Iter},
     IndexSet,
 };
-use std::{
-    collections::hash_map::RandomState,
+use core::{
     fmt::Debug,
     hash::{BuildHasher, Hash},
 };
+use std::collections::hash_map::RandomState;
 
 /// A type wrapping `indexmap::IndexSet`
 #[derive(Clone)]
@@ -28,7 +28,7 @@ unsafe impl<V: Eq + Hash + Trace, S: BuildHasher> Trace for OrderedSet<V, S> {
 }
 
 impl<V: Hash + Eq + Debug> Debug for OrderedSet<V> {
-    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
+    fn fmt(&self, formatter: &mut core::fmt::Formatter<'_>) -> Result<(), core::fmt::Error> {
         self.inner.fmt(formatter)
     }
 }

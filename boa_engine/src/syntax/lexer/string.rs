@@ -7,10 +7,8 @@ use crate::syntax::{
 };
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use std::{
-    io::{self, ErrorKind, Read},
-    str,
-};
+use core::str;
+use std::io::{self, ErrorKind, Read};
 
 /// String literal lexing.
 ///

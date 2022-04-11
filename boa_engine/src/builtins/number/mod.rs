@@ -579,7 +579,7 @@ impl Number {
                 delta *= f64::from(radix);
                 // Write digit.
                 let digit = fraction as u32;
-                frac_buf[fraction_cursor] = std::char::from_digit(digit, u32::from(radix))
+                frac_buf[fraction_cursor] = core::char::from_digit(digit, u32::from(radix))
                     .expect("radix already checked")
                     as u8;
                 fraction_cursor += 1;
@@ -606,7 +606,7 @@ impl Number {
                                 continue;
                             }
                             frac_buf[fraction_cursor] =
-                                std::char::from_digit(digit_0 + 1, u32::from(radix))
+                                core::char::from_digit(digit_0 + 1, u32::from(radix))
                                     .expect("digit was not a valid number in the given radix")
                                     as u8;
                             fraction_cursor += 1;
@@ -631,7 +631,7 @@ impl Number {
         loop {
             let remainder = integer % f64::from(radix);
             *int_iter.next().expect("integer buffer exhausted").1 =
-                std::char::from_digit(remainder as u32, u32::from(radix))
+            core::char::from_digit(remainder as u32, u32::from(radix))
                     .expect("remainder not a digit in the given number") as u8;
             integer = (integer - remainder) / f64::from(radix);
             if integer <= 0f64 {
@@ -712,7 +712,7 @@ impl Number {
         // I am not sure if this part is effective as the v8 equivalent https://chromium.googlesource.com/v8/v8/+/refs/heads/master/src/builtins/number.tq#53
         // // Fast case where the result is a one character string.
         // if x.is_sign_positive() && x.fract() == 0.0 && x < radix_number as f64 {
-        //     return Ok(std::char::from_digit(x as u32, radix_number as u32).unwrap().to_string().into())
+        //     return Ok(core::char::from_digit(x as u32, radix_number as u32).unwrap().to_string().into())
         // }
 
         // 6. Return the String representation of this Number value using the radix specified by radixNumber.

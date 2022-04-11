@@ -67,6 +67,8 @@
     rustdoc::missing_doc_code_examples
 )]
 
+extern crate alloc;
+
 pub mod bigint;
 pub mod builtins;
 pub mod bytecompiler;
@@ -90,7 +92,7 @@ pub mod prelude {
     pub use crate::{object::JsObject, Context, JsBigInt, JsResult, JsString, JsValue};
 }
 
-use std::result::Result as StdResult;
+use core::result::Result as StdResult;
 
 // Export things to root level
 #[doc(inline)]

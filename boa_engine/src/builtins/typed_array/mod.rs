@@ -31,8 +31,8 @@ use crate::{
 };
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_profiler::Profiler;
+use core::cmp::Ordering;
 use num_traits::{Signed, Zero};
-use std::cmp::Ordering;
 
 use tap::{Conv, Pipe};
 
@@ -708,9 +708,9 @@ impl TypedArray {
             // 5. If relativeTarget is -∞, let to be 0.
             IntegerOrInfinity::NegativeInfinity => 0,
             // 6. Else if relativeTarget < 0, let to be max(len + relativeTarget, 0).
-            IntegerOrInfinity::Integer(i) if i < 0 => std::cmp::max(len + i, 0),
+            IntegerOrInfinity::Integer(i) if i < 0 => core::cmp::max(len + i, 0),
             // 7. Else, let to be min(relativeTarget, len).
-            IntegerOrInfinity::Integer(i) => std::cmp::min(i, len),
+            IntegerOrInfinity::Integer(i) => core::cmp::min(i, len),
             IntegerOrInfinity::PositiveInfinity => len,
         };
 
@@ -721,9 +721,9 @@ impl TypedArray {
             // 9. If relativeStart is -∞, let from be 0.
             IntegerOrInfinity::NegativeInfinity => 0,
             // 10. Else if relativeStart < 0, let from be max(len + relativeStart, 0).
-            IntegerOrInfinity::Integer(i) if i < 0 => std::cmp::max(len + i, 0),
+            IntegerOrInfinity::Integer(i) if i < 0 => core::cmp::max(len + i, 0),
             // 11. Else, let from be min(relativeStart, len).
-            IntegerOrInfinity::Integer(i) => std::cmp::min(i, len),
+            IntegerOrInfinity::Integer(i) => core::cmp::min(i, len),
             IntegerOrInfinity::PositiveInfinity => len,
         };
 
@@ -739,14 +739,14 @@ impl TypedArray {
             // 13. If relativeEnd is -∞, let final be 0.
             IntegerOrInfinity::NegativeInfinity => 0,
             // 14. Else if relativeEnd < 0, let final be max(len + relativeEnd, 0).
-            IntegerOrInfinity::Integer(i) if i < 0 => std::cmp::max(len + i, 0),
+            IntegerOrInfinity::Integer(i) if i < 0 => core::cmp::max(len + i, 0),
             // 15. Else, let final be min(relativeEnd, len).
-            IntegerOrInfinity::Integer(i) => std::cmp::min(i, len),
+            IntegerOrInfinity::Integer(i) => core::cmp::min(i, len),
             IntegerOrInfinity::PositiveInfinity => len,
         };
 
         // 16. Let count be min(final - from, len - to).
-        let count = std::cmp::min(r#final - from, len - to);
+        let count = core::cmp::min(r#final - from, len - to);
 
         let obj_borrow = obj.borrow();
         let o = obj_borrow
@@ -966,9 +966,9 @@ impl TypedArray {
             // 7. If relativeStart is -∞, let k be 0.
             IntegerOrInfinity::NegativeInfinity => 0,
             // 8. Else if relativeStart < 0, let k be max(len + relativeStart, 0).
-            IntegerOrInfinity::Integer(i) if i < 0 => std::cmp::max(len + i, 0),
+            IntegerOrInfinity::Integer(i) if i < 0 => core::cmp::max(len + i, 0),
             // 9. Else, let k be min(relativeStart, len).
-            IntegerOrInfinity::Integer(i) => std::cmp::min(i, len),
+            IntegerOrInfinity::Integer(i) => core::cmp::min(i, len),
             IntegerOrInfinity::PositiveInfinity => len,
         };
 
@@ -984,9 +984,9 @@ impl TypedArray {
             // 11. If relativeEnd is -∞, let final be 0.
             IntegerOrInfinity::NegativeInfinity => 0,
             // 12. Else if relativeEnd < 0, let final be max(len + relativeEnd, 0).
-            IntegerOrInfinity::Integer(i) if i < 0 => std::cmp::max(len + i, 0),
+            IntegerOrInfinity::Integer(i) if i < 0 => core::cmp::max(len + i, 0),
             // 13. Else, let final be min(relativeEnd, len).
-            IntegerOrInfinity::Integer(i) => std::cmp::min(i, len),
+            IntegerOrInfinity::Integer(i) => core::cmp::min(i, len),
             IntegerOrInfinity::PositiveInfinity => len,
         };
 
@@ -1538,7 +1538,7 @@ impl TypedArray {
             IntegerOrInfinity::NegativeInfinity => return Ok((-1).into()),
             // 7. If n ≥ 0, then
             // a. Let k be min(n, len - 1).
-            IntegerOrInfinity::Integer(i) if i >= 0 => std::cmp::min(i, len - 1),
+            IntegerOrInfinity::Integer(i) if i >= 0 => core::cmp::min(i, len - 1),
             IntegerOrInfinity::PositiveInfinity => len - 1,
             // 8. Else,
             // a. Let k be len + n.
@@ -2277,9 +2277,9 @@ impl TypedArray {
             // 5. If relativeStart is -∞, let k be 0.
             IntegerOrInfinity::NegativeInfinity => 0,
             // 6. Else if relativeStart < 0, let k be max(len + relativeStart, 0).
-            IntegerOrInfinity::Integer(i) if i < 0 => std::cmp::max(len + i, 0),
+            IntegerOrInfinity::Integer(i) if i < 0 => core::cmp::max(len + i, 0),
             // 7. Else, let k be min(relativeStart, len).
-            IntegerOrInfinity::Integer(i) => std::cmp::min(i, len),
+            IntegerOrInfinity::Integer(i) => core::cmp::min(i, len),
             IntegerOrInfinity::PositiveInfinity => len,
         };
 
@@ -2295,14 +2295,14 @@ impl TypedArray {
             // 9. If relativeEnd is -∞, let final be 0.
             IntegerOrInfinity::NegativeInfinity => 0,
             // 10. Else if relativeEnd < 0, let final be max(len + relativeEnd, 0).
-            IntegerOrInfinity::Integer(i) if i < 0 => std::cmp::max(len + i, 0),
+            IntegerOrInfinity::Integer(i) if i < 0 => core::cmp::max(len + i, 0),
             // 11. Else, let final be min(relativeEnd, len).
-            IntegerOrInfinity::Integer(i) => std::cmp::min(i, len),
+            IntegerOrInfinity::Integer(i) => core::cmp::min(i, len),
             IntegerOrInfinity::PositiveInfinity => len,
         };
 
         // 12. Let count be max(final - k, 0).
-        let count = std::cmp::max(r#final - k, 0) as usize;
+        let count = core::cmp::max(r#final - k, 0) as usize;
 
         // 13. Let A be ? TypedArraySpeciesCreate(O, « 𝔽(count) »).
         let a = Self::species_create(obj, o.typed_array_name(), &[count.into()], context)?;
@@ -2711,9 +2711,9 @@ impl TypedArray {
             // 7. If relativeBegin is -∞, let beginIndex be 0.
             IntegerOrInfinity::NegativeInfinity => 0,
             // 8. Else if relativeBegin < 0, let beginIndex be max(srcLength + relativeBegin, 0).
-            IntegerOrInfinity::Integer(i) if i < 0 => std::cmp::max(src_length + i, 0),
+            IntegerOrInfinity::Integer(i) if i < 0 => core::cmp::max(src_length + i, 0),
             // 9. Else, let beginIndex be min(relativeBegin, srcLength).
-            IntegerOrInfinity::Integer(i) => std::cmp::min(i, src_length),
+            IntegerOrInfinity::Integer(i) => core::cmp::min(i, src_length),
             IntegerOrInfinity::PositiveInfinity => src_length,
         };
 
@@ -2729,14 +2729,14 @@ impl TypedArray {
             // 11. If relativeEnd is -∞, let endIndex be 0.
             IntegerOrInfinity::NegativeInfinity => 0,
             // 12. Else if relativeEnd < 0, let endIndex be max(srcLength + relativeEnd, 0).
-            IntegerOrInfinity::Integer(i) if i < 0 => std::cmp::max(src_length + i, 0),
+            IntegerOrInfinity::Integer(i) if i < 0 => core::cmp::max(src_length + i, 0),
             // 13. Else, let endIndex be min(relativeEnd, srcLength).
-            IntegerOrInfinity::Integer(i) => std::cmp::min(i, src_length),
+            IntegerOrInfinity::Integer(i) => core::cmp::min(i, src_length),
             IntegerOrInfinity::PositiveInfinity => src_length,
         };
 
         // 14. Let newLength be max(endIndex - beginIndex, 0).
-        let new_length = std::cmp::max(end_index - begin_index, 0);
+        let new_length = core::cmp::max(end_index - begin_index, 0);
 
         // 15. Let constructorName be the String value of O.[[TypedArrayName]].
         // 16. Let elementSize be the Element Size value specified in Table 73 for constructorName.

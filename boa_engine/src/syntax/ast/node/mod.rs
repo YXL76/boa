@@ -58,7 +58,7 @@ pub(crate) use self::parameters::FormalParameterListFlags;
 use super::Const;
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, ToInternedString};
-use std::cmp::Ordering;
+use core::cmp::Ordering;
 
 #[cfg(feature = "deser")]
 use serde::{Deserialize, Serialize};

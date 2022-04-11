@@ -1,6 +1,6 @@
 //! This module implements the `Pos` structure, which represents a position in the source code.
 
-use std::{cmp::Ordering, fmt, num::NonZeroU32};
+use core::{cmp::Ordering, fmt, num::NonZeroU32};
 
 #[cfg(feature = "deser")]
 use serde::{Deserialize, Serialize};

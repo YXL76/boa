@@ -1,5 +1,5 @@
 use crate::{Interner, Sym};
-use std::num::NonZeroUsize;
+use core::num::NonZeroUsize;
 
 #[track_caller]
 fn sym_from_usize(index: usize) -> Sym {

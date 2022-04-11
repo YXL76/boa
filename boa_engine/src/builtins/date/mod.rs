@@ -15,7 +15,7 @@ use crate::{
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_profiler::Profiler;
 use chrono::{prelude::*, Duration, LocalResult};
-use std::fmt::Display;
+use core::fmt::Display;
 use tap::{Conv, Pipe};
 
 /// The number of nanoseconds in a millisecond.
@@ -65,7 +65,7 @@ macro_rules! getter_method {
 pub struct Date(Option<NaiveDateTime>);
 
 impl Display for Date {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self.to_local() {
             Some(v) => write!(f, "{}", v.format("%a %b %d %Y %H:%M:%S GMT%:z")),
             _ => write!(f, "Invalid Date"),

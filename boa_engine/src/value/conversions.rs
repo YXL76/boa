@@ -37,7 +37,7 @@ impl From<JsSymbol> for JsValue {
 pub struct TryFromCharError;
 
 impl Display for TryFromCharError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "Could not convert value to a char type")
     }
 }

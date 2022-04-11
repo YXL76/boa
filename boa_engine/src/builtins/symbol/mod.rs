@@ -29,7 +29,7 @@ use crate::{
 };
 use boa_profiler::Profiler;
 use rustc_hash::FxHashMap;
-use std::cell::RefCell;
+use core::cell::RefCell;
 use tap::{Conv, Pipe};
 
 thread_local! {

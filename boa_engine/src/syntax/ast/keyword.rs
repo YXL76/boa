@@ -9,7 +9,8 @@
 
 use crate::syntax::ast::op::{BinOp, CompOp};
 use boa_interner::{Interner, Sym};
-use std::{convert::TryInto, error, fmt, str::FromStr};
+use core::{convert::TryInto, fmt, str::FromStr};
+use std::error;
 
 #[cfg(feature = "deser")]
 use serde::{Deserialize, Serialize};

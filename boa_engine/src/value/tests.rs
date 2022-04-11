@@ -4,7 +4,7 @@ use super::*;
 use crate::{check_output, forward, forward_val, Context, TestAction};
 
 use std::collections::hash_map::DefaultHasher;
-use std::hash::{Hash, Hasher};
+use core::hash::{Hash, Hasher};
 
 #[test]
 fn string_to_value() {

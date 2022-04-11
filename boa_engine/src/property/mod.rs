@@ -17,7 +17,7 @@
 
 use crate::{JsString, JsSymbol, JsValue};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
-use std::fmt;
+use core::fmt;
 
 mod attribute;
 pub use attribute::Attribute;

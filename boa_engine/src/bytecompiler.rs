@@ -21,8 +21,8 @@ use crate::{
 };
 use boa_gc::Gc;
 use boa_interner::{Interner, Sym};
+use core::mem::size_of;
 use rustc_hash::FxHashMap;
-use std::mem::size_of;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 enum Literal {

@@ -1,11 +1,11 @@
 use crate::{object::JsObject, JsValue};
 use boa_gc::{custom_trace, Finalize, Trace};
 use indexmap::{Equivalent, IndexMap};
-use std::{
-    collections::hash_map::RandomState,
+use core::{
     fmt::Debug,
     hash::{BuildHasher, Hash, Hasher},
 };
+use std::collections::hash_map::RandomState;
 
 #[derive(PartialEq, Eq, Clone, Debug)]
 enum MapKey {
@@ -54,7 +54,7 @@ unsafe impl<V: Trace, S: BuildHasher> Trace for OrderedMap<V, S> {
 }
 
 impl<V: Debug> Debug for OrderedMap<V> {
-    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
+    fn fmt(&self, formatter: &mut core::fmt::Formatter<'_>) -> Result<(), core::fmt::Error> {
         self.map.fmt(formatter)
     }
 }

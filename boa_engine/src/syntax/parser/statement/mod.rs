@@ -56,7 +56,8 @@ use crate::syntax::{
 };
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use std::{collections::HashSet, io::Read, vec};
+use alloc::vec;
+use std::{collections::HashSet, io::Read};
 
 pub(in crate::syntax::parser) use declaration::ClassTail;
 pub(in crate::syntax) use declaration::PrivateElement;

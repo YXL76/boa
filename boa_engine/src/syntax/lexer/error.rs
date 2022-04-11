@@ -6,7 +6,8 @@
 //! [spec]: https://tc39.es/ecma262/#sec-native-error-types-used-in-this-standard
 
 use super::Position;
-use std::{error::Error as StdError, fmt, io};
+use core::fmt;
+use std::{error::Error as StdError, io};
 
 #[derive(Debug)]
 pub enum Error {

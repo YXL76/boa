@@ -9,7 +9,7 @@ use crate::{
 use boa_gc::{Finalize, Trace};
 use boa_profiler::Profiler;
 use rustc_hash::FxHashSet;
-use std::collections::VecDeque;
+use alloc::collections::VecDeque;
 
 /// The `ForInIterator` object represents an iteration over some specific object.
 /// It implements the iterator protocol.

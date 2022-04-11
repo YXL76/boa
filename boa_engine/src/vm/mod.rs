@@ -15,7 +15,8 @@ use crate::{
 };
 use boa_interner::ToInternedString;
 use boa_profiler::Profiler;
-use std::{convert::TryInto, mem::size_of, ops::Neg, time::Instant};
+use core::{convert::TryInto, mem::size_of, ops::Neg};
+use std::time::Instant;
 
 mod call_frame;
 mod code_block;

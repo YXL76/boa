@@ -1040,7 +1040,7 @@ impl Opcode {
     ///
     /// Does not check if `u8` type is a valid `Opcode`.
     pub unsafe fn from_raw(value: u8) -> Self {
-        std::mem::transmute(value)
+        core::mem::transmute(value)
     }
 
     pub fn as_str(self) -> &'static str {
@@ -1338,8 +1338,8 @@ pub struct InvalidOpcodeError {
     value: u8,
 }
 
-impl std::fmt::Display for InvalidOpcodeError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl core::fmt::Display for InvalidOpcodeError {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "invalid opcode: {:#04x}", self.value)
     }
 }

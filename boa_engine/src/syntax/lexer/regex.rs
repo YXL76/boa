@@ -8,10 +8,8 @@ use crate::syntax::{
 use bitflags::bitflags;
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use std::{
-    io::{self, ErrorKind, Read},
-    str::{self, FromStr},
-};
+use core::str::{self, FromStr};
+use std::io::{self, ErrorKind, Read};
 
 /// Regex literal lexing.
 ///

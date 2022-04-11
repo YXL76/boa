@@ -29,7 +29,7 @@ use crate::{
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_profiler::Profiler;
 use regress::Regex;
-use std::str::FromStr;
+use core::str::FromStr;
 use tap::{Conv, Pipe};
 
 #[cfg(test)]
@@ -1278,7 +1278,7 @@ impl RegExp {
             let result_length = result.length_of_array_like(context)? as isize;
 
             // b. Let nCaptures be max(resultLength - 1, 0).
-            let n_captures = std::cmp::max(result_length - 1, 0);
+            let n_captures = core::cmp::max(result_length - 1, 0);
 
             // c. Let matched be ? ToString(? Get(result, "0")).
             let matched = result.get("0", context)?.to_string(context)?;
@@ -1596,7 +1596,7 @@ impl RegExp {
                 let mut e = splitter.get("lastIndex", context)?.to_length(context)?;
 
                 // ii. Set e to min(e, size).
-                e = std::cmp::min(e, size);
+                e = core::cmp::min(e, size);
 
                 // iii. If e = p, set q to AdvanceStringIndex(S, q, unicodeMatching).
                 // iv. Else,
@@ -1634,7 +1634,7 @@ impl RegExp {
                     number_of_captures = if number_of_captures == 0 {
                         0
                     } else {
-                        std::cmp::max(number_of_captures - 1, 0)
+                        core::cmp::max(number_of_captures - 1, 0)
                     };
 
                     // 8. Let i be 1.

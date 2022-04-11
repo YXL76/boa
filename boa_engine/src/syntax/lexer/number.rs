@@ -11,7 +11,8 @@ use boa_interner::Interner;
 use boa_profiler::Profiler;
 use num_bigint::BigInt;
 use num_traits::Zero;
-use std::{io::Read, str};
+use core::str;
+use std::io::Read;
 
 /// Number literal lexing.
 ///

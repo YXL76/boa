@@ -1,6 +1,6 @@
 use super::JsValue;
 use crate::builtins::Number;
-use std::hash::{Hash, Hasher};
+use core::hash::{Hash, Hasher};
 
 impl PartialEq for JsValue {
     fn eq(&self, other: &Self) -> bool {
@@ -46,7 +46,7 @@ impl Hash for JsValue {
             Self::BigInt(ref bigint) => bigint.hash(state),
             Self::Rational(rational) => RationalHashable(*rational).hash(state),
             Self::Symbol(ref symbol) => Hash::hash(symbol, state),
-            Self::Object(ref object) => std::ptr::hash(object.as_ref(), state),
+            Self::Object(ref object) => core::ptr::hash(object.as_ref(), state),
         }
     }
 }

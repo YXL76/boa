@@ -28,9 +28,9 @@ use crate::{
 use boa_gc::{self, Finalize, Gc, Trace};
 use boa_profiler::Profiler;
 use dyn_clone::DynClone;
-use std::{
+use alloc::borrow::Cow;
+use core::{
     any::Any,
-    borrow::Cow,
     fmt,
     ops::{Deref, DerefMut},
 };

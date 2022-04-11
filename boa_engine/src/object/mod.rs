@@ -47,7 +47,7 @@ use crate::{
 use boa_gc::{Finalize, Trace};
 use boa_interner::Sym;
 use rustc_hash::FxHashMap;
-use std::{
+use core::{
     any::Any,
     fmt::{self, Debug, Display},
     ops::{Deref, DerefMut},

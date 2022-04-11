@@ -210,9 +210,9 @@ impl ArrayBuffer {
             // 7. If relativeStart is -∞, let first be 0.
             IntegerOrInfinity::NegativeInfinity => 0,
             // 8. Else if relativeStart < 0, let first be max(len + relativeStart, 0).
-            IntegerOrInfinity::Integer(i) if i < 0 => std::cmp::max(len + i, 0),
+            IntegerOrInfinity::Integer(i) if i < 0 => core::cmp::max(len + i, 0),
             // 9. Else, let first be min(relativeStart, len).
-            IntegerOrInfinity::Integer(i) => std::cmp::min(i, len),
+            IntegerOrInfinity::Integer(i) => core::cmp::min(i, len),
             IntegerOrInfinity::PositiveInfinity => len,
         };
 
@@ -228,14 +228,14 @@ impl ArrayBuffer {
             // 11. If relativeEnd is -∞, let final be 0.
             IntegerOrInfinity::NegativeInfinity => 0,
             // 12. Else if relativeEnd < 0, let final be max(len + relativeEnd, 0).
-            IntegerOrInfinity::Integer(i) if i < 0 => std::cmp::max(len + i, 0),
+            IntegerOrInfinity::Integer(i) if i < 0 => core::cmp::max(len + i, 0),
             // 13. Else, let final be min(relativeEnd, len).
-            IntegerOrInfinity::Integer(i) => std::cmp::min(i, len),
+            IntegerOrInfinity::Integer(i) => core::cmp::min(i, len),
             IntegerOrInfinity::PositiveInfinity => len,
         };
 
         // 14. Let newLen be max(final - first, 0).
-        let new_len = std::cmp::max(r#final - first, 0) as usize;
+        let new_len = core::cmp::max(r#final - first, 0) as usize;
 
         // 15. Let ctor be ? SpeciesConstructor(O, %ArrayBuffer%).
         let ctor = obj.species_constructor(StandardConstructors::array_buffer, context)?;

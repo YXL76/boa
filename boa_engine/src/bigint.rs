@@ -4,11 +4,11 @@ use crate::{builtins::Number, Context, JsValue};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use num_integer::Integer;
 use num_traits::{pow::Pow, FromPrimitive, One, ToPrimitive, Zero};
-use std::{
+use core::{
     fmt::{self, Display},
     ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Neg, Rem, Shl, Shr, Sub},
-    rc::Rc,
 };
+use alloc::rc::Rc;
 
 /// The raw bigint type.
 pub type RawBigInt = num_bigint::BigInt;
@@ -393,7 +393,7 @@ pub struct TryFromF64Error;
 
 impl Display for TryFromF64Error {
     #[inline]
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "Could not convert f64 value to a BigInt type")
     }
 }

@@ -11,12 +11,14 @@ use crate::{
 };
 use boa_gc::{self, Finalize, Gc, Trace};
 use rustc_hash::FxHashMap;
-use std::{
+use core::{
     cell::RefCell,
-    collections::HashMap,
-    error::Error,
     fmt::{self, Debug, Display},
     result::Result as StdResult,
+};
+use std::{
+    collections::HashMap,
+    error::Error,
 };
 
 /// A wrapper type for an immutably borrowed type T.
@@ -128,7 +130,7 @@ impl JsObject {
     /// Checks if the garbage collected memory is the same.
     #[inline]
     pub fn equals(lhs: &Self, rhs: &Self) -> bool {
-        std::ptr::eq(lhs.as_ref(), rhs.as_ref())
+        core::ptr::eq(lhs.as_ref(), rhs.as_ref())
     }
 
     /// Converts an object to a primitive.
@@ -809,7 +811,7 @@ impl RecursionLimiter {
 }
 
 impl Debug for JsObject {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> core::fmt::Result {
         let limiter = RecursionLimiter::new(self);
 
         // Typically, using `!limiter.live` would be good enough here.

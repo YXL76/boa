@@ -1,7 +1,7 @@
 //! This module implements various structure for logic handling.
 
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
-use std::fmt::{Display, Formatter, Result};
+use core::fmt::{Display, Formatter, Result};
 
 #[cfg(feature = "deser")]
 use serde::{Deserialize, Serialize};

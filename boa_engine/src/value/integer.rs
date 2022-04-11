@@ -1,4 +1,4 @@
-use std::cmp::Ordering;
+use core::cmp::Ordering;
 
 /// Represents the result of `ToIntegerOrInfinity` operation
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]

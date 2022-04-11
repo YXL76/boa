@@ -310,7 +310,7 @@ impl Json {
                 IntegerOrInfinity::Integer(i) if i < 1 => JsString::new(""),
                 IntegerOrInfinity::Integer(i) => {
                     let mut s = String::new();
-                    let i = std::cmp::min(10, i);
+                    let i = core::cmp::min(10, i);
                     for _ in 0..i {
                         s.push(' ');
                     }

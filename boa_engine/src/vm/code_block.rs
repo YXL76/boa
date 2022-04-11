@@ -22,7 +22,7 @@ use crate::{
 use boa_gc::{Cell, Finalize, Gc, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 use boa_profiler::Profiler;
-use std::{convert::TryInto, mem::size_of};
+use core::{convert::TryInto, mem::size_of};
 
 /// This represents whether a value can be read from [`CodeBlock`] code.
 ///
@@ -618,7 +618,7 @@ impl JsObject {
                 code,
                 mut environments,
             } => {
-                std::mem::swap(&mut environments, &mut context.realm.environments);
+                core::mem::swap(&mut environments, &mut context.realm.environments);
 
                 let lexical_this_mode = code.this_mode == ThisMode::Lexical;
 
@@ -708,7 +708,7 @@ impl JsObject {
                     context.realm.environments.pop();
                 }
 
-                std::mem::swap(&mut environments, &mut context.realm.environments);
+                core::mem::swap(&mut environments, &mut context.realm.environments);
 
                 let (result, _) = result?;
                 Ok(result)
@@ -717,7 +717,7 @@ impl JsObject {
                 code,
                 mut environments,
             } => {
-                std::mem::swap(&mut environments, &mut context.realm.environments);
+                core::mem::swap(&mut environments, &mut context.realm.environments);
 
                 let lexical_this_mode = code.this_mode == ThisMode::Lexical;
 
@@ -796,14 +796,14 @@ impl JsObject {
                 };
                 let mut stack = args;
 
-                std::mem::swap(&mut context.vm.stack, &mut stack);
+                core::mem::swap(&mut context.vm.stack, &mut stack);
                 context.vm.push_frame(call_frame);
 
                 let init_result = context.run();
 
                 let call_frame = context.vm.pop_frame().expect("frame must exist");
-                std::mem::swap(&mut environments, &mut context.realm.environments);
-                std::mem::swap(&mut context.vm.stack, &mut stack);
+                core::mem::swap(&mut environments, &mut context.realm.environments);
+                core::mem::swap(&mut context.vm.stack, &mut stack);
 
                 let prototype = if let Some(prototype) = this_function_object
                     .get("prototype", context)
@@ -880,7 +880,7 @@ impl JsObject {
                 code,
                 mut environments,
             } => {
-                std::mem::swap(&mut environments, &mut context.realm.environments);
+                core::mem::swap(&mut environments, &mut context.realm.environments);
 
                 let this = {
                     // If the prototype of the constructor is not an object, then use the default object
@@ -992,7 +992,7 @@ impl JsObject {
                     context.realm.environments.pop();
                 }
 
-                std::mem::swap(&mut environments, &mut context.realm.environments);
+                core::mem::swap(&mut environments, &mut context.realm.environments);
 
                 let (result, _) = result?;
 

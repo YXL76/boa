@@ -3,7 +3,8 @@
 use crate::syntax::ast::node::{Declaration, Node};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
-use std::{ops::Deref, rc::Rc};
+use alloc::rc::Rc;
+use core::ops::Deref;
 
 use rustc_hash::FxHashSet;
 #[cfg(feature = "deser")]

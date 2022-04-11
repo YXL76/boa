@@ -3,7 +3,7 @@
 use crate::syntax::ast::Span;
 use crate::syntax::ast::{position::Position, Node};
 use crate::syntax::lexer::Error as LexError;
-use std::fmt;
+use core::fmt;
 
 /// Result of a parsing operation.
 pub type ParseResult = Result<Node, ParseError>;

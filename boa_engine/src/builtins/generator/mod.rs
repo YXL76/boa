@@ -249,11 +249,11 @@ impl Generator {
         let mut generator_context = generator_context_cell.borrow_mut();
         drop(generator_obj_mut);
 
-        std::mem::swap(
+        core::mem::swap(
             &mut context.realm.environments,
             &mut generator_context.environments,
         );
-        std::mem::swap(&mut context.vm.stack, &mut generator_context.stack);
+        core::mem::swap(&mut context.vm.stack, &mut generator_context.stack);
         context.vm.push_frame(generator_context.call_frame.clone());
         if !first_execution {
             context.vm.push(value);
@@ -267,11 +267,11 @@ impl Generator {
             .vm
             .pop_frame()
             .expect("generator call frame must exist");
-        std::mem::swap(
+        core::mem::swap(
             &mut context.realm.environments,
             &mut generator_context.environments,
         );
-        std::mem::swap(&mut context.vm.stack, &mut generator_context.stack);
+        core::mem::swap(&mut context.vm.stack, &mut generator_context.stack);
 
         let mut generator_obj_mut = generator_obj.borrow_mut();
         let generator = generator_obj_mut
@@ -365,11 +365,11 @@ impl Generator {
         generator.state = GeneratorState::Executing;
         drop(generator_obj_mut);
 
-        std::mem::swap(
+        core::mem::swap(
             &mut context.realm.environments,
             &mut generator_context.environments,
         );
-        std::mem::swap(&mut context.vm.stack, &mut generator_context.stack);
+        core::mem::swap(&mut context.vm.stack, &mut generator_context.stack);
         context.vm.push_frame(generator_context.call_frame.clone());
 
         let result = match abrupt_completion {
@@ -388,11 +388,11 @@ impl Generator {
             .vm
             .pop_frame()
             .expect("generator call frame must exist");
-        std::mem::swap(
+        core::mem::swap(
             &mut context.realm.environments,
             &mut generator_context.environments,
         );
-        std::mem::swap(&mut context.vm.stack, &mut generator_context.stack);
+        core::mem::swap(&mut context.vm.stack, &mut generator_context.stack);
 
         let mut generator_obj_mut = generator_obj.borrow_mut();
         let generator = generator_obj_mut
