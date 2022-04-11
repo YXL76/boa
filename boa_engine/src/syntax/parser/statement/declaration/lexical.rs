@@ -7,6 +7,7 @@
 //!
 //! [spec]: https://tc39.es/ecma262/#sec-let-and-const-declarations
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{
@@ -25,7 +26,7 @@ use crate::syntax::{
 };
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
+use alloc::vec::Vec;
 
 /// Parses a lexical declaration.
 ///

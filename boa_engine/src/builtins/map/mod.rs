@@ -25,6 +25,7 @@ use crate::{
     symbol::WellKnownSymbols,
     Context, JsResult, JsValue,
 };
+
 use boa_profiler::Profiler;
 use num_traits::Zero;
 use tap::{Conv, Pipe};

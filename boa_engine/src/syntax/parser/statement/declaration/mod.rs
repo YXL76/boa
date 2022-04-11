@@ -13,6 +13,7 @@ mod lexical;
 mod tests;
 
 use self::{hoistable::HoistableDeclaration, lexical::LexicalDeclaration};
+use crate::io::Read;
 use crate::syntax::{
     ast::{Keyword, Node},
     lexer::TokenKind,
@@ -20,7 +21,6 @@ use crate::syntax::{
 };
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 pub(in crate::syntax::parser) use hoistable::class_decl::ClassTail;
 pub(in crate::syntax) use hoistable::class_decl::PrivateElement;

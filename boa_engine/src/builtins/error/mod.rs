@@ -19,6 +19,7 @@ use crate::{
     property::Attribute,
     Context, JsResult, JsString, JsValue,
 };
+
 use boa_profiler::Profiler;
 use tap::{Conv, Pipe};
 

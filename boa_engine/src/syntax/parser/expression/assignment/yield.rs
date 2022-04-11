@@ -8,6 +8,7 @@
 //! [spec]: https://tc39.es/ecma262/#prod-YieldExpression
 
 use super::AssignmentExpression;
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{Node, Yield},
@@ -16,9 +17,9 @@ use crate::syntax::{
     lexer::TokenKind,
     parser::{AllowAwait, AllowIn, Cursor, ParseError, ParseResult, TokenParser},
 };
+
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// `YieldExpression` parsing.
 ///

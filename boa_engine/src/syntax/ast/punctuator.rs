@@ -6,6 +6,7 @@
 //! [spec]: https://tc39.es/ecma262/#prod-Punctuator
 
 use crate::syntax::ast::op::{AssignOp, BinOp, BitOp, CompOp, LogOp, NumOp};
+use alloc::string::String;
 use core::{
     convert::TryInto,
     fmt::{Display, Error, Formatter},

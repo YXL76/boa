@@ -11,6 +11,7 @@
 //! [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis
 
 use crate::{builtins::BuiltIn, Context, JsValue};
+
 use boa_profiler::Profiler;
 
 #[cfg(test)]

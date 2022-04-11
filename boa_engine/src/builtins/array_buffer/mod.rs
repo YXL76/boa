@@ -13,6 +13,7 @@ use crate::{
     value::{IntegerOrInfinity, Numeric},
     Context, JsResult, JsValue,
 };
+use alloc::vec::Vec;
 use boa_gc::{Finalize, Trace};
 use boa_profiler::Profiler;
 use num_traits::{Signed, ToPrimitive};

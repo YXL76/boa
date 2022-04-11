@@ -19,6 +19,7 @@ use crate::{
     value::JsValue,
     Context, JsResult,
 };
+
 use boa_profiler::Profiler;
 
 /// The internal representation on a `Generator` object.

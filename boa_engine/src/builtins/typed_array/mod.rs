@@ -29,6 +29,7 @@ use crate::{
     value::{IntegerOrInfinity, JsValue},
     Context, JsResult, JsString,
 };
+use alloc::vec::Vec;
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_profiler::Profiler;
 use core::cmp::Ordering;

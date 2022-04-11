@@ -1,3 +1,4 @@
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{
@@ -22,10 +23,10 @@ use crate::syntax::{
         AllowAwait, AllowDefault, AllowYield, Cursor, ParseError, TokenParser,
     },
 };
+use alloc::{boxed::Box, vec::Vec};
 use boa_interner::{Interner, Sym};
 use node::Node;
 use rustc_hash::FxHashMap;
-use crate::io::Read;
 
 /// Class declaration parsing.
 ///

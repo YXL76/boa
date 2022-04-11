@@ -6,6 +6,7 @@ mod tests;
 
 use self::{catch::Catch, finally::Finally};
 use super::block::Block;
+use crate::io::Read;
 use crate::syntax::{
     ast::{node::Try, Keyword},
     lexer::TokenKind,
@@ -13,7 +14,6 @@ use crate::syntax::{
 };
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Try...catch statement parsing
 ///

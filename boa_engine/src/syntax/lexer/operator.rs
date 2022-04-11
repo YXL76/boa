@@ -1,12 +1,13 @@
 //! This module implements lexing for operators (+, - etc.) used in the JavaScript programing language.
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{Position, Punctuator, Span},
     lexer::{Cursor, Error, Token, TokenKind, Tokenizer},
 };
+
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// `vop` tests the next token to see if we're on an assign operation of just a plain binary operation.
 ///

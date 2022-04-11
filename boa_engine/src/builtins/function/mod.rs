@@ -25,15 +25,16 @@ use crate::{
     value::IntegerOrInfinity,
     Context, JsResult, JsString, JsValue,
 };
+use alloc::borrow::Cow;
+use alloc::{boxed::Box, string::String, vec::Vec};
 use boa_gc::{self, Finalize, Gc, Trace};
 use boa_profiler::Profiler;
-use dyn_clone::DynClone;
-use alloc::borrow::Cow;
 use core::{
     any::Any,
     fmt,
     ops::{Deref, DerefMut},
 };
+use dyn_clone::DynClone;
 use tap::{Conv, Pipe};
 
 pub(crate) mod arguments;

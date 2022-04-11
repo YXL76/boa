@@ -10,6 +10,7 @@
 #[cfg(test)]
 mod tests;
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{self, FormalParameterList},
@@ -23,10 +24,10 @@ use crate::syntax::{
         AllowAwait, AllowYield, Cursor, ParseError, TokenParser,
     },
 };
+use alloc::{boxed::Box, vec::Vec};
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
 use rustc_hash::FxHashSet;
-use crate::io::Read;
 
 /// Formal parameters parsing.
 ///

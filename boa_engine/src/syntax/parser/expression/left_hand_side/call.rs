@@ -8,6 +8,7 @@
 //! [spec]: https://tc39.es/ecma262/#prod-CallExpression
 
 use super::arguments::Arguments;
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{
@@ -22,9 +23,9 @@ use crate::syntax::{
         AllowAwait, AllowYield, Cursor, ParseError, ParseResult, TokenParser,
     },
 };
+
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Parses a call expression.
 ///

@@ -26,10 +26,11 @@ use crate::{
     value::{IntegerOrInfinity, JsValue},
     Context, JsResult, JsString,
 };
+use alloc::{boxed::Box, string::String, vec::Vec};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_profiler::Profiler;
-use regress::Regex;
 use core::str::FromStr;
+use regress::Regex;
 use tap::{Conv, Pipe};
 
 #[cfg(test)]

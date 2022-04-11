@@ -8,6 +8,7 @@
 //! [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Keywords
 
 use crate::syntax::ast::op::{BinOp, CompOp};
+use alloc::string::String;
 use boa_interner::{Interner, Sym};
 use core::{convert::TryInto, fmt, str::FromStr};
 

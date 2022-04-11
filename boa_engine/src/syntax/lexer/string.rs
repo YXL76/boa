@@ -1,14 +1,15 @@
 //! This module implements lexing for string literals used in the JavaScript programing language.
 
 use super::{Cursor, Error, Tokenizer};
+use crate::io::{self, ErrorKind, Read};
 use crate::syntax::{
     ast::{Position, Span},
     lexer::{Token, TokenKind},
 };
+use alloc::{string::String, vec::Vec};
 use boa_interner::Interner;
 use boa_profiler::Profiler;
 use core::str;
-use crate::io::{self, ErrorKind, Read};
 
 /// String literal lexing.
 ///

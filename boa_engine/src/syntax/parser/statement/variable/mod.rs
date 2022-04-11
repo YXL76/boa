@@ -1,5 +1,6 @@
 //! Variable statement parsing.
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{Declaration, DeclarationList},
@@ -14,9 +15,9 @@ use crate::syntax::{
         AllowAwait, AllowIn, AllowYield, ParseError, TokenParser,
     },
 };
+use alloc::vec::Vec;
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Variable statement parsing.
 ///

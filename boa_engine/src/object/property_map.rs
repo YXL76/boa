@@ -1,9 +1,10 @@
 use super::{PropertyDescriptor, PropertyKey};
 use crate::{JsString, JsSymbol};
+
 use boa_gc::{custom_trace, Finalize, Trace};
+use core::{hash::BuildHasherDefault, iter::FusedIterator};
 use indexmap::IndexMap;
 use rustc_hash::{FxHashMap, FxHasher};
-use core::{hash::BuildHasherDefault, iter::FusedIterator};
 use std::collections::hash_map;
 
 /// Type alias to make it easier to work with the string properties on the global object.

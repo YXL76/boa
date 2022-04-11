@@ -11,6 +11,7 @@
 mod tests;
 
 use super::LabelIdentifier;
+use crate::io::Read;
 use crate::syntax::{
     ast::{node::Break, Keyword, Punctuator},
     lexer::TokenKind,
@@ -19,9 +20,9 @@ use crate::syntax::{
         AllowAwait, AllowYield, ParseError, TokenParser,
     },
 };
+
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Break statement parsing
 ///

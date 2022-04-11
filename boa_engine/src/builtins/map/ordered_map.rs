@@ -1,10 +1,11 @@
 use crate::{object::JsObject, JsValue};
+
 use boa_gc::{custom_trace, Finalize, Trace};
-use indexmap::{Equivalent, IndexMap};
 use core::{
     fmt::Debug,
     hash::{BuildHasher, Hash, Hasher},
 };
+use indexmap::{Equivalent, IndexMap};
 use std::collections::hash_map::RandomState;
 
 #[derive(PartialEq, Eq, Clone, Debug)]

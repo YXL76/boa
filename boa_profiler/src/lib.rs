@@ -1,10 +1,10 @@
 #![allow(missing_copy_implementations, missing_debug_implementations)]
 
+use core::fmt::{self, Debug};
 #[cfg(feature = "profiler")]
 use measureme::{EventId, Profiler as MeasuremeProfiler, TimingGuard};
 #[cfg(feature = "profiler")]
 use once_cell::sync::OnceCell;
-use core::fmt::{self, Debug};
 #[cfg(feature = "profiler")]
 use std::{
     path::Path,

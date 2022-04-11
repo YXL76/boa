@@ -7,6 +7,7 @@
 //! [mdn]: https://developer.mozilla.org/en-US/docs/Glossary/Argument
 //! [spec]: https://tc39.es/ecma262/#prod-Arguments
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{node::Spread, Node, Punctuator},
     lexer::{InputElement, TokenKind},
@@ -14,9 +15,9 @@ use crate::syntax::{
         expression::AssignmentExpression, AllowAwait, AllowYield, Cursor, ParseError, TokenParser,
     },
 };
+use alloc::{boxed::Box, vec::Vec};
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Parses a list of arguments.
 ///

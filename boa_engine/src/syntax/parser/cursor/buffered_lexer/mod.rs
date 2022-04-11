@@ -1,3 +1,4 @@
+use crate::io::Read;
 use crate::syntax::{
     ast::Position,
     lexer::{InputElement, Lexer, Token, TokenKind},
@@ -5,7 +6,6 @@ use crate::syntax::{
 };
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 #[cfg(test)]
 mod tests;

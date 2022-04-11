@@ -10,6 +10,7 @@ use crate::{
     value::JsValue,
     Context, JsResult,
 };
+
 use boa_gc::{Finalize, Trace};
 use tap::{Conv, Pipe};
 

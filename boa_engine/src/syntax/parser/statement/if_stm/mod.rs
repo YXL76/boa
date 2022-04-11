@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests;
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{node::If, Keyword, Node, Punctuator},
     lexer::TokenKind,
@@ -10,9 +11,9 @@ use crate::syntax::{
         AllowAwait, AllowReturn, AllowYield, Cursor, ParseError, TokenParser,
     },
 };
+
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// If statement parsing.
 ///

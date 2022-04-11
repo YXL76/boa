@@ -25,6 +25,7 @@ use crate::{
     value::IntegerOrInfinity,
     Context, JsResult, JsString, JsValue,
 };
+use alloc::{string::String, vec::Vec};
 use boa_profiler::Profiler;
 use serde_json::{self, Value as JSONValue};
 use tap::{Conv, Pipe};

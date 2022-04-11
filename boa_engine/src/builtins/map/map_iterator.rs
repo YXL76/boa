@@ -6,6 +6,7 @@ use crate::{
     symbol::WellKnownSymbols,
     Context, JsResult,
 };
+
 use boa_gc::{Finalize, Trace};
 use boa_profiler::Profiler;
 

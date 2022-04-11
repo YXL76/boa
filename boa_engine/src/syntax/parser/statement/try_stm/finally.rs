@@ -1,3 +1,4 @@
+use crate::io::Read;
 use crate::syntax::{
     ast::{node, Keyword},
     parser::{
@@ -7,7 +8,6 @@ use crate::syntax::{
 };
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Finally parsing
 ///

@@ -8,6 +8,7 @@ use crate::{
     symbol::WellKnownSymbols,
     Context, JsResult, JsValue,
 };
+use alloc::vec::Vec;
 use boa_profiler::Profiler;
 
 #[derive(Debug, Default)]
@@ -339,9 +340,9 @@ impl IteratorRecord {
         // 4. If innerResult.[[Type]] is normal, then
         if let Ok(inner_value) = inner_result {
             // a. Let return be innerResult.[[Value]].
-            match inner_value {
+            return match inner_value {
                 // b. If return is undefined, return Completion(completion).
-                None => return completion,
+                None => completion,
                 // c. Set innerResult to Call(return, iterator).
                 Some(value) => {
                     let inner_result = value.call(&self.iterator_object, &[], context);
@@ -354,9 +355,9 @@ impl IteratorRecord {
 
                     // 7. If Type(innerResult.[[Value]]) is not Object, throw a TypeError exception.
                     // 8. Return Completion(completion).
-                    return Ok(completion);
+                    Ok(completion)
                 }
-            }
+            };
         }
 
         // 5. If completion.[[Type]] is throw, return Completion(completion).

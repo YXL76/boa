@@ -23,6 +23,7 @@ use crate::{
     symbol::WellKnownSymbols,
     Context, JsResult, JsValue,
 };
+
 use boa_profiler::Profiler;
 use tap::{Conv, Pipe};
 

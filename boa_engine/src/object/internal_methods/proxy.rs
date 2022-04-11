@@ -6,6 +6,7 @@ use crate::{
     Context, JsResult, JsValue,
 };
 use rustc_hash::FxHashSet;
+use alloc::vec::Vec;
 
 /// Definitions of the internal object methods for array exotic objects.
 ///

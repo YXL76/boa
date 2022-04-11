@@ -13,6 +13,7 @@ use crate::{
     value::JsValue,
     Context, JsResult,
 };
+use alloc::vec::Vec;
 use boa_profiler::Profiler;
 
 pub(super) mod arguments;

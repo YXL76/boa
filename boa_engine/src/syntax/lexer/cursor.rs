@@ -1,6 +1,7 @@
 //! Module implementing the lexer cursor. This is used for managing the input byte stream.
 use crate::io::{self, Bytes, Error, ErrorKind, Read};
 use crate::syntax::ast::Position;
+use alloc::vec::Vec;
 use boa_profiler::Profiler;
 
 /// Cursor over the source code.

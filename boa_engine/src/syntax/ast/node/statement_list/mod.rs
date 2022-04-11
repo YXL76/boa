@@ -1,9 +1,10 @@
 //! Statement list node.
 
 use crate::syntax::ast::node::{Declaration, Node};
+use alloc::rc::Rc;
+use alloc::{boxed::Box, string::String};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
-use alloc::rc::Rc;
 use core::ops::Deref;
 
 use rustc_hash::FxHashSet;

@@ -56,6 +56,7 @@ pub use self::{
 pub(crate) use self::parameters::FormalParameterListFlags;
 
 use super::Const;
+use alloc::{boxed::Box, string::String};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, ToInternedString};
 use core::cmp::Ordering;

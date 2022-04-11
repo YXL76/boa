@@ -12,6 +12,7 @@ mod conditional;
 mod exponentiation;
 mod r#yield;
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{operator::assign::AssignTarget, Assign, BinOp, Node},
@@ -26,9 +27,9 @@ use crate::syntax::{
         AllowAwait, AllowIn, AllowYield, Cursor, ParseError, ParseResult, TokenParser,
     },
 };
+
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 pub(super) use exponentiation::ExponentiationExpression;
 

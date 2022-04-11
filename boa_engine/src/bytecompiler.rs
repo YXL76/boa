@@ -19,6 +19,7 @@ use crate::{
     vm::{BindingOpcode, CodeBlock, Opcode},
     Context, JsBigInt, JsResult, JsString, JsValue,
 };
+use alloc::vec::Vec;
 use boa_gc::Gc;
 use boa_interner::{Interner, Sym};
 use core::mem::size_of;
@@ -341,7 +342,7 @@ impl<'b> ByteCompiler<'b> {
     fn pop_loop_control_info(&mut self) {
         let loop_info = self.jump_info.pop().expect("no jump informatiojn found");
 
-        assert!(loop_info.kind == JumpControlInfoKind::Loop);
+        assert_eq!(loop_info.kind, JumpControlInfoKind::Loop);
 
         for label in loop_info.breaks {
             self.patch_jump(label);
@@ -371,7 +372,7 @@ impl<'b> ByteCompiler<'b> {
     fn pop_switch_control_info(&mut self) {
         let info = self.jump_info.pop().expect("no jump information found");
 
-        assert!(info.kind == JumpControlInfoKind::Switch);
+        assert_eq!(info.kind, JumpControlInfoKind::Switch);
 
         for label in info.breaks {
             self.patch_jump(label);
@@ -408,7 +409,7 @@ impl<'b> ByteCompiler<'b> {
                 .jump_info
                 .last_mut()
                 .expect("must have try control label");
-            assert!(info.kind == JumpControlInfoKind::Try);
+            assert_eq!(info.kind, JumpControlInfoKind::Try);
             info.in_catch = true;
         }
     }
@@ -420,7 +421,7 @@ impl<'b> ByteCompiler<'b> {
                 .jump_info
                 .last_mut()
                 .expect("must have try control label");
-            assert!(info.kind == JumpControlInfoKind::Try);
+            assert_eq!(info.kind, JumpControlInfoKind::Try);
             info.finally_start = Some(start);
         }
     }
@@ -430,7 +431,7 @@ impl<'b> ByteCompiler<'b> {
         if !self.jump_info.is_empty() {
             let mut info = self.jump_info.pop().expect("no jump information found");
 
-            assert!(info.kind == JumpControlInfoKind::Try);
+            assert_eq!(info.kind, JumpControlInfoKind::Try);
 
             let mut breaks = Vec::with_capacity(info.breaks.len());
 

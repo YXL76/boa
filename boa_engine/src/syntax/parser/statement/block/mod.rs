@@ -11,14 +11,15 @@
 mod tests;
 
 use super::StatementList;
+use crate::io::Read;
 use crate::syntax::{
     ast::{node, Punctuator},
     lexer::TokenKind,
     parser::{AllowAwait, AllowReturn, AllowYield, Cursor, ParseError, TokenParser},
 };
+
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// The possible `TokenKind` which indicate the end of a block statement.
 const BLOCK_BREAK_TOKENS: [TokenKind; 1] = [TokenKind::Punctuator(Punctuator::CloseBlock)];

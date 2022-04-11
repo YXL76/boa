@@ -27,9 +27,10 @@ use crate::{
     value::JsValue,
     Context, JsResult, JsString,
 };
+
 use boa_profiler::Profiler;
-use rustc_hash::FxHashMap;
 use core::cell::RefCell;
+use rustc_hash::FxHashMap;
 use tap::{Conv, Pipe};
 
 thread_local! {

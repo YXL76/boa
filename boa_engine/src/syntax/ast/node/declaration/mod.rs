@@ -6,6 +6,7 @@ use crate::syntax::ast::node::{
     statement_list::StatementList,
     Identifier, Node,
 };
+use alloc::{boxed::Box, string::String, vec::Vec};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 

@@ -16,6 +16,7 @@
 //! [section]: https://tc39.es/ecma262/#sec-property-attributes
 
 use crate::{JsString, JsSymbol, JsValue};
+use alloc::{boxed::Box, string::String};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use core::fmt;
 

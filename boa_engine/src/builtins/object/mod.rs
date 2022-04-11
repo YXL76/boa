@@ -26,6 +26,7 @@ use crate::{
     value::JsValue,
     Context, JsResult, JsString,
 };
+use alloc::vec::Vec;
 use boa_profiler::Profiler;
 use tap::{Conv, Pipe};
 

@@ -6,8 +6,9 @@
 //! [spec]: https://tc39.es/ecma262/#sec-native-error-types-used-in-this-standard
 
 use super::Position;
-use core::fmt;
 use crate::io;
+use alloc::boxed::Box;
+use core::fmt;
 
 #[derive(Debug)]
 pub enum Error {

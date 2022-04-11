@@ -1,3 +1,4 @@
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{self, Identifier},
@@ -9,10 +10,10 @@ use crate::syntax::{
         AllowAwait, AllowReturn, AllowYield, Cursor, ParseError, TokenParser,
     },
 };
+
 use boa_interner::Interner;
 use boa_profiler::Profiler;
 use rustc_hash::FxHashSet;
-use crate::io::Read;
 
 /// Catch parsing
 ///

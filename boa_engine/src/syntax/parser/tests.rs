@@ -469,7 +469,7 @@ fn hashbang_use_strict_with_with_statement() {
     let mut interner = Interner::default();
     check_parser(
         r#"#!\"use strict"
-        
+
         with({}) {}
         "#,
         vec![],

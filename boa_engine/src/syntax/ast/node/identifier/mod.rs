@@ -1,6 +1,7 @@
 //! Local identifier node.
 
 use crate::syntax::ast::node::Node;
+use alloc::string::String;
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 

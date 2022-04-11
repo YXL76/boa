@@ -7,6 +7,7 @@ pub use self::{
 use crate::syntax::ast::node::{
     declaration::Declaration, identifier::Identifier, DeclarationPattern,
 };
+use alloc::string::String;
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, ToInternedString};
 

@@ -26,6 +26,7 @@ use self::{
     function_expression::FunctionExpression, generator_expression::GeneratorExpression,
     object_initializer::ObjectLiteral,
 };
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{Call, Identifier, New, Node},
@@ -37,9 +38,9 @@ use crate::syntax::{
         AllowAwait, AllowYield, Cursor, ParseError, ParseResult, TokenParser,
     },
 };
+
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 pub(in crate::syntax::parser) use object_initializer::Initializer;
 

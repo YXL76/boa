@@ -1,6 +1,7 @@
 //! This module implements lexing for template literals used in the JavaScript programing language.
 
 use super::{Cursor, Error, Tokenizer};
+use crate::io::{self, ErrorKind, Read};
 use crate::{
     syntax::lexer::string::{StringLiteral, UTF16CodeUnitsBuffer},
     syntax::{
@@ -8,9 +9,9 @@ use crate::{
         lexer::{Token, TokenKind},
     },
 };
+use alloc::vec::Vec;
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::{self, ErrorKind, Read};
 
 #[cfg(feature = "deser")]
 use serde::{Deserialize, Serialize};

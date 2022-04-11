@@ -1,3 +1,4 @@
+use crate::io::Read;
 use crate::syntax::{
     ast::{node::Return, Keyword, Node, Punctuator},
     lexer::TokenKind,
@@ -7,9 +8,9 @@ use crate::syntax::{
         AllowAwait, AllowYield, ParseError, TokenParser,
     },
 };
+
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Return statement parsing
 ///

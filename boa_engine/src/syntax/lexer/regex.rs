@@ -1,15 +1,19 @@
 //! This module implements lexing for regex literals used in the JavaScript programing language.
 
 use super::{Cursor, Error, Span, Tokenizer};
+use crate::io::{self, ErrorKind, Read};
 use crate::syntax::{
     ast::Position,
     lexer::{Token, TokenKind},
+};
+use alloc::{
+    string::{String, ToString},
+    vec::Vec,
 };
 use bitflags::bitflags;
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
 use core::str::{self, FromStr};
-use crate::io::{self, ErrorKind, Read};
 
 /// Regex literal lexing.
 ///

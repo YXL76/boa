@@ -15,6 +15,7 @@ use crate::{
     vm::{CallFrame, CodeBlock, FinallyReturn, GeneratorResumeKind, Vm},
     JsResult, JsValue,
 };
+use alloc::{boxed::Box, vec::Vec};
 use boa_gc::Gc;
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;

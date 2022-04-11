@@ -4,6 +4,7 @@ use crate::{
 };
 use boa_interner::Sym;
 use rustc_hash::FxHashMap;
+use alloc::vec::Vec;
 
 /// A compile time binding represents a binding at bytecode compile time in a [`CompileTimeEnvironment`].
 ///

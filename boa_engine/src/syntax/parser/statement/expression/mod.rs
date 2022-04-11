@@ -1,3 +1,4 @@
+use crate::io::Read;
 use crate::syntax::{
     ast::{node::Node, Keyword, Punctuator},
     lexer::TokenKind,
@@ -6,9 +7,9 @@ use crate::syntax::{
         TokenParser,
     },
 };
+
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Expression statement parsing.
 ///

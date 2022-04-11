@@ -7,6 +7,7 @@
 //! [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
 //! [spec]: https://tc39.es/ecma262/#sec-conditional-operator
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{node::ConditionalOp, Node, Punctuator},
     lexer::TokenKind,
@@ -15,9 +16,9 @@ use crate::syntax::{
         AllowAwait, AllowIn, AllowYield, Cursor, ParseResult, TokenParser,
     },
 };
+
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Conditional expression parsing.
 ///

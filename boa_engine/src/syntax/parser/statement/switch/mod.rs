@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests;
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{node, node::Switch, Keyword, Punctuator},
     lexer::TokenKind,
@@ -9,9 +10,9 @@ use crate::syntax::{
         Cursor, ParseError, TokenParser,
     },
 };
+use alloc::{boxed::Box, vec::Vec};
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// The possible `TokenKind` which indicate the end of a case statement.
 const CASE_BREAK_TOKENS: [TokenKind; 3] = [

@@ -7,6 +7,7 @@ use crate::syntax::ast::node::{
     object::{PropertyDefinition, PropertyName},
     ArrayDecl, DeclarationPattern, GetConstField, GetField, Identifier, Node, Object,
 };
+use alloc::{boxed::Box, string::String, vec::Vec};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, ToInternedString};
 

@@ -67,6 +67,7 @@ use crate::{
     property::{Attribute, PropertyDescriptor, PropertyKey},
     Context, JsResult, JsValue,
 };
+use alloc::boxed::Box;
 
 /// Native class.
 pub trait Class: NativeObject + Sized {

@@ -1,5 +1,6 @@
 //! This module implements lexing for number literals (123, 787) used in the JavaScript programing language.
 
+use crate::io::Read;
 use crate::{
     syntax::{
         ast::{Position, Span},
@@ -7,12 +8,12 @@ use crate::{
     },
     JsBigInt,
 };
+use alloc::vec::Vec;
 use boa_interner::Interner;
 use boa_profiler::Profiler;
+use core::str;
 use num_bigint::BigInt;
 use num_traits::Zero;
-use core::str;
-use crate::io::Read;
 
 /// Number literal lexing.
 ///

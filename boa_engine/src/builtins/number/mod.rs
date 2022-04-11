@@ -24,6 +24,7 @@ use crate::{
     value::{AbstractRelation, IntegerOrInfinity, JsValue},
     Context, JsResult,
 };
+use alloc::string::String;
 use boa_profiler::Profiler;
 use num_traits::{float::FloatCore, Num};
 
@@ -631,7 +632,7 @@ impl Number {
         loop {
             let remainder = integer % f64::from(radix);
             *int_iter.next().expect("integer buffer exhausted").1 =
-            core::char::from_digit(remainder as u32, u32::from(radix))
+                core::char::from_digit(remainder as u32, u32::from(radix))
                     .expect("remainder not a digit in the given number") as u8;
             integer = (integer - remainder) / f64::from(radix);
             if integer <= 0f64 {

@@ -13,14 +13,15 @@ mod member;
 mod template;
 
 use self::{call::CallExpression, member::MemberExpression};
+use crate::io::Read;
 use crate::syntax::{
     ast::{Node, Punctuator},
     lexer::{InputElement, TokenKind},
     parser::{AllowAwait, AllowYield, Cursor, ParseResult, TokenParser},
 };
+
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Parses a left hand side expression.
 ///

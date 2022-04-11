@@ -15,6 +15,7 @@ use crate::{
     object::{ConstructorBuilder, FunctionBuilder, JsObject, ObjectData},
     Context, JsResult, JsValue,
 };
+
 use boa_gc::{Finalize, Trace};
 use boa_profiler::Profiler;
 use tap::{Conv, Pipe};

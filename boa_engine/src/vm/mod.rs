@@ -13,6 +13,7 @@ use crate::{
     },
     Context, JsBigInt, JsResult, JsString, JsValue,
 };
+use alloc::{boxed::Box, vec::Vec};
 use boa_interner::ToInternedString;
 use boa_profiler::Profiler;
 use core::{convert::TryInto, mem::size_of, ops::Neg};
@@ -1566,11 +1567,11 @@ impl Context {
                 self.vm.frame_mut().pop_on_return -= 1;
             }
             Opcode::Yield => return Ok(ShouldExit::Yield),
-            Opcode::GeneratorNext => match self.vm.frame().generator_resume_kind {
-                GeneratorResumeKind::Normal => return Ok(ShouldExit::False),
+            Opcode::GeneratorNext => return match self.vm.frame().generator_resume_kind {
+                GeneratorResumeKind::Normal => Ok(ShouldExit::False),
                 GeneratorResumeKind::Throw => {
                     let received = self.vm.pop();
-                    return Err(received);
+                    Err(received)
                 }
                 GeneratorResumeKind::Return => {
                     let mut finally_left = false;
@@ -1590,7 +1591,7 @@ impl Context {
                     if finally_left {
                         return Ok(ShouldExit::False);
                     }
-                    return Ok(ShouldExit::True);
+                    Ok(ShouldExit::True)
                 }
             },
             Opcode::GeneratorNextDelegate => {
@@ -1599,7 +1600,7 @@ impl Context {
                 let next_function = self.vm.pop();
                 let iterator = self.vm.pop();
 
-                match self.vm.frame().generator_resume_kind {
+                return match self.vm.frame().generator_resume_kind {
                     GeneratorResumeKind::Normal => {
                         let result = self.call(&next_function, &iterator, &[received])?;
                         let result_object = result.as_object().ok_or_else(|| {
@@ -1616,7 +1617,7 @@ impl Context {
                         self.vm.push(iterator);
                         self.vm.push(next_function);
                         self.vm.push(value);
-                        return Ok(ShouldExit::Yield);
+                        Ok(ShouldExit::Yield)
                     }
                     GeneratorResumeKind::Throw => {
                         let throw = iterator.get_method("throw", self)?;
@@ -1646,7 +1647,7 @@ impl Context {
                         iterator_record.close(Ok(JsValue::Undefined), self)?;
                         let error =
                             self.construct_type_error("iterator does not have a throw method");
-                        return Err(error);
+                        Err(error)
                     }
                     GeneratorResumeKind::Return => {
                         let r#return = iterator.get_method("return", self)?;
@@ -1672,7 +1673,7 @@ impl Context {
                         }
                         self.vm.frame_mut().pc = done_address as usize;
                         self.vm.push(received);
-                        return Ok(ShouldExit::True);
+                        Ok(ShouldExit::True)
                     }
                 }
             }

@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests;
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{node::AsyncFunctionDecl, Keyword},
     parser::{
@@ -8,8 +9,8 @@ use crate::syntax::{
         AllowAwait, AllowDefault, AllowYield, Cursor, ParseError, TokenParser,
     },
 };
+
 use boa_interner::Interner;
-use crate::io::Read;
 
 /// Async Function declaration parsing.
 ///

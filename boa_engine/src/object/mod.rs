@@ -44,14 +44,15 @@ use crate::{
     property::{Attribute, PropertyDescriptor, PropertyKey},
     Context, JsBigInt, JsResult, JsString, JsSymbol, JsValue,
 };
+use alloc::{boxed::Box, string::String};
 use boa_gc::{Finalize, Trace};
 use boa_interner::Sym;
-use rustc_hash::FxHashMap;
 use core::{
     any::Any,
     fmt::{self, Debug, Display},
     ops::{Deref, DerefMut},
 };
+use rustc_hash::FxHashMap;
 
 #[cfg(test)]
 mod tests;

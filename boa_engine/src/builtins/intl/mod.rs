@@ -14,6 +14,7 @@ use crate::{
     symbol::WellKnownSymbols,
     Context, JsResult, JsString, JsValue,
 };
+use alloc::vec::Vec;
 use boa_profiler::Profiler;
 use indexmap::IndexSet;
 use tap::{Conv, Pipe};

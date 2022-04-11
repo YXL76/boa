@@ -7,6 +7,7 @@
 //! [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#Unary
 //! [spec]: https://tc39.es/ecma262/#sec-unary-operators
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{self, Node},
@@ -21,7 +22,6 @@ use crate::syntax::{
 };
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Parses a unary expression.
 ///

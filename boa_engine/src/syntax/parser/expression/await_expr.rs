@@ -8,13 +8,13 @@
 //! [spec]: https://tc39.es/ecma262/#prod-AwaitExpression
 
 use super::unary::UnaryExpression;
+use crate::io::Read;
 use crate::syntax::{
     ast::{node::AwaitExpr, Keyword},
     lexer::TokenKind,
     parser::{AllowYield, Cursor, ParseError, TokenParser},
 };
 use boa_interner::Interner;
-use crate::io::Read;
 
 /// Parses an await expression.
 ///

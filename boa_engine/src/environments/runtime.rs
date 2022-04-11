@@ -1,6 +1,7 @@
 use crate::{Context, JsResult, JsValue};
 use boa_gc::{Cell, Finalize, Gc, Trace};
 use boa_interner::Sym;
+use alloc::vec::Vec;
 
 /// A declarative environment holds the bindings values at runtime.
 ///

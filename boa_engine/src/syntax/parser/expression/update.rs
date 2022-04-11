@@ -6,6 +6,7 @@
 //! [spec]: https://tc39.es/ecma262/#sec-update-expressions
 
 use super::left_hand_side::LeftHandSideExpression;
+use crate::io::Read;
 use crate::syntax::{
     ast::{node, op::UnaryOp, Node, Punctuator},
     lexer::{Error as LexError, TokenKind},
@@ -16,7 +17,6 @@ use crate::syntax::{
 };
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Parses an update expression.
 ///

@@ -1,13 +1,7 @@
-// #[cfg(not(no_std))]
-// pub use io::{Read};
-//
-// #[cfg(no_std)]
-
-use core::slice;
-
 mod error;
 mod impls;
 
+use core::slice;
 pub use error::{Error, ErrorKind, Result};
 
 pub trait Read {

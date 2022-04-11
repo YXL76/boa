@@ -64,12 +64,12 @@ impl Validator for RLHelper {
 }
 
 impl Highlighter for RLHelper {
-    fn highlight_hint<'h>(&self, hint: &'h str) -> Cow<'h, str> {
-        hint.into()
-    }
-
     fn highlight<'l>(&self, line: &'l str, pos: usize) -> Cow<'l, str> {
         self.highlighter.highlight(line, pos)
+    }
+
+    fn highlight_hint<'h>(&self, hint: &'h str) -> Cow<'h, str> {
+        hint.into()
     }
 
     fn highlight_candidate<'c>(

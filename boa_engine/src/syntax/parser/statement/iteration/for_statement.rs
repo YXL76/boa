@@ -7,6 +7,7 @@
 //! [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for
 //! [spec]: https://tc39.es/ecma262/#sec-for-statement
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{
@@ -26,9 +27,9 @@ use crate::syntax::{
         AllowAwait, AllowReturn, AllowYield, Cursor, ParseError, TokenParser,
     },
 };
+
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// For statement parsing
 ///

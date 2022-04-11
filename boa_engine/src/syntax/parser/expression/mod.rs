@@ -17,6 +17,7 @@ mod update;
 
 use self::assignment::ExponentiationExpression;
 use super::{AllowAwait, AllowIn, AllowYield, Cursor, ParseResult, TokenParser};
+use crate::io::Read;
 use crate::syntax::{
     ast::op::LogOp,
     ast::{
@@ -28,7 +29,6 @@ use crate::syntax::{
 };
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 pub(super) use self::{assignment::AssignmentExpression, primary::Initializer};
 pub(in crate::syntax::parser) mod await_expr;

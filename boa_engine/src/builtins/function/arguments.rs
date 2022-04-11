@@ -7,6 +7,7 @@ use crate::{
     syntax::ast::node::FormalParameterList,
     Context, JsValue,
 };
+use alloc::vec::Vec;
 use boa_gc::{Finalize, Gc, Trace};
 use rustc_hash::FxHashMap;
 

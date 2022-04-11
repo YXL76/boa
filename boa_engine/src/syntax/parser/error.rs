@@ -3,6 +3,7 @@
 use crate::syntax::ast::Span;
 use crate::syntax::ast::{position::Position, Node};
 use crate::syntax::lexer::Error as LexError;
+use alloc::{boxed::Box, string::String};
 use core::fmt;
 
 /// Result of a parsing operation.

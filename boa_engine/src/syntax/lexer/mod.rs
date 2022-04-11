@@ -42,10 +42,10 @@ use self::{
     string::StringLiteral,
     template::TemplateLiteral,
 };
+use crate::io::Read;
 use crate::syntax::ast::{Position, Punctuator, Span};
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 pub use self::{
     error::Error,

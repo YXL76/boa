@@ -1,3 +1,4 @@
+use crate::io::Read;
 use crate::syntax::{
     ast::{Keyword, Node, Punctuator},
     lexer::TokenKind,
@@ -11,9 +12,9 @@ use crate::syntax::{
         AllowYield, TokenParser,
     },
 };
+
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Labelled Statement Parsing
 ///

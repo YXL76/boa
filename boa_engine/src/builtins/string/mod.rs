@@ -25,8 +25,8 @@ use crate::{
     value::IntegerOrInfinity,
     Context, JsResult, JsString, JsValue,
 };
+use alloc::{string::String as StdString, vec::Vec};
 use boa_profiler::Profiler;
-use alloc::string::String as StdString;
 use core::{
     char::from_u32,
     cmp::{max, min},
@@ -1449,7 +1449,8 @@ impl String {
             .encode_utf16()
             .take(fill_len)
             .collect::<Vec<_>>();
-        let truncated_string_filler = alloc::string::String::from_utf16_lossy(truncated_string_filler.as_slice());
+        let truncated_string_filler =
+            alloc::string::String::from_utf16_lossy(truncated_string_filler.as_slice());
 
         // 10. If placement is start, return the string-concatenation of truncatedStringFiller and S.
         if placement == Placement::Start {

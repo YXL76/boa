@@ -8,6 +8,7 @@
 //! [spec]: https://tc39.es/ecma262/#sec-exp-operator
 
 use super::ParseError;
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{BinOp, Node},
@@ -20,9 +21,9 @@ use crate::syntax::{
         AllowAwait, AllowYield, Cursor, ParseResult, TokenParser,
     },
 };
+
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Parses an exponentiation expression.
 ///

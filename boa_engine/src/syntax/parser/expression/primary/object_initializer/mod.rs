@@ -10,6 +10,7 @@
 #[cfg(test)]
 mod tests;
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{
@@ -26,9 +27,9 @@ use crate::syntax::{
         AllowAwait, AllowIn, AllowYield, Cursor, ParseError, ParseResult, TokenParser,
     },
 };
+use alloc::vec::Vec;
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Parses an object literal.
 ///

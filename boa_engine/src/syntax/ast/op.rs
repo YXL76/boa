@@ -1,5 +1,6 @@
 //! This module implements various structure for logic handling.
 
+
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use core::fmt::{Display, Formatter, Result};
 

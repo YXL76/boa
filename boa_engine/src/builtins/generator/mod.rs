@@ -19,6 +19,7 @@ use crate::{
     vm::{CallFrame, GeneratorResumeKind, ReturnType},
     Context, JsResult,
 };
+use alloc::vec::Vec;
 use boa_gc::{Cell, Finalize, Gc, Trace};
 use boa_profiler::Profiler;
 

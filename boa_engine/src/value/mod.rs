@@ -17,16 +17,16 @@ use crate::{
 };
 use boa_gc::{Finalize, Trace};
 use boa_profiler::Profiler;
-use num_bigint::BigInt;
-use num_integer::Integer;
-use num_traits::Zero;
-use once_cell::sync::Lazy;
 use core::{
     fmt::{self, Display},
     ops::Sub,
     str::FromStr,
 };
 use hashbrown::HashSet;
+use num_bigint::BigInt;
+use num_integer::Integer;
+use num_traits::Zero;
+use once_cell::sync::Lazy;
 
 mod conversions;
 pub(crate) mod display;

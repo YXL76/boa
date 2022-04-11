@@ -19,6 +19,7 @@ use self::{
     async_function_decl::AsyncFunctionDeclaration, async_generator_decl::AsyncGeneratorDeclaration,
     class_decl::ClassDeclaration, generator_decl::GeneratorDeclaration,
 };
+use crate::io::Read;
 use crate::syntax::{
     ast::node::{FormalParameterList, StatementList},
     ast::{Keyword, Node, Position, Punctuator},
@@ -31,7 +32,6 @@ use crate::syntax::{
 };
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 pub(in crate::syntax::parser) use function_decl::FunctionDeclaration;
 

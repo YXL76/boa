@@ -1,14 +1,14 @@
 //! This module implements the JavaScript bigint primitive rust type.
 
 use crate::{builtins::Number, Context, JsValue};
+use alloc::{rc::Rc, string::String, boxed::Box};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
-use num_integer::Integer;
-use num_traits::{pow::Pow, FromPrimitive, One, ToPrimitive, Zero};
 use core::{
     fmt::{self, Display},
     ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Neg, Rem, Shl, Shr, Sub},
 };
-use alloc::rc::Rc;
+use num_integer::Integer;
+use num_traits::{pow::Pow, FromPrimitive, One, ToPrimitive, Zero};
 
 /// The raw bigint type.
 pub type RawBigInt = num_bigint::BigInt;

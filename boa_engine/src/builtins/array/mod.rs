@@ -32,6 +32,7 @@ use crate::{
     value::{IntegerOrInfinity, JsValue},
     Context, JsResult, JsString,
 };
+use alloc::{string::String, vec::Vec};
 use core::cmp::{max, min, Ordering};
 
 /// JavaScript `Array` built-in implementation.

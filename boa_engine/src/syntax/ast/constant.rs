@@ -7,6 +7,7 @@
 //! [spec]: https://tc39.es/ecma262/#sec-primary-expression-literals
 //! [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Literals
 
+use alloc::{boxed::Box, string::String};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 use num_bigint::BigInt;

@@ -9,6 +9,7 @@ use crate::{
     value::PreferredType,
     Context, JsResult, JsValue,
 };
+use alloc::vec::Vec;
 use boa_gc::{self, Finalize, Gc, Trace};
 use core::{
     cell::RefCell,

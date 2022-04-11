@@ -4,6 +4,7 @@
 
 use super::CodeBlock;
 use crate::JsValue;
+use alloc::{boxed::Box, vec::Vec};
 use boa_gc::{Finalize, Gc, Trace};
 
 #[derive(Clone, Debug, Finalize, Trace)]

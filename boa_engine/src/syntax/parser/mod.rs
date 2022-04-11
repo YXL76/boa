@@ -11,9 +11,10 @@ mod tests;
 pub use self::error::{ParseError, ParseResult};
 
 use self::cursor::Cursor;
-use crate::syntax::{ast::node::StatementList, lexer::TokenKind};
-use boa_interner::Interner;
 use crate::io::Read;
+use crate::syntax::{ast::node::StatementList, lexer::TokenKind};
+use alloc::vec::Vec;
+use boa_interner::Interner;
 
 /// Trait implemented by parsers.
 ///

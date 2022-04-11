@@ -7,6 +7,7 @@
 //! [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/do...while
 //! [spec]: https://tc39.es/ecma262/#sec-do-while-statement
 
+use crate::io::Read;
 use crate::syntax::{
     ast::{node::DoWhileLoop, Keyword, Node, Punctuator},
     lexer::TokenKind,
@@ -15,9 +16,9 @@ use crate::syntax::{
         ParseError, TokenParser,
     },
 };
+
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Do...while statement parsing
 ///

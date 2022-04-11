@@ -1,4 +1,5 @@
 use super::{Declaration, DeclarationPattern, Node};
+use alloc::{boxed::Box, string::String, vec::Vec};
 use bitflags::bitflags;
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};

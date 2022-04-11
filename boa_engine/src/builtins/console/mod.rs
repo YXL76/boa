@@ -22,6 +22,7 @@ use crate::{
     value::{display::display_obj, JsValue, Numeric},
     Context, JsResult, JsString,
 };
+use alloc::{string::String, vec::Vec};
 use boa_profiler::Profiler;
 use rustc_hash::FxHashMap;
 use std::time::SystemTime;

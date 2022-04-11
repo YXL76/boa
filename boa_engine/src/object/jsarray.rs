@@ -4,6 +4,7 @@ use crate::{
     value::IntoOrUndefined,
     Context, JsResult, JsString, JsValue,
 };
+
 use boa_gc::{Finalize, Trace};
 use core::ops::Deref;
 

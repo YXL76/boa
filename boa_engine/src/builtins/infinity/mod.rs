@@ -13,6 +13,7 @@
 mod tests;
 
 use crate::{builtins::BuiltIn, property::Attribute, Context, JsValue};
+
 use boa_profiler::Profiler;
 
 /// JavaScript global `Infinity` property.

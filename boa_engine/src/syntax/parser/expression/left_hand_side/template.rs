@@ -1,3 +1,4 @@
+use crate::io::Read;
 use crate::syntax::{
     ast::node::TaggedTemplate,
     ast::{Node, Position, Punctuator},
@@ -7,9 +8,9 @@ use crate::syntax::{
         TokenParser,
     },
 };
+use alloc::vec::Vec;
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Parses a tagged template.
 ///

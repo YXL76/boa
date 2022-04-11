@@ -1,11 +1,11 @@
 use boa_gc::{custom_trace, Finalize, Trace};
-use indexmap::{
-    set::{IntoIter, Iter},
-    IndexSet,
-};
 use core::{
     fmt::Debug,
     hash::{BuildHasher, Hash},
+};
+use indexmap::{
+    set::{IntoIter, Iter},
+    IndexSet,
 };
 use std::collections::hash_map::RandomState;
 

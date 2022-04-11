@@ -1,3 +1,4 @@
+use crate::io::Read;
 use crate::syntax::{
     ast::{Keyword, Node},
     lexer::TokenKind,
@@ -6,9 +7,9 @@ use crate::syntax::{
         AllowAwait, AllowYield, Cursor, ParseError, TokenParser,
     },
 };
+
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Class expression parsing.
 ///

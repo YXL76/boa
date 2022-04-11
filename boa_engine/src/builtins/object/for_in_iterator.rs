@@ -6,10 +6,10 @@ use crate::{
     symbol::WellKnownSymbols,
     Context, JsResult, JsString, JsValue,
 };
+use alloc::collections::VecDeque;
 use boa_gc::{Finalize, Trace};
 use boa_profiler::Profiler;
 use rustc_hash::FxHashSet;
-use alloc::collections::VecDeque;
 
 /// The `ForInIterator` object represents an iteration over some specific object.
 /// It implements the iterator protocol.

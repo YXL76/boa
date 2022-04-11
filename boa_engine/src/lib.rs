@@ -66,8 +66,9 @@
     clippy::let_unit_value,
     rustdoc::missing_doc_code_examples
 )]
-#![feature(strict_provenance)]
+#![no_std]
 
+#[macro_use]
 extern crate alloc;
 
 pub mod bigint;
@@ -103,7 +104,6 @@ pub use crate::{
 };
 
 /// The result of a Javascript expression is represented like this so it can succeed (`Ok`) or fail (`Err`)
-#[must_use]
 pub type JsResult<T> = StdResult<T, JsValue>;
 
 /// Execute the code using an existing `Context`.

@@ -1,13 +1,14 @@
 //! This module implements lexing for private identifiers (#foo, #myvar, etc.) used in the JavaScript programing language.
 
 use super::{identifier::Identifier, Cursor, Error, Tokenizer};
+use crate::io::Read;
 use crate::syntax::{
     ast::{Position, Span},
     lexer::{Token, TokenKind},
 };
+
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use crate::io::Read;
 
 /// Private Identifier lexing.
 ///

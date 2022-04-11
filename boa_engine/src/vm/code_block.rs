@@ -19,6 +19,7 @@ use crate::{
     vm::{call_frame::FinallyReturn, CallFrame, Opcode},
     Context, JsResult, JsValue,
 };
+use alloc::{boxed::Box, string::String, vec::Vec};
 use boa_gc::{Cell, Finalize, Gc, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 use boa_profiler::Profiler;

@@ -40,6 +40,7 @@ use super::{
     expression::PropertyName, AllowAwait, AllowIn, AllowReturn, AllowYield, Cursor, ParseError,
     TokenParser,
 };
+use crate::io::Read;
 use crate::syntax::{
     ast::{
         node::{
@@ -54,10 +55,9 @@ use crate::syntax::{
     lexer::{Error as LexError, InputElement, Token, TokenKind},
     parser::expression::{await_expr::AwaitExpression, Initializer},
 };
+use alloc::vec::Vec;
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use alloc::vec;
-use crate::io::Read;
 use hashbrown::HashSet;
 
 pub(in crate::syntax::parser) use declaration::ClassTail;

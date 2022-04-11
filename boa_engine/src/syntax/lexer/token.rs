@@ -9,6 +9,7 @@ use crate::syntax::{
     ast::{Keyword, Punctuator, Span},
     lexer::template::TemplateString,
 };
+use alloc::{boxed::Box, string::String};
 use boa_interner::{Interner, Sym};
 use num_bigint::BigInt;
 #[cfg(feature = "deser")]

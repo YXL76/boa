@@ -1,4 +1,5 @@
 use crate::syntax::ast::node::Node;
+use alloc::{boxed::Box, string::String};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 

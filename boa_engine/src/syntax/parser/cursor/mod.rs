@@ -2,14 +2,15 @@
 mod buffered_lexer;
 
 use super::{statement::PrivateElement, ParseError};
+use crate::io::Read;
 use crate::syntax::{
     ast::{Position, Punctuator},
     lexer::{InputElement, Lexer, Token, TokenKind},
 };
+use alloc::vec::Vec;
 use boa_interner::{Interner, Sym};
 use buffered_lexer::BufferedLexer;
 use rustc_hash::FxHashMap;
-use crate::io::Read;
 
 /// The result of a peek for a semicolon.
 #[derive(Debug)]

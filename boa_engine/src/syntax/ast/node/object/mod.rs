@@ -7,6 +7,7 @@ use crate::syntax::ast::{
     },
     Const,
 };
+use alloc::{boxed::Box, string::String};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 

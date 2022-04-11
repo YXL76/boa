@@ -6,6 +6,7 @@ use crate::{
     property::{PropertyDescriptor, PropertyKey},
     Context, JsResult,
 };
+use alloc::vec::Vec;
 use serde_json::{Map, Value};
 
 impl JsValue {
