@@ -529,17 +529,16 @@ dependencies = [
 [[package]]
 name = "gc"
 version = "0.4.1"
-source = "git+https://github.com/YXL76/rust-gc?branch=Ingram#022ac2f11211847eab3debe4a773c71ed27790c2"
+source = "git+https://github.com/YXL76/rust-gc?rev=95eef38627ebd1b44f5a42340b6adce4394892fd#95eef38627ebd1b44f5a42340b6adce4394892fd"
 dependencies = [
  "gc_derive",
  "hashbrown 0.12.0",
- "spin",
 ]
 
 [[package]]
 name = "gc_derive"
 version = "0.4.1"
-source = "git+https://github.com/YXL76/rust-gc?branch=Ingram#022ac2f11211847eab3debe4a773c71ed27790c2"
+source = "git+https://github.com/YXL76/rust-gc?rev=95eef38627ebd1b44f5a42340b6adce4394892fd#95eef38627ebd1b44f5a42340b6adce4394892fd"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1302,15 +1301,6 @@ name = "smallvec"
 version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f2dd574626839106c320a323308629dcb1acfc96e32a8cba364ddc61ac23ee83"
-
-[[package]]
-name = "spin"
-version = "0.9.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "511254be0c5bcf062b019a6c89c01a664aa359ded62f78aa72c6fc137c0590e5"
-dependencies = [
- "lock_api",
-]
 
 [[package]]
 name = "str-buf"
