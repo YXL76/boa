@@ -4,7 +4,7 @@ use crate::{
 };
 use alloc::vec::Vec;
 use boa_interner::Sym;
-use rustc_hash::FxHashMap;
+use hashbrown::HashMap;
 
 /// A compile time binding represents a binding at bytecode compile time in a [`CompileTimeEnvironment`].
 ///
@@ -20,7 +20,7 @@ struct CompileTimeBinding {
 /// A compile time environment also indicates, if it is a function environment.
 #[derive(Debug)]
 pub(crate) struct CompileTimeEnvironment {
-    bindings: FxHashMap<Sym, CompileTimeBinding>,
+    bindings: HashMap<Sym, CompileTimeBinding>,
     function_scope: bool,
 }
 
@@ -50,7 +50,7 @@ impl CompileTimeEnvironmentStack {
     pub(crate) fn new() -> Self {
         Self {
             stack: vec![CompileTimeEnvironment {
-                bindings: FxHashMap::default(),
+                bindings: HashMap::new(),
                 function_scope: true,
             }],
         }
@@ -77,7 +77,7 @@ impl Context {
     #[inline]
     pub(crate) fn push_compile_time_environment(&mut self, function_scope: bool) {
         self.realm.compile_env.stack.push(CompileTimeEnvironment {
-            bindings: FxHashMap::default(),
+            bindings: HashMap::new(),
             function_scope,
         });
     }

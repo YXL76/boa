@@ -5,8 +5,8 @@ use core::{
     fmt::Debug,
     hash::{BuildHasher, Hash, Hasher},
 };
+use hashbrown::hash_map::DefaultHashBuilder;
 use indexmap::{Equivalent, IndexMap};
-use std::collections::hash_map::RandomState;
 
 #[derive(PartialEq, Eq, Clone, Debug)]
 enum MapKey {
@@ -36,7 +36,7 @@ impl Equivalent<MapKey> for JsValue {
 
 /// A structure wrapping `indexmap::IndexMap`.
 #[derive(Clone)]
-pub struct OrderedMap<V, S = RandomState> {
+pub struct OrderedMap<V, S = DefaultHashBuilder> {
     map: IndexMap<MapKey, Option<V>, S>,
     lock: u32,
     empty_count: usize,
@@ -69,7 +69,7 @@ impl<V> Default for OrderedMap<V> {
 impl<V> OrderedMap<V> {
     pub fn new() -> Self {
         Self {
-            map: IndexMap::new(),
+            map: IndexMap::default(),
             lock: 0,
             empty_count: 0,
         }
@@ -77,7 +77,7 @@ impl<V> OrderedMap<V> {
 
     pub fn with_capacity(capacity: usize) -> Self {
         Self {
-            map: IndexMap::with_capacity(capacity),
+            map: IndexMap::with_capacity_and_hasher(capacity, DefaultHashBuilder::default()),
             lock: 0,
             empty_count: 0,
         }

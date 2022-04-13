@@ -5,7 +5,7 @@ use alloc::string::String;
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 
-use rustc_hash::FxHashSet;
+use hashbrown::HashSet;
 #[cfg(feature = "deser")]
 use serde::{Deserialize, Serialize};
 
@@ -41,11 +41,11 @@ impl Block {
         self.statements.items()
     }
 
-    pub(crate) fn lexically_declared_names(&self, interner: &Interner) -> FxHashSet<Sym> {
+    pub(crate) fn lexically_declared_names(&self, interner: &Interner) -> HashSet<Sym> {
         self.statements.lexically_declared_names(interner)
     }
 
-    pub(crate) fn var_declared_named(&self) -> FxHashSet<Sym> {
+    pub(crate) fn var_declared_named(&self) -> HashSet<Sym> {
         self.statements.var_declared_names()
     }
 

@@ -15,7 +15,7 @@ use core::{
     ops::Deref,
     ptr::{copy_nonoverlapping, NonNull},
 };
-use rustc_hash::FxHashSet;
+use hashbrown::HashSet;
 
 const CONSTANTS_ARRAY: [&str; 127] = [
     // Empty string
@@ -187,8 +187,8 @@ unsafe fn try_alloc(layout: Layout) -> *mut u8 {
 }
 
 thread_local! {
-    static CONSTANTS: FxHashSet<JsString> = {
-        let mut constants = FxHashSet::default();
+    static CONSTANTS: HashSet<JsString> = {
+        let mut constants = HashSet::new();
 
         for s in CONSTANTS_ARRAY.iter() {
             let s = JsString {

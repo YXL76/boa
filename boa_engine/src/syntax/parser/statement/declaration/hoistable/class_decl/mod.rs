@@ -25,8 +25,8 @@ use crate::syntax::{
 };
 use alloc::{boxed::Box, vec::Vec};
 use boa_interner::{Interner, Sym};
+use hashbrown::HashMap;
 use node::Node;
-use rustc_hash::FxHashMap;
 
 /// Class declaration parsing.
 ///
@@ -271,7 +271,7 @@ where
 
         let mut constructor = None;
         let mut elements = Vec::new();
-        let mut private_elements_names = FxHashMap::default();
+        let mut private_elements_names = HashMap::new();
 
         // The identifier "static" is forbidden in strict mode but used as a keyword in classes.
         // Because of this, strict mode has to temporarily be disabled while parsing class field names.

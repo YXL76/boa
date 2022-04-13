@@ -9,7 +9,7 @@ use crate::{
 };
 use alloc::vec::Vec;
 use boa_gc::{Finalize, Gc, Trace};
-use rustc_hash::FxHashMap;
+use hashbrown::HashMap;
 
 /// `ParameterMap` represents the `[[ParameterMap]]` internal slot on a Arguments exotic object.
 ///
@@ -198,7 +198,7 @@ impl Arguments {
         //
         // The following logic implements the steps 17-19 adjusted for our environment structure.
 
-        let mut bindings = FxHashMap::default();
+        let mut bindings = HashMap::new();
         let mut property_index = 0;
         'outer: for formal in formals.parameters.iter() {
             for name in formal.names() {

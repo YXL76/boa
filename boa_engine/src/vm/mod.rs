@@ -17,7 +17,6 @@ use alloc::{boxed::Box, vec::Vec};
 use boa_interner::ToInternedString;
 use boa_profiler::Profiler;
 use core::{convert::TryInto, mem::size_of, ops::Neg};
-use std::time::Instant;
 
 mod call_frame;
 mod code_block;
@@ -1734,13 +1733,18 @@ impl Context {
                     .code
                     .instruction_operands(&mut pc, self.interner());
 
-                let instant = Instant::now();
+                #[cfg(has_std)]
+                let instant = std::time::Instant::now();
+
                 let result = self.execute_instruction();
-                let duration = instant.elapsed();
+                #[cfg(has_std)]
+                let duration = instant.elapsed().as_micros();
+                #[cfg(not(has_std))]
+                let duration = 0;
 
                 println!(
                     "{:<TIME_COLUMN_WIDTH$} {:<OPCODE_COLUMN_WIDTH$} {operands:<OPERAND_COLUMN_WIDTH$} {}",
-                    format!("{}μs", duration.as_micros()),
+                    format!("{}μs", duration),
                     opcode.as_str(),
                     match self.vm.stack.last() {
                         None => "<empty>".to_string(),

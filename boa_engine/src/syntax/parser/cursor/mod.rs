@@ -10,7 +10,7 @@ use crate::syntax::{
 use alloc::{string::ToString, vec::Vec};
 use boa_interner::{Interner, Sym};
 use buffered_lexer::BufferedLexer;
-use rustc_hash::FxHashMap;
+use hashbrown::HashMap;
 
 /// The result of a peek for a semicolon.
 #[derive(Debug)]
@@ -27,7 +27,7 @@ pub(super) struct Cursor<R> {
     buffered_lexer: BufferedLexer<R>,
 
     /// Tracks the private identifiers used in code blocks.
-    private_environments_stack: Vec<FxHashMap<Sym, Position>>,
+    private_environments_stack: Vec<HashMap<Sym, Position>>,
 
     /// Tracks if the cursor is in a arrow function declaration.
     arrow: bool,
@@ -109,7 +109,7 @@ where
     /// Push a new private environment.
     #[inline]
     pub(super) fn push_private_environment(&mut self) {
-        let new = FxHashMap::default();
+        let new = HashMap::new();
         self.private_environments_stack.push(new);
     }
 
@@ -138,7 +138,7 @@ where
     #[inline]
     pub(super) fn pop_private_environment(
         &mut self,
-        identifiers: &FxHashMap<Sym, PrivateElement>,
+        identifiers: &HashMap<Sym, PrivateElement>,
     ) -> Result<(), ParseError> {
         let last = self
             .private_environments_stack

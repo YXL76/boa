@@ -7,11 +7,11 @@ use indexmap::{
     set::{IntoIter, Iter},
     IndexSet,
 };
-use std::collections::hash_map::RandomState;
+use hashbrown::hash_map::DefaultHashBuilder;
 
 /// A type wrapping `indexmap::IndexSet`
 #[derive(Clone)]
-pub struct OrderedSet<V, S = RandomState>
+pub struct OrderedSet<V, S = DefaultHashBuilder>
 where
     V: Hash + Eq,
 {
@@ -45,13 +45,13 @@ where
 {
     pub fn new() -> Self {
         Self {
-            inner: IndexSet::new(),
+            inner: IndexSet::default(),
         }
     }
 
     pub fn with_capacity(capacity: usize) -> Self {
         Self {
-            inner: IndexSet::with_capacity(capacity),
+            inner: IndexSet::with_capacity_and_hasher(capacity, DefaultHashBuilder::default()),
         }
     }
 

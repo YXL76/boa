@@ -13,7 +13,7 @@ use crate::syntax::{
 
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use rustc_hash::FxHashSet;
+use hashbrown::HashSet;
 
 /// Catch parsing
 ///
@@ -69,7 +69,7 @@ where
             None
         };
 
-        let mut set = FxHashSet::default();
+        let mut set = HashSet::new();
         let idents = match &catch_param {
             Some(node::Declaration::Identifier { ident, .. }) => vec![ident.sym()],
             Some(node::Declaration::Pattern(p)) => p.idents(),

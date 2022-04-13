@@ -9,7 +9,7 @@ use crate::{
 use alloc::{collections::VecDeque, string::ToString};
 use boa_gc::{Finalize, Trace};
 use boa_profiler::Profiler;
-use rustc_hash::FxHashSet;
+use hashbrown::HashSet;
 
 /// The `ForInIterator` object represents an iteration over some specific object.
 /// It implements the iterator protocol.
@@ -21,7 +21,7 @@ use rustc_hash::FxHashSet;
 #[derive(Debug, Clone, Finalize, Trace)]
 pub struct ForInIterator {
     object: JsValue,
-    visited_keys: FxHashSet<JsString>,
+    visited_keys: HashSet<JsString>,
     remaining_keys: VecDeque<JsString>,
     object_was_visited: bool,
 }
@@ -32,7 +32,7 @@ impl ForInIterator {
     fn new(object: JsValue) -> Self {
         Self {
             object,
-            visited_keys: FxHashSet::default(),
+            visited_keys: HashSet::new(),
             remaining_keys: VecDeque::default(),
             object_was_visited: false,
         }

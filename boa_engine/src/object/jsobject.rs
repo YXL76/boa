@@ -17,7 +17,6 @@ use core::{
     result::Result as StdResult,
 };
 use hashbrown::HashMap;
-use rustc_hash::FxHashMap;
 
 /// A wrapper type for an immutably borrowed type T.
 pub type Ref<'a, T> = boa_gc::Ref<'a, T>;
@@ -71,7 +70,7 @@ impl JsObject {
                 prototype: None,
                 extensible: true,
                 properties: PropertyMap::default(),
-                private_elements: FxHashMap::default(),
+                private_elements: HashMap::new(),
             })
         }
     }

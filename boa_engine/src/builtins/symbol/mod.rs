@@ -30,7 +30,7 @@ use crate::{
 
 use boa_profiler::Profiler;
 use core::cell::RefCell;
-use rustc_hash::FxHashMap;
+use hashbrown::HashMap;
 use tap::{Conv, Pipe};
 
 thread_local! {
@@ -38,15 +38,15 @@ thread_local! {
 }
 
 struct GlobalSymbolRegistry {
-    keys: FxHashMap<JsString, JsSymbol>,
-    symbols: FxHashMap<JsSymbol, JsString>,
+    keys: HashMap<JsString, JsSymbol>,
+    symbols: HashMap<JsSymbol, JsString>,
 }
 
 impl GlobalSymbolRegistry {
     fn new() -> Self {
         Self {
-            keys: FxHashMap::default(),
-            symbols: FxHashMap::default(),
+            keys: HashMap::new(),
+            symbols: HashMap::new(),
         }
     }
 

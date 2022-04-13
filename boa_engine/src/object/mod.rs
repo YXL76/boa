@@ -52,7 +52,7 @@ use core::{
     fmt::{self, Debug, Display},
     ops::{Deref, DerefMut},
 };
-use rustc_hash::FxHashMap;
+use hashbrown::HashMap;
 
 #[cfg(test)]
 mod tests;
@@ -110,7 +110,7 @@ pub struct Object {
     /// Whether it can have new properties added to it.
     extensible: bool,
     /// The `[[PrivateElements]]` internal slot.
-    private_elements: FxHashMap<Sym, PrivateElement>,
+    private_elements: HashMap<Sym, PrivateElement>,
 }
 
 /// The representation of private object elements.
@@ -474,7 +474,7 @@ impl Default for Object {
             properties: PropertyMap::default(),
             prototype: None,
             extensible: true,
-            private_elements: FxHashMap::default(),
+            private_elements: HashMap::new(),
         }
     }
 }

@@ -24,7 +24,7 @@ use crate::{
 };
 use alloc::{string::String, vec::Vec};
 use boa_profiler::Profiler;
-use rustc_hash::FxHashMap;
+use hashbrown::HashMap;
 use std::time::SystemTime;
 use tap::{Conv, Pipe};
 
@@ -126,8 +126,8 @@ pub fn formatter(data: &[JsValue], context: &mut Context) -> JsResult<String> {
 /// This is the internal console object state.
 #[derive(Debug, Default)]
 pub(crate) struct Console {
-    count_map: FxHashMap<JsString, u32>,
-    timer_map: FxHashMap<JsString, u128>,
+    count_map: HashMap<JsString, u32>,
+    timer_map: HashMap<JsString, u128>,
     groups: Vec<String>,
 }
 

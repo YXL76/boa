@@ -7,7 +7,7 @@ use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 use core::ops::Deref;
 
-use rustc_hash::FxHashSet;
+use hashbrown::HashSet;
 #[cfg(feature = "deser")]
 use serde::{Deserialize, Serialize};
 
@@ -70,8 +70,8 @@ impl StatementList {
         buf
     }
 
-    pub fn lexically_declared_names(&self, interner: &Interner) -> FxHashSet<Sym> {
-        let mut set = FxHashSet::default();
+    pub fn lexically_declared_names(&self, interner: &Interner) -> HashSet<Sym> {
+        let mut set = HashSet::new();
         for stmt in self.items() {
             if let Node::LetDeclList(decl_list) | Node::ConstDeclList(decl_list) = stmt {
                 for decl in decl_list.as_ref() {
@@ -103,8 +103,8 @@ impl StatementList {
         set
     }
 
-    pub fn function_declared_names(&self) -> FxHashSet<Sym> {
-        let mut set = FxHashSet::default();
+    pub fn function_declared_names(&self) -> HashSet<Sym> {
+        let mut set = HashSet::new();
         for stmt in self.items() {
             if let Node::FunctionDecl(decl) = stmt {
                 set.insert(decl.name());
@@ -113,8 +113,8 @@ impl StatementList {
         set
     }
 
-    pub fn var_declared_names(&self) -> FxHashSet<Sym> {
-        let mut set = FxHashSet::default();
+    pub fn var_declared_names(&self) -> HashSet<Sym> {
+        let mut set = HashSet::new();
         for stmt in self.items() {
             if let Node::VarDeclList(decl_list) = stmt {
                 for decl in decl_list.as_ref() {

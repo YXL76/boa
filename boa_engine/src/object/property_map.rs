@@ -2,22 +2,23 @@ use super::{PropertyDescriptor, PropertyKey};
 use crate::{JsString, JsSymbol};
 
 use boa_gc::{custom_trace, Finalize, Trace};
-use core::{hash::BuildHasherDefault, iter::FusedIterator};
+use core::iter::FusedIterator;
+use hashbrown::{
+    hash_map::{self, DefaultHashBuilder},
+    HashMap,
+};
 use indexmap::IndexMap;
-use rustc_hash::{FxHashMap, FxHasher};
-use std::collections::hash_map;
 
 /// Type alias to make it easier to work with the string properties on the global object.
-pub(crate) type GlobalPropertyMap =
-    IndexMap<JsString, PropertyDescriptor, BuildHasherDefault<FxHasher>>;
+pub(crate) type GlobalPropertyMap = IndexMap<JsString, PropertyDescriptor, DefaultHashBuilder>;
 
 /// Wrapper around `indexmap::IndexMap` for usage in `PropertyMap`.
 #[derive(Debug, Finalize)]
-struct OrderedHashMap<K: Trace>(IndexMap<K, PropertyDescriptor, BuildHasherDefault<FxHasher>>);
+struct OrderedHashMap<K: Trace>(IndexMap<K, PropertyDescriptor, DefaultHashBuilder>);
 
 impl<K: Trace> Default for OrderedHashMap<K> {
     fn default() -> Self {
-        Self(IndexMap::with_hasher(BuildHasherDefault::default()))
+        Self(IndexMap::with_hasher(DefaultHashBuilder::default()))
     }
 }
 
@@ -32,7 +33,7 @@ unsafe impl<K: Trace> Trace for OrderedHashMap<K> {
 
 #[derive(Default, Debug, Trace, Finalize)]
 pub struct PropertyMap {
-    indexed_properties: FxHashMap<u32, PropertyDescriptor>,
+    indexed_properties: HashMap<u32, PropertyDescriptor>,
     /// Properties
     string_properties: OrderedHashMap<JsString>,
     /// Symbol Properties

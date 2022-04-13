@@ -109,7 +109,6 @@ dependencies = [
  "once_cell",
  "rand",
  "regress",
- "rustc-hash",
  "ryu-js",
  "serde",
  "serde_json",

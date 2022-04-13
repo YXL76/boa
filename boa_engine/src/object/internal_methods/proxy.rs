@@ -6,7 +6,7 @@ use crate::{
     Context, JsResult, JsValue,
 };
 use alloc::vec::Vec;
-use rustc_hash::FxHashSet;
+use hashbrown::HashSet;
 
 /// Definitions of the internal object methods for array exotic objects.
 ///
@@ -819,7 +819,7 @@ pub(crate) fn proxy_exotic_own_property_keys(
         trap_result_array.create_list_from_array_like(&[Type::String, Type::Symbol], context)?;
 
     // 9. If trapResult contains any duplicate entries, throw a TypeError exception.
-    let mut unchecked_result_keys: FxHashSet<PropertyKey> = FxHashSet::default();
+    let mut unchecked_result_keys: HashSet<PropertyKey> = HashSet::new();
     let mut trap_result = Vec::new();
     for value in &trap_result_raw {
         match value {

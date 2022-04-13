@@ -27,7 +27,7 @@ use crate::syntax::{
 use alloc::{boxed::Box, vec::Vec};
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
-use rustc_hash::FxHashSet;
+use hashbrown::HashSet;
 
 /// Formal parameters parsing.
 ///
@@ -85,7 +85,7 @@ where
         }
         let start_position = next_token.span().start();
 
-        let mut parameter_names = FxHashSet::default();
+        let mut parameter_names = HashSet::new();
 
         loop {
             let mut rest_param = false;

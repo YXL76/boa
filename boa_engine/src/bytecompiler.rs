@@ -23,7 +23,7 @@ use alloc::vec::Vec;
 use boa_gc::Gc;
 use boa_interner::{Interner, Sym};
 use core::mem::size_of;
-use rustc_hash::FxHashMap;
+use hashbrown::HashMap;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 enum Literal {
@@ -68,9 +68,9 @@ enum Access<'a> {
 #[derive(Debug)]
 pub struct ByteCompiler<'b> {
     code_block: CodeBlock,
-    literals_map: FxHashMap<Literal, u32>,
-    names_map: FxHashMap<Sym, u32>,
-    bindings_map: FxHashMap<BindingLocator, u32>,
+    literals_map: HashMap<Literal, u32>,
+    names_map: HashMap<Sym, u32>,
+    bindings_map: HashMap<BindingLocator, u32>,
     jump_info: Vec<JumpControlInfo>,
     context: &'b mut Context,
 }
@@ -83,9 +83,9 @@ impl<'b> ByteCompiler<'b> {
     pub fn new(name: Sym, strict: bool, context: &'b mut Context) -> Self {
         Self {
             code_block: CodeBlock::new(name, 0, strict, false),
-            literals_map: FxHashMap::default(),
-            names_map: FxHashMap::default(),
-            bindings_map: FxHashMap::default(),
+            literals_map: HashMap::new(),
+            names_map: HashMap::new(),
+            bindings_map: HashMap::new(),
             jump_info: Vec::new(),
             context,
         }
@@ -1853,9 +1853,9 @@ impl<'b> ByteCompiler<'b> {
 
         let mut compiler = ByteCompiler {
             code_block: code,
-            literals_map: FxHashMap::default(),
-            names_map: FxHashMap::default(),
-            bindings_map: FxHashMap::default(),
+            literals_map: HashMap::new(),
+            names_map: HashMap::new(),
+            bindings_map: HashMap::new(),
             jump_info: Vec::new(),
             context: self.context,
         };
@@ -2406,9 +2406,9 @@ impl<'b> ByteCompiler<'b> {
         code.computed_field_names = Some(gc::GcCell::new(vec![]));
         let mut compiler = ByteCompiler {
             code_block: code,
-            literals_map: FxHashMap::default(),
-            names_map: FxHashMap::default(),
-            bindings_map: FxHashMap::default(),
+            literals_map: HashMap::new(),
+            names_map: HashMap::new(),
+            bindings_map: HashMap::new(),
             jump_info: Vec::new(),
             context: self.context,
         };
