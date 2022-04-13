@@ -1,5 +1,9 @@
 use super::{Declaration, DeclarationPattern, Node};
-use alloc::{boxed::Box, string::String, vec::Vec};
+use alloc::{
+    boxed::Box,
+    string::{String, ToString},
+    vec::Vec,
+};
 use bitflags::bitflags;
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
@@ -196,7 +200,7 @@ impl FormalParameter {
 impl ToInternedString for FormalParameter {
     fn to_interned_string(&self, interner: &Interner) -> String {
         let mut buf = if self.is_rest_param {
-            "...".to_owned()
+            "...".to_string()
         } else {
             String::new()
         };

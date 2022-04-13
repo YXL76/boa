@@ -24,6 +24,7 @@ use crate::syntax::{
     },
 };
 
+use alloc::string::ToString;
 use boa_interner::Interner;
 use boa_profiler::Profiler;
 
@@ -73,7 +74,7 @@ where
         } else {
             let next_token = cursor.next(interner)?.expect("token vanished");
             return Err(ParseError::expected(
-                ["(".to_owned()],
+                ["(".to_string()],
                 next_token.to_string(interner),
                 next_token.span(),
                 "call expression",
@@ -100,7 +101,7 @@ where
                         }
                         _ => {
                             return Err(ParseError::expected(
-                                ["identifier".to_owned()],
+                                ["identifier".to_string()],
                                 token.to_string(interner),
                                 token.span(),
                                 "call expression",

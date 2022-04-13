@@ -15,13 +15,13 @@ use crate::{
     vm::{CallFrame, CodeBlock, FinallyReturn, GeneratorResumeKind, Vm},
     JsResult, JsValue,
 };
-use alloc::{boxed::Box, vec::Vec};
+use alloc::{boxed::Box, string::ToString, vec::Vec};
 use boa_gc::Gc;
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
 
-#[cfg(feature = "console")]
-use crate::builtins::console::Console;
+// #[cfg(feature = "console")]
+// use crate::builtins::console::Console;
 
 /// Javascript context. It is the primary way to interact with the runtime.
 ///
@@ -76,10 +76,9 @@ pub struct Context {
     /// String interner in the context.
     interner: Interner,
 
-    /// console object state.
-    #[cfg(feature = "console")]
-    console: Console,
-
+    // /// console object state.
+    // #[cfg(feature = "console")]
+    // console: Console,
     /// Intrinsic objects
     intrinsics: Intrinsics,
 
@@ -94,8 +93,8 @@ impl Default for Context {
         let mut context = Self {
             realm: Realm::create(),
             interner: Interner::default(),
-            #[cfg(feature = "console")]
-            console: Console::default(),
+            // #[cfg(feature = "console")]
+            // console: Console::default(),
             intrinsics: Intrinsics::default(),
             strict: false,
             vm: Vm {
@@ -138,17 +137,17 @@ impl Context {
     }
 
     /// A helper function for getting an immutable reference to the `console` object.
-    #[cfg(feature = "console")]
-    pub(crate) fn console(&self) -> &Console {
-        &self.console
-    }
+    // #[cfg(feature = "console")]
+    // pub(crate) fn console(&self) -> &Console {
+    //     &self.console
+    // }
 
     /// A helper function for getting a mutable reference to the `console` object.
-    #[cfg(feature = "console")]
-    #[inline]
-    pub(crate) fn console_mut(&mut self) -> &mut Console {
-        &mut self.console
-    }
+    // #[cfg(feature = "console")]
+    // #[inline]
+    // pub(crate) fn console_mut(&mut self) -> &mut Console {
+    //     &mut self.console
+    // }
 
     /// Returns if strict mode is currently active.
     #[inline]

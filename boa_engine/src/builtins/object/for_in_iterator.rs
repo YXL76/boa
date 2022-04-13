@@ -6,7 +6,7 @@ use crate::{
     symbol::WellKnownSymbols,
     Context, JsResult, JsString, JsValue,
 };
-use alloc::collections::VecDeque;
+use alloc::{collections::VecDeque, string::ToString};
 use boa_gc::{Finalize, Trace};
 use boa_profiler::Profiler;
 use rustc_hash::FxHashSet;

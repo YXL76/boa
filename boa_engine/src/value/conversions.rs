@@ -1,4 +1,5 @@
 use super::{Display, JsBigInt, JsObject, JsString, JsSymbol, JsValue, Profiler};
+use alloc::string::ToString;
 
 impl From<&Self> for JsValue {
     #[inline]

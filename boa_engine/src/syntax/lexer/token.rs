@@ -9,7 +9,11 @@ use crate::syntax::{
     ast::{Keyword, Punctuator, Span},
     lexer::template::TemplateString,
 };
-use alloc::{boxed::Box, string::String};
+use alloc::{
+    borrow::ToOwned,
+    boxed::Box,
+    string::{String, ToString},
+};
 use boa_interner::{Interner, Sym};
 use num_bigint::BigInt;
 #[cfg(feature = "deser")]
@@ -222,11 +226,11 @@ impl TokenKind {
     pub fn to_string(&self, interner: &Interner) -> String {
         match *self {
             Self::BooleanLiteral(val) => val.to_string(),
-            Self::EOF => "end of file".to_owned(),
+            Self::EOF => "end of file".to_string(),
             Self::Identifier(ident) => interner.resolve_expect(ident).to_owned(),
             Self::PrivateIdentifier(ident) => format!("#{}", interner.resolve_expect(ident)),
             Self::Keyword((word, _)) => word.to_string(),
-            Self::NullLiteral => "null".to_owned(),
+            Self::NullLiteral => "null".to_string(),
             Self::NumericLiteral(Numeric::Rational(num)) => num.to_string(),
             Self::NumericLiteral(Numeric::Integer(num)) => num.to_string(),
             Self::NumericLiteral(Numeric::BigInt(ref num)) => format!("{num}n"),
@@ -242,8 +246,8 @@ impl TokenKind {
                     interner.resolve_expect(flags),
                 )
             }
-            Self::LineTerminator => "line terminator".to_owned(),
-            Self::Comment => "comment".to_owned(),
+            Self::LineTerminator => "line terminator".to_string(),
+            Self::Comment => "comment".to_string(),
         }
     }
 }

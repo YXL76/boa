@@ -7,7 +7,10 @@ use crate::syntax::ast::{
     },
     Const,
 };
-use alloc::{boxed::Box, string::String};
+use alloc::{
+    boxed::Box,
+    string::{String, ToString},
+};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 
@@ -54,7 +57,7 @@ impl Object {
         interner: &Interner,
         indent_n: usize,
     ) -> String {
-        let mut buf = "{\n".to_owned();
+        let mut buf = "{\n".to_string();
         let indentation = "    ".repeat(indent_n + 1);
         for property in self.properties().iter() {
             buf.push_str(&match property {
@@ -369,7 +372,7 @@ impl PropertyName {
 impl ToInternedString for PropertyName {
     fn to_interned_string(&self, interner: &Interner) -> String {
         match self {
-            PropertyName::Literal(key) => interner.resolve_expect(*key).to_owned(),
+            PropertyName::Literal(key) => interner.resolve_expect(*key).to_string(),
             PropertyName::Computed(key) => key.to_interned_string(interner),
         }
     }

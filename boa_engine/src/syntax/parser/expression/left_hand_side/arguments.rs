@@ -15,7 +15,7 @@ use crate::syntax::{
         expression::AssignmentExpression, AllowAwait, AllowYield, Cursor, ParseError, TokenParser,
     },
 };
-use alloc::{boxed::Box, vec::Vec};
+use alloc::{boxed::Box, string::ToString, vec::Vec};
 use boa_interner::Interner;
 use boa_profiler::Profiler;
 
@@ -88,7 +88,7 @@ where
                 _ => {
                     if !args.is_empty() {
                         return Err(ParseError::expected(
-                            [",".to_owned(), "}".to_owned()],
+                            [",".to_string(), "}".to_string()],
                             next_token.to_string(interner),
                             next_token.span(),
                             "argument list",

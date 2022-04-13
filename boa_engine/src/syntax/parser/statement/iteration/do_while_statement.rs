@@ -16,7 +16,7 @@ use crate::syntax::{
         ParseError, TokenParser,
     },
 };
-
+use alloc::string::ToString;
 use boa_interner::Interner;
 use boa_profiler::Profiler;
 
@@ -92,7 +92,7 @@ where
             TokenKind::Keyword((Keyword::While, false)) => {}
             _ => {
                 return Err(ParseError::expected(
-                    ["while".to_owned()],
+                    ["while".to_string()],
                     next_token.to_string(interner),
                     next_token.span(),
                     "do while statement",

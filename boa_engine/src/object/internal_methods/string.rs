@@ -3,7 +3,7 @@ use crate::{
     property::{PropertyDescriptor, PropertyKey},
     Context, JsResult, JsValue,
 };
-use alloc::{vec::Vec, string::String};
+use alloc::{string::String, vec::Vec};
 
 use super::{InternalObjectMethods, ORDINARY_INTERNAL_METHODS};
 

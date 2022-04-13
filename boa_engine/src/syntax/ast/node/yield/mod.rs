@@ -1,5 +1,8 @@
 use crate::syntax::ast::node::Node;
-use alloc::{boxed::Box, string::String};
+use alloc::{
+    boxed::Box,
+    string::{String, ToString},
+};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, ToInternedString};
 
@@ -55,7 +58,7 @@ impl ToInternedString for Yield {
         if let Some(ex) = self.expr() {
             format!("{y} {}", ex.to_interned_string(interner))
         } else {
-            y.to_owned()
+            y.to_string()
         }
     }
 }

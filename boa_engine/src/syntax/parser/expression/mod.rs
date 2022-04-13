@@ -27,6 +27,7 @@ use crate::syntax::{
     lexer::{InputElement, TokenKind},
     parser::ParseError,
 };
+use alloc::string::ToString;
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
 
@@ -241,7 +242,7 @@ where
                 TokenKind::Punctuator(Punctuator::BoolAnd) => {
                     if previous == PreviousExpr::Coalesce {
                         return Err(ParseError::expected(
-                            ["??".to_owned()],
+                            ["??".to_string()],
                             tok.to_string(interner), tok.span(),
                             "logical expression (cannot use '??' without parentheses within '||' or '&&')",
                         ));
@@ -261,7 +262,7 @@ where
                 TokenKind::Punctuator(Punctuator::BoolOr) => {
                     if previous == PreviousExpr::Coalesce {
                         return Err(ParseError::expected(
-                            ["??".to_owned()],
+                            ["??".to_string()],
                             tok.to_string(interner), tok.span(),
                             "logical expression (cannot use '??' without parentheses within '||' or '&&')",
                         ));
@@ -281,7 +282,7 @@ where
                 TokenKind::Punctuator(Punctuator::Coalesce) => {
                     if previous == PreviousExpr::Logical {
                         return Err(ParseError::expected(
-                            ["&&".to_owned(), "||".to_owned()],
+                            ["&&".to_string(), "||".to_string()],
                             tok.to_string(interner),
                             tok.span(),
                             "cannot use '??' unparenthesized within '||' or '&&'",

@@ -19,7 +19,11 @@ use crate::{
     vm::{call_frame::FinallyReturn, CallFrame, Opcode},
     Context, JsResult, JsValue,
 };
-use alloc::{boxed::Box, string::String, vec::Vec};
+use alloc::{
+    boxed::Box,
+    string::{String, ToString},
+    vec::Vec,
+};
 use boa_gc::{Cell, Finalize, Gc, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 use boa_profiler::Profiler;
@@ -357,7 +361,7 @@ impl ToInternedString for CodeBlock {
         let mut f = if self.name == Sym::MAIN {
             String::new()
         } else {
-            "\n".to_owned()
+            "\n".to_string()
         };
 
         f.push_str(&format!(

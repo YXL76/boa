@@ -27,7 +27,7 @@ use crate::syntax::{
         AllowAwait, AllowIn, AllowYield, Cursor, ParseError, ParseResult, TokenParser,
     },
 };
-use alloc::vec::Vec;
+use alloc::{string::ToString, vec::Vec};
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
 
@@ -90,7 +90,7 @@ where
             if cursor.next_if(Punctuator::Comma, interner)?.is_none() {
                 let next_token = cursor.next(interner)?.ok_or(ParseError::AbruptEnd)?;
                 return Err(ParseError::expected(
-                    [",".to_owned(), "}".to_owned()],
+                    [",".to_string(), "}".to_string()],
                     next_token.to_string(interner),
                     next_token.span(),
                     "object literal",

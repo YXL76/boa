@@ -12,6 +12,7 @@ use crate::syntax::{
     lexer::TokenKind,
     parser::{AllowAwait, AllowReturn, AllowYield, Cursor, ParseError, TokenParser},
 };
+use alloc::string::ToString;
 use boa_interner::Interner;
 use boa_profiler::Profiler;
 
@@ -75,7 +76,7 @@ where
             TokenKind::Keyword((Keyword::Catch | Keyword::Finally, false)) => {}
             _ => {
                 return Err(ParseError::expected(
-                    ["catch".to_owned(), "finally".to_owned()],
+                    ["catch".to_string(), "finally".to_string()],
                     next_token.to_string(interner),
                     next_token.span(),
                     "try statement",

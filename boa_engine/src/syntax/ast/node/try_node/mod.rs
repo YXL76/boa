@@ -1,5 +1,8 @@
 use crate::syntax::ast::node::{Block, Declaration, Node};
-use alloc::{boxed::Box, string::String};
+use alloc::{
+    boxed::Box,
+    string::{String, ToString},
+};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, ToInternedString};
 
@@ -136,7 +139,7 @@ impl Catch {
 
     /// Implements the display formatting with indentation.
     pub(super) fn to_indented_string(&self, interner: &Interner, indentation: usize) -> String {
-        let mut buf = " catch".to_owned();
+        let mut buf = " catch".to_string();
         if let Some(ref param) = self.parameter {
             buf.push_str(&format!("({})", param.to_interned_string(interner)));
         }

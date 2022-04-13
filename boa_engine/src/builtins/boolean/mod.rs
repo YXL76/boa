@@ -20,7 +20,7 @@ use crate::{
     },
     Context, JsResult, JsValue,
 };
-
+use alloc::string::ToString;
 use boa_profiler::Profiler;
 use tap::{Conv, Pipe};
 

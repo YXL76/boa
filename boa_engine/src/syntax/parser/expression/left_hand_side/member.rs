@@ -23,7 +23,7 @@ use crate::syntax::{
         AllowAwait, AllowYield, Cursor, ParseError, ParseResult, TokenParser,
     },
 };
-use alloc::boxed::Box;
+use alloc::{boxed::Box, string::ToString};
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
 
@@ -126,7 +126,7 @@ where
                         }
                         _ => {
                             return Err(ParseError::expected(
-                                ["identifier".to_owned()],
+                                ["identifier".to_string()],
                                 token.to_string(interner),
                                 token.span(),
                                 "member expression",

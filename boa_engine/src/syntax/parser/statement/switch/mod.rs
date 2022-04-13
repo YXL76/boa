@@ -10,7 +10,7 @@ use crate::syntax::{
         Cursor, ParseError, TokenParser,
     },
 };
-use alloc::{boxed::Box, vec::Vec};
+use alloc::{boxed::Box, string::ToString, vec::Vec};
 use boa_interner::Interner;
 use boa_profiler::Profiler;
 
@@ -178,7 +178,7 @@ where
                 TokenKind::Punctuator(Punctuator::CloseBlock) => break,
                 _ => {
                     return Err(ParseError::expected(
-                        ["case".to_owned(), "default".to_owned(), "}".to_owned()],
+                        ["case".to_string(), "default".to_string(), "}".to_string()],
                         token.to_string(interner),
                         token.span(),
                         "switch case block",

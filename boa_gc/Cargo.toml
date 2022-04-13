@@ -11,7 +11,7 @@ categories = ["command-line-utilities"]
 license = "Unlicense/MIT"
 
 [dependencies]
-gc = { version = "0.4.1", features = ["derive"] }
+gc = { git = "https://github.com/YXL76/rust-gc", branch = "Ingram", features = ["derive"] }
 
 # Optional Dependencies
 measureme = { version = "10.0.0", optional = true }

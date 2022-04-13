@@ -20,7 +20,7 @@ use crate::{
     value::{IntegerOrInfinity, PreferredType},
     Context, JsBigInt, JsResult, JsValue,
 };
-
+use alloc::string::ToString;
 use boa_profiler::Profiler;
 use num_bigint::ToBigInt;
 use tap::{Conv, Pipe};

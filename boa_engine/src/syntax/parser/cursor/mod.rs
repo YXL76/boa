@@ -7,7 +7,7 @@ use crate::syntax::{
     ast::{Position, Punctuator},
     lexer::{InputElement, Lexer, Token, TokenKind},
 };
-use alloc::vec::Vec;
+use alloc::{string::ToString, vec::Vec};
 use boa_interner::{Interner, Sym};
 use buffered_lexer::BufferedLexer;
 use rustc_hash::FxHashMap;
@@ -226,7 +226,7 @@ where
             },
             SemicolonResult::Found(None) => Ok(()),
             SemicolonResult::NotFound(tk) => Err(ParseError::expected(
-                [";".to_owned()],
+                [";".to_string()],
                 tk.to_string(interner),
                 tk.span(),
                 context,

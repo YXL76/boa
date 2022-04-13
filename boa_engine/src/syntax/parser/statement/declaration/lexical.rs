@@ -24,9 +24,9 @@ use crate::syntax::{
         AllowAwait, AllowIn, AllowYield, ParseError, ParseResult, TokenParser,
     },
 };
+use alloc::{string::ToString, vec::Vec};
 use boa_interner::Interner;
 use boa_profiler::Profiler;
-use alloc::vec::Vec;
 
 /// Parses a lexical declaration.
 ///
@@ -210,7 +210,7 @@ where
                 SemicolonResult::NotFound(_) => {
                     let next = cursor.next(interner)?.ok_or(ParseError::AbruptEnd)?;
                     return Err(ParseError::expected(
-                        [";".to_owned(), "line terminator".to_owned()],
+                        [";".to_string(), "line terminator".to_string()],
                         next.to_string(interner),
                         next.span(),
                         "lexical declaration binding list",

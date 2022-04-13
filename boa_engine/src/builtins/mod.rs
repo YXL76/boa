@@ -4,8 +4,8 @@ pub mod array;
 pub mod array_buffer;
 pub mod bigint;
 pub mod boolean;
-#[cfg(feature = "console")]
-pub mod console;
+// #[cfg(feature = "console")]
+// pub mod console;
 pub mod dataview;
 pub mod date;
 pub mod error;
@@ -181,8 +181,8 @@ pub fn init(context: &mut Context) {
         GeneratorFunction
     };
 
-    #[cfg(feature = "console")]
-    init_builtin::<console::Console>(context);
+    // #[cfg(feature = "console")]
+    // init_builtin::<console::Console>(context);
 }
 
 pub trait JsArgs {

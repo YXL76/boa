@@ -98,7 +98,7 @@ pub(crate) fn write_json(
     if let Some(path) = output {
         let mut branch = env::var("GITHUB_REF").unwrap_or_default();
         if branch.starts_with("refs/pull") {
-            branch = "pull".to_owned();
+            branch = "pull".to_string();
         }
 
         let path = if branch.is_empty() {

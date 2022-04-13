@@ -193,7 +193,7 @@ impl Test {
                     context.set_strict_mode(strict);
                     match context.parse(self.content.as_bytes()) {
                         Ok(statement_list) => match context.compile(&statement_list) {
-                            Ok(_) => (false, "StatementList compilation should fail".to_owned()),
+                            Ok(_) => (false, "StatementList compilation should fail".to_string()),
                             Err(e) => (true, format!("Uncaught {e:?}")),
                         },
                         Err(e) => (true, format!("Uncaught {e}")),

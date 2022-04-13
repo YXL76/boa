@@ -1,7 +1,7 @@
 //! This module implements the JavaScript bigint primitive rust type.
 
 use crate::{builtins::Number, Context, JsValue};
-use alloc::{rc::Rc, string::String, boxed::Box};
+use alloc::{boxed::Box, rc::Rc, string::String};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use core::{
     fmt::{self, Display},

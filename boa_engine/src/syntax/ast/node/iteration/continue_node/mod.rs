@@ -1,5 +1,5 @@
 use crate::syntax::ast::node::Node;
-use alloc::string::String;
+use alloc::string::{String, ToString};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 
@@ -46,7 +46,7 @@ impl ToInternedString for Continue {
         if let Some(label) = self.label {
             format!("continue {}", interner.resolve_expect(label))
         } else {
-            "continue".to_owned()
+            "continue".to_string()
         }
     }
 }

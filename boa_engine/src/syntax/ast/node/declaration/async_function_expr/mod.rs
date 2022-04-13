@@ -1,7 +1,7 @@
 //! Async Function Expression.
 
 use crate::syntax::ast::node::{join_nodes, FormalParameterList, Node, StatementList};
-use alloc::string::String;
+use alloc::string::{String, ToString};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 
@@ -61,7 +61,7 @@ impl AsyncFunctionExpr {
         interner: &Interner,
         indentation: usize,
     ) -> String {
-        let mut buf = "async function".to_owned();
+        let mut buf = "async function".to_string();
         if let Some(name) = self.name {
             buf.push_str(&format!(" {}", interner.resolve_expect(name)));
         }

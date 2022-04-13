@@ -24,7 +24,7 @@ use crate::{
     value::{AbstractRelation, IntegerOrInfinity, JsValue},
     Context, JsResult,
 };
-use alloc::string::String;
+use alloc::string::{String, ToString};
 use boa_profiler::Profiler;
 use num_traits::{float::FloatCore, Num};
 

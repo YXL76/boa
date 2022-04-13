@@ -1567,33 +1567,35 @@ impl Context {
                 self.vm.frame_mut().pop_on_return -= 1;
             }
             Opcode::Yield => return Ok(ShouldExit::Yield),
-            Opcode::GeneratorNext => return match self.vm.frame().generator_resume_kind {
-                GeneratorResumeKind::Normal => Ok(ShouldExit::False),
-                GeneratorResumeKind::Throw => {
-                    let received = self.vm.pop();
-                    Err(received)
-                }
-                GeneratorResumeKind::Return => {
-                    let mut finally_left = false;
+            Opcode::GeneratorNext => {
+                return match self.vm.frame().generator_resume_kind {
+                    GeneratorResumeKind::Normal => Ok(ShouldExit::False),
+                    GeneratorResumeKind::Throw => {
+                        let received = self.vm.pop();
+                        Err(received)
+                    }
+                    GeneratorResumeKind::Return => {
+                        let mut finally_left = false;
 
-                    while let Some(catch_addresses) = self.vm.frame().catch.last() {
-                        if let Some(finally_address) = catch_addresses.finally {
-                            let frame = self.vm.frame_mut();
-                            frame.pc = finally_address as usize;
-                            frame.finally_return = FinallyReturn::Ok;
-                            frame.catch.pop();
-                            finally_left = true;
-                            break;
+                        while let Some(catch_addresses) = self.vm.frame().catch.last() {
+                            if let Some(finally_address) = catch_addresses.finally {
+                                let frame = self.vm.frame_mut();
+                                frame.pc = finally_address as usize;
+                                frame.finally_return = FinallyReturn::Ok;
+                                frame.catch.pop();
+                                finally_left = true;
+                                break;
+                            }
+                            self.vm.frame_mut().catch.pop();
                         }
-                        self.vm.frame_mut().catch.pop();
-                    }
 
-                    if finally_left {
-                        return Ok(ShouldExit::False);
+                        if finally_left {
+                            return Ok(ShouldExit::False);
+                        }
+                        Ok(ShouldExit::True)
                     }
-                    Ok(ShouldExit::True)
                 }
-            },
+            }
             Opcode::GeneratorNextDelegate => {
                 let done_address = self.vm.read::<u32>();
                 let received = self.vm.pop();
@@ -1675,7 +1677,7 @@ impl Context {
                         self.vm.push(received);
                         Ok(ShouldExit::True)
                     }
-                }
+                };
             }
         }
 

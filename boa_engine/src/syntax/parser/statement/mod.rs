@@ -55,7 +55,7 @@ use crate::syntax::{
     lexer::{Error as LexError, InputElement, Token, TokenKind},
     parser::expression::{await_expr::AwaitExpression, Initializer},
 };
-use alloc::vec::Vec;
+use alloc::{string::ToString, vec::Vec};
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
 use hashbrown::HashSet;
@@ -593,7 +593,7 @@ where
                 }
             }
             _ => Err(ParseError::expected(
-                ["identifier".to_owned()],
+                ["identifier".to_string()],
                 next_token.to_string(interner),
                 next_token.span(),
                 "binding identifier",

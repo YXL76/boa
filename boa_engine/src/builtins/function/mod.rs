@@ -25,8 +25,12 @@ use crate::{
     value::IntegerOrInfinity,
     Context, JsResult, JsString, JsValue,
 };
-use alloc::borrow::Cow;
-use alloc::{boxed::Box, string::String, vec::Vec};
+use alloc::{
+    borrow::Cow,
+    boxed::Box,
+    string::{String, ToString},
+    vec::Vec,
+};
 use boa_gc::{self, Finalize, Gc, Trace};
 use boa_profiler::Profiler;
 use core::{

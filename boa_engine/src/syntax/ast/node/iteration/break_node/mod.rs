@@ -1,5 +1,5 @@
 use crate::syntax::ast::Node;
-use alloc::string::String;
+use alloc::string::{String, ToString};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 
@@ -55,7 +55,7 @@ impl ToInternedString for Break {
         if let Some(label) = self.label {
             format!("break {}", interner.resolve_expect(label))
         } else {
-            "break".to_owned()
+            "break".to_string()
         }
     }
 }

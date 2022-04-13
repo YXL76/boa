@@ -16,7 +16,7 @@
 //! [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
 
 use crate::JsString;
-use alloc::rc::Rc;
+use alloc::{rc::Rc, string::ToString};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use core::{
     cell::Cell,

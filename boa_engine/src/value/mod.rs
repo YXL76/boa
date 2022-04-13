@@ -15,6 +15,7 @@ use crate::{
     symbol::{JsSymbol, WellKnownSymbols},
     Context, JsBigInt, JsResult, JsString,
 };
+use alloc::string::ToString;
 use boa_gc::{Finalize, Trace};
 use boa_profiler::Profiler;
 use core::{

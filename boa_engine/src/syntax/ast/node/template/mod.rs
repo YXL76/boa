@@ -1,7 +1,10 @@
 //! Template literal node.
 
 use super::Node;
-use alloc::{boxed::Box, string::String};
+use alloc::{
+    boxed::Box,
+    string::{String, ToString},
+};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 
@@ -42,7 +45,7 @@ impl TemplateLit {
 
 impl ToInternedString for TemplateLit {
     fn to_interned_string(&self, interner: &Interner) -> String {
-        let mut buf = "`".to_owned();
+        let mut buf = "`".to_string();
 
         for elt in self.elements.iter() {
             match elt {

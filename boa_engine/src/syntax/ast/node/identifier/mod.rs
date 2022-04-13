@@ -1,7 +1,7 @@
 //! Local identifier node.
 
 use crate::syntax::ast::node::Node;
-use alloc::string::String;
+use alloc::string::{String, ToString};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 
@@ -44,7 +44,7 @@ impl Identifier {
 
 impl ToInternedString for Identifier {
     fn to_interned_string(&self, interner: &Interner) -> String {
-        interner.resolve_expect(self.ident).to_owned()
+        interner.resolve_expect(self.ident).to_string()
     }
 }
 

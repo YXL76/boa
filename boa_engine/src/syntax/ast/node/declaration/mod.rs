@@ -6,7 +6,11 @@ use crate::syntax::ast::node::{
     statement_list::StatementList,
     Identifier, Node,
 };
-use alloc::{boxed::Box, string::String, vec::Vec};
+use alloc::{
+    boxed::Box,
+    string::{String, ToString},
+    vec::Vec,
+};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 
@@ -296,7 +300,7 @@ pub struct DeclarationPatternObject {
 
 impl ToInternedString for DeclarationPatternObject {
     fn to_interned_string(&self, interner: &Interner) -> String {
-        let mut buf = "{".to_owned();
+        let mut buf = "{".to_string();
         for (i, binding) in self.bindings.iter().enumerate() {
             let binding = binding.to_interned_string(interner);
             let str = if i == self.bindings.len() - 1 {
@@ -395,7 +399,7 @@ pub struct DeclarationPatternArray {
 
 impl ToInternedString for DeclarationPatternArray {
     fn to_interned_string(&self, interner: &Interner) -> String {
-        let mut buf = "[".to_owned();
+        let mut buf = "[".to_string();
         for (i, binding) in self.bindings.iter().enumerate() {
             if i == self.bindings.len() - 1 {
                 match binding {
@@ -735,7 +739,7 @@ impl ToInternedString for BindingPatternTypeArray {
     fn to_interned_string(&self, interner: &Interner) -> String {
         match self {
             BindingPatternTypeArray::Empty => String::new(),
-            BindingPatternTypeArray::Elision => " ".to_owned(),
+            BindingPatternTypeArray::Elision => " ".to_string(),
             BindingPatternTypeArray::SingleName {
                 ident,
                 default_init,
@@ -781,7 +785,7 @@ pub(in crate::syntax::ast::node) fn block_to_string(
     indentation: usize,
 ) -> String {
     if body.items().is_empty() {
-        "{}".to_owned()
+        "{}".to_string()
     } else {
         format!(
             "{{\n{}{}}}",

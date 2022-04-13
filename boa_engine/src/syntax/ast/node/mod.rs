@@ -56,7 +56,10 @@ pub use self::{
 pub(crate) use self::parameters::FormalParameterListFlags;
 
 use super::Const;
-use alloc::{boxed::Box, string::String};
+use alloc::{
+    boxed::Box,
+    string::{String, ToString},
+};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, ToInternedString};
 use core::cmp::Ordering;
@@ -296,7 +299,7 @@ impl Node {
             Self::ForLoop(ref for_loop) => for_loop.to_indented_string(interner, indentation),
             Self::ForOfLoop(ref for_of) => for_of.to_indented_string(interner, indentation),
             Self::ForInLoop(ref for_in) => for_in.to_indented_string(interner, indentation),
-            Self::This => "this".to_owned(),
+            Self::This => "this".to_string(),
             Self::Try(ref try_catch) => try_catch.to_indented_string(interner, indentation),
             Self::Break(ref break_smt) => break_smt.to_interned_string(interner),
             Self::Continue(ref cont) => cont.to_interned_string(interner),
@@ -334,7 +337,7 @@ impl Node {
             Self::AsyncFunctionDecl(ref decl) => decl.to_indented_string(interner, indentation),
             Self::AsyncFunctionExpr(ref expr) => expr.to_indented_string(interner, indentation),
             Self::AwaitExpr(ref expr) => expr.to_interned_string(interner),
-            Self::Empty => ";".to_owned(),
+            Self::Empty => ";".to_string(),
             Self::Yield(ref y) => y.to_interned_string(interner),
             Self::GeneratorDecl(ref decl) => decl.to_interned_string(interner),
             Self::GeneratorExpr(ref expr) => expr.to_indented_string(interner, indentation),

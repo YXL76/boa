@@ -7,7 +7,7 @@ use crate::{
     value::Type,
     Context, JsResult, JsValue,
 };
-use alloc::vec::Vec;
+use alloc::{string::ToString, vec::Vec};
 
 /// Object integrity level.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

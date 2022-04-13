@@ -6,7 +6,7 @@ use crate::{
     property::{PropertyDescriptor, PropertyKey},
     Context, JsResult,
 };
-use alloc::vec::Vec;
+use alloc::{string::ToString, vec::Vec};
 use serde_json::{Map, Value};
 
 impl JsValue {
@@ -132,7 +132,7 @@ impl JsValue {
                     let mut map = Map::new();
                     for (key, property) in obj.borrow().properties().iter() {
                         let key = match &key {
-                            PropertyKey::String(string) => string.as_str().to_owned(),
+                            PropertyKey::String(string) => string.as_str().to_string(),
                             PropertyKey::Index(i) => i.to_string(),
                             PropertyKey::Symbol(_sym) => {
                                 return context.throw_type_error("cannot convert Symbol to JSON")

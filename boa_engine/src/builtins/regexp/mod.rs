@@ -26,7 +26,11 @@ use crate::{
     value::{IntegerOrInfinity, JsValue},
     Context, JsResult, JsString,
 };
-use alloc::{boxed::Box, string::String, vec::Vec};
+use alloc::{
+    boxed::Box,
+    string::{String, ToString},
+    vec::Vec,
+};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_profiler::Profiler;
 use core::str::FromStr;

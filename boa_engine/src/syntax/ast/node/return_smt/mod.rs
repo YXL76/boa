@@ -1,5 +1,8 @@
 use crate::syntax::ast::node::Node;
-use alloc::{boxed::Box, string::String};
+use alloc::{
+    boxed::Box,
+    string::{String, ToString},
+};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 
@@ -67,7 +70,7 @@ impl ToInternedString for Return {
     fn to_interned_string(&self, interner: &Interner) -> String {
         match self.expr() {
             Some(ex) => format!("return {}", ex.to_interned_string(interner)),
-            None => "return".to_owned(),
+            None => "return".to_string(),
         }
     }
 }

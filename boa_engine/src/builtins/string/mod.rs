@@ -25,7 +25,7 @@ use crate::{
     value::IntegerOrInfinity,
     Context, JsResult, JsString, JsValue,
 };
-use alloc::{string::String as StdString, vec::Vec};
+use alloc::{string::String as StdString, string::ToString, vec::Vec};
 use boa_profiler::Profiler;
 use core::{
     char::from_u32,

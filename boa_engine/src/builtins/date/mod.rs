@@ -12,7 +12,7 @@ use crate::{
     value::{JsValue, PreferredType},
     Context, JsResult, JsString,
 };
-use alloc::string::String;
+use alloc::string::{String, ToString};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_profiler::Profiler;
 use chrono::{prelude::*, Duration, LocalResult};

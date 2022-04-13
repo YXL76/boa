@@ -7,7 +7,10 @@ use crate::syntax::ast::node::{
     object::{MethodDefinition, PropertyName},
     Node, StatementList,
 };
-use alloc::{boxed::Box, string::String};
+use alloc::{
+    boxed::Box,
+    string::{String, ToString},
+};
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 

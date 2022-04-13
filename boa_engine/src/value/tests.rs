@@ -3,9 +3,6 @@
 use super::*;
 use crate::{check_output, forward, forward_val, Context, TestAction};
 
-
-
-
 #[test]
 fn string_to_value() {
     let s = String::from("Hello");

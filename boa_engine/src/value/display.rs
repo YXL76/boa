@@ -1,6 +1,9 @@
 use super::{fmt, Display, HashSet, JsValue, PropertyKey};
 use crate::{object::ObjectKind, property::PropertyDescriptor};
-use alloc::{string::String, vec::Vec};
+use alloc::{
+    string::{String, ToString},
+    vec::Vec,
+};
 
 /// This object is used for displaying a `Value`.
 #[derive(Debug, Clone, Copy)]
