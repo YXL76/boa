@@ -164,7 +164,7 @@ where
             } else {
                 return Err(io::Error::new(
                     ErrorKind::UnexpectedEof,
-                    "Unexpected end of file when looking for character", // TODO
+                    "Unexpected end of file when looking for character", // MYTODO
                 ));
             }
         }

@@ -3,11 +3,11 @@ use core::{
     fmt::Debug,
     hash::{BuildHasher, Hash},
 };
+use hashbrown::hash_map::DefaultHashBuilder;
 use indexmap::{
     set::{IntoIter, Iter},
     IndexSet,
 };
-use hashbrown::hash_map::DefaultHashBuilder;
 
 /// A type wrapping `indexmap::IndexSet`
 #[derive(Clone)]

@@ -12,11 +12,12 @@ use crate::{
 use alloc::vec::Vec;
 use boa_gc::{self, Finalize, Gc, Trace};
 use core::{
-    cell::RefCell,
     fmt::{self, Debug, Display},
     result::Result as StdResult,
 };
 use hashbrown::HashMap;
+use once_cell::sync::Lazy;
+use spin::Mutex;
 
 /// A wrapper type for an immutably borrowed type T.
 pub type Ref<'a, T> = boa_gc::Ref<'a, T>;
@@ -756,24 +757,20 @@ impl Drop for RecursionLimiter {
     fn drop(&mut self) {
         if self.top_level {
             // When the top level of the graph is dropped, we can free the entire map for the next traversal.
-            Self::SEEN.with(|hm| hm.borrow_mut().clear());
+            SEEN.lock().clear();
         } else if !self.live {
             // This was the first RL for this object to become live, so it's no longer live now that it's dropped.
-            Self::SEEN.with(|hm| {
-                hm.borrow_mut()
-                    .insert(self.ptr, RecursionValueState::Visited)
-            });
+            SEEN.lock().insert(self.ptr, RecursionValueState::Visited);
         }
     }
 }
 
-impl RecursionLimiter {
-    thread_local! {
-        /// The map of pointers to `JsObject` that have been visited during the current `Debug::fmt` graph,
-        /// and the current state of their RecursionLimiter (dropped or live -- see `RecursionValueState`)
-        static SEEN: RefCell<HashMap<usize, RecursionValueState>> = RefCell::new(HashMap::new());
-    }
+/// The map of pointers to `JsObject` that have been visited during the current `Debug::fmt` graph,
+/// and the current state of their RecursionLimiter (dropped or live -- see `RecursionValueState`)
+static SEEN: Lazy<Mutex<HashMap<usize, RecursionValueState>>> =
+    Lazy::new(|| Mutex::new(HashMap::new()));
 
+impl RecursionLimiter {
     /// Determines if the specified `JsObject` has been visited, and returns a struct that will free it when dropped.
     ///
     /// This is done by maintaining a thread-local hashset containing the pointers of `JsObject` values that have been
@@ -782,8 +779,8 @@ impl RecursionLimiter {
     pub fn new(o: &JsObject) -> Self {
         // We shouldn't have to worry too much about this being moved during Debug::fmt.
         let ptr = (o.as_ref() as *const _) as usize;
-        let (top_level, visited, live) = Self::SEEN.with(|hm| {
-            let mut hm = hm.borrow_mut();
+        let (top_level, visited, live) = {
+            let mut hm = SEEN.lock();
             let top_level = hm.is_empty();
             let old_state = hm.insert(ptr, RecursionValueState::Live);
 
@@ -792,7 +789,7 @@ impl RecursionLimiter {
                 old_state == Some(RecursionValueState::Visited),
                 old_state == Some(RecursionValueState::Live),
             )
-        });
+        };
 
         Self {
             top_level,

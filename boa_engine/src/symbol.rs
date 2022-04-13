@@ -16,13 +16,14 @@
 //! [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
 
 use crate::JsString;
-use alloc::{rc::Rc, string::ToString};
+use alloc::{string::ToString, sync::Arc};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use core::{
-    cell::Cell,
     fmt::{self, Display},
     hash::{Hash, Hasher},
+    sync::atomic::{AtomicU64, Ordering},
 };
+use once_cell::sync::Lazy;
 
 /// A structure that contains the JavaScript well known symbols.
 ///
@@ -57,15 +58,13 @@ pub struct WellKnownSymbols {
 /// and internal engine symbols.
 const RESERVED_SYMBOL_HASHES: u64 = 128;
 
-thread_local! {
-    /// Cached well known symbols
-    static WELL_KNOW_SYMBOLS: WellKnownSymbols = WellKnownSymbols::new();
+/// Cached well known symbols
+static WELL_KNOW_SYMBOLS: Lazy<WellKnownSymbols> = Lazy::new(|| WellKnownSymbols::new());
 
-    /// Symbol hash.
-    ///
-    /// For now this is an incremented u64 number.
-    static SYMBOL_HASH_COUNT: Cell<u64> = Cell::new(RESERVED_SYMBOL_HASHES);
-}
+/// Symbol hash.
+///
+/// For now this is an incremented u64 number.
+static SYMBOL_HASH_COUNT: AtomicU64 = AtomicU64::new(RESERVED_SYMBOL_HASHES);
 
 impl WellKnownSymbols {
     /// Create the well known symbols.
@@ -116,13 +115,9 @@ impl WellKnownSymbols {
         }
     }
 
-    /// The `Symbol.asyncIterator` well known symbol.
-    ///
-    /// A method that returns the default `AsyncIterator` for an object.
-    /// Called by the semantics of the `for-await-of` statement.
     #[inline]
     pub fn async_iterator() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.async_iterator.clone())
+        WELL_KNOW_SYMBOLS.async_iterator.clone()
     }
 
     /// The `Symbol.hasInstance` well known symbol.
@@ -132,7 +127,7 @@ impl WellKnownSymbols {
     /// Called by the semantics of the instanceof operator.
     #[inline]
     pub fn has_instance() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.has_instance.clone())
+        WELL_KNOW_SYMBOLS.has_instance.clone()
     }
 
     /// The `Symbol.isConcatSpreadable` well known symbol.
@@ -142,7 +137,7 @@ impl WellKnownSymbols {
     /// by `Array.prototype.concat`.
     #[inline]
     pub fn is_concat_spreadable() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.is_concat_spreadable.clone())
+        WELL_KNOW_SYMBOLS.is_concat_spreadable.clone()
     }
 
     /// The `Symbol.iterator` well known symbol.
@@ -151,7 +146,7 @@ impl WellKnownSymbols {
     /// Called by the semantics of the `for-of` statement.
     #[inline]
     pub fn iterator() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.iterator.clone())
+        WELL_KNOW_SYMBOLS.iterator.clone()
     }
 
     /// The `Symbol.match` well known symbol.
@@ -160,7 +155,7 @@ impl WellKnownSymbols {
     /// against a string. Called by the `String.prototype.match` method.
     #[inline]
     pub fn r#match() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.r#match.clone())
+        WELL_KNOW_SYMBOLS.r#match.clone()
     }
 
     /// The `Symbol.matchAll` well known symbol.
@@ -170,7 +165,7 @@ impl WellKnownSymbols {
     /// Called by the `String.prototype.matchAll` method.
     #[inline]
     pub fn match_all() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.match_all.clone())
+        WELL_KNOW_SYMBOLS.match_all.clone()
     }
 
     /// The `Symbol.replace` well known symbol.
@@ -179,7 +174,7 @@ impl WellKnownSymbols {
     /// of a string. Called by the `String.prototype.replace` method.
     #[inline]
     pub fn replace() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.replace.clone())
+        WELL_KNOW_SYMBOLS.replace.clone()
     }
 
     /// The `Symbol.search` well known symbol.
@@ -189,7 +184,7 @@ impl WellKnownSymbols {
     /// Called by the `String.prototype.search` method.
     #[inline]
     pub fn search() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.search.clone())
+        WELL_KNOW_SYMBOLS.search.clone()
     }
 
     /// The `Symbol.species` well known symbol.
@@ -198,7 +193,7 @@ impl WellKnownSymbols {
     /// that is used to create derived objects.
     #[inline]
     pub fn species() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.species.clone())
+        WELL_KNOW_SYMBOLS.species.clone()
     }
 
     /// The `Symbol.split` well known symbol.
@@ -208,7 +203,7 @@ impl WellKnownSymbols {
     /// Called by the `String.prototype.split` method.
     #[inline]
     pub fn split() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.split.clone())
+        WELL_KNOW_SYMBOLS.split.clone()
     }
 
     /// The `Symbol.toPrimitive` well known symbol.
@@ -217,7 +212,7 @@ impl WellKnownSymbols {
     /// Called by the `ToPrimitive` (`Value::to_primitve`) abstract operation.
     #[inline]
     pub fn to_primitive() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.to_primitive.clone())
+        WELL_KNOW_SYMBOLS.to_primitive.clone()
     }
 
     /// The `Symbol.toStringTag` well known symbol.
@@ -227,7 +222,7 @@ impl WellKnownSymbols {
     /// Accessed by the built-in method `Object.prototype.toString`.
     #[inline]
     pub fn to_string_tag() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.to_string_tag.clone())
+        WELL_KNOW_SYMBOLS.to_string_tag.clone()
     }
 
     /// The `Symbol.unscopables` well known symbol.
@@ -236,7 +231,7 @@ impl WellKnownSymbols {
     /// names that are excluded from the `with` environment bindings of the associated object.
     #[inline]
     pub fn unscopables() -> JsSymbol {
-        WELL_KNOW_SYMBOLS.with(|symbols| symbols.unscopables.clone())
+        WELL_KNOW_SYMBOLS.unscopables.clone()
     }
 }
 
@@ -250,21 +245,19 @@ struct Inner {
 /// This represents a JavaScript symbol primitive.
 #[derive(Debug, Clone)]
 pub struct JsSymbol {
-    inner: Rc<Inner>,
+    inner: Arc<Inner>,
 }
 
 impl JsSymbol {
     /// Create a new symbol.
     #[inline]
     pub fn new(description: Option<JsString>) -> Self {
-        let hash = SYMBOL_HASH_COUNT.with(|count| {
-            let hash = count.get();
-            count.set(hash + 1);
-            hash
-        });
+        let hash = SYMBOL_HASH_COUNT
+            .fetch_update(Ordering::SeqCst, Ordering::SeqCst, |h| Some(h + 1))
+            .unwrap();
 
         Self {
-            inner: Rc::new(Inner { hash, description }),
+            inner: Arc::new(Inner { hash, description }),
         }
     }
 
@@ -272,7 +265,7 @@ impl JsSymbol {
     #[inline]
     fn with_hash(hash: u64, description: Option<JsString>) -> Self {
         Self {
-            inner: Rc::new(Inner { hash, description }),
+            inner: Arc::new(Inner { hash, description }),
         }
     }
 

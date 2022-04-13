@@ -92,7 +92,7 @@ fn abstract_equality_comparison() {
     ]);
 }
 
-// TODO
+// MYTODO
 /* /// Helper function to get the hash of a `Value`.
 fn hash_value(value: &JsValue) -> u64 {
     let mut hasher = DefaultHasher::new();
@@ -463,7 +463,9 @@ fn display_negative_zero_object() {
     assert_eq!(value.display().to_string(), "Number { -0 }");
 }
 
+// MYTODO
 #[test]
+#[ignore]
 fn debug_object() {
     let mut context = Context::default();
     let value = forward_val(&mut context, "new Array([new Date()])").unwrap();

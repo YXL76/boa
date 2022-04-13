@@ -3,169 +3,172 @@ use ::alloc::{
     alloc::{alloc, dealloc, handle_alloc_error, Layout},
     borrow::Borrow,
     boxed::Box,
-    rc::Rc,
+    // rc::Rc,
     string::String,
     vec::Vec,
 };
+use arcstr::ArcStr;
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use core::{
     cell::Cell,
     hash::{Hash, Hasher},
-    marker::PhantomData,
+    // marker::PhantomData,
     ops::Deref,
     ptr::{copy_nonoverlapping, NonNull},
 };
 use hashbrown::HashSet;
+use once_cell::sync::Lazy;
 
-const CONSTANTS_ARRAY: [&str; 127] = [
+const CONSTANTS_ARRAY: [ArcStr; 127] = [
     // Empty string
-    "",
+    arcstr::literal!(""),
     // Misc
-    ",",
-    ":",
+    arcstr::literal!(","),
+    arcstr::literal!(":"),
     // Generic use
-    "name",
-    "length",
-    "arguments",
-    "prototype",
-    "constructor",
+    arcstr::literal!("name"),
+    arcstr::literal!("length"),
+    arcstr::literal!("arguments"),
+    arcstr::literal!("prototype"),
+    arcstr::literal!("constructor"),
     // typeof
-    "null",
-    "undefined",
-    "number",
-    "string",
-    "symbol",
-    "bigint",
-    "object",
-    "function",
+    arcstr::literal!("null"),
+    arcstr::literal!("undefined"),
+    arcstr::literal!("number"),
+    arcstr::literal!("string"),
+    arcstr::literal!("symbol"),
+    arcstr::literal!("bigint"),
+    arcstr::literal!("object"),
+    arcstr::literal!("function"),
     // Property descriptor
-    "value",
-    "get",
-    "set",
-    "writable",
-    "enumerable",
-    "configurable",
+    arcstr::literal!("value"),
+    arcstr::literal!("get"),
+    arcstr::literal!("set"),
+    arcstr::literal!("writable"),
+    arcstr::literal!("enumerable"),
+    arcstr::literal!("configurable"),
     // Object object
-    "Object",
-    "assing",
-    "create",
-    "toString",
-    "valueOf",
-    "is",
-    "seal",
-    "isSealed",
-    "freeze",
-    "isFrozen",
-    "keys",
-    "values",
-    "entries",
+    arcstr::literal!("Object"),
+    arcstr::literal!("assing"),
+    arcstr::literal!("create"),
+    arcstr::literal!("toString"),
+    arcstr::literal!("valueOf"),
+    arcstr::literal!("is"),
+    arcstr::literal!("seal"),
+    arcstr::literal!("isSealed"),
+    arcstr::literal!("freeze"),
+    arcstr::literal!("isFrozen"),
+    arcstr::literal!("keys"),
+    arcstr::literal!("values"),
+    arcstr::literal!("entries"),
     // Function object
-    "Function",
-    "apply",
-    "bind",
-    "call",
+    arcstr::literal!("Function"),
+    arcstr::literal!("apply"),
+    arcstr::literal!("bind"),
+    arcstr::literal!("call"),
     // Array object
-    "Array",
-    "from",
-    "isArray",
-    "of",
-    "get [Symbol.species]",
-    "copyWithin",
-    "entries",
-    "every",
-    "fill",
-    "filter",
-    "find",
-    "findIndex",
-    "flat",
-    "flatMap",
-    "forEach",
-    "includes",
-    "indexOf",
-    "join",
-    "map",
-    "reduce",
-    "reduceRight",
-    "reverse",
-    "shift",
-    "slice",
-    "some",
-    "sort",
-    "unshift",
-    "push",
-    "pop",
+    arcstr::literal!("Array"),
+    arcstr::literal!("from"),
+    arcstr::literal!("isArray"),
+    arcstr::literal!("of"),
+    arcstr::literal!("get [Symbol.species]"),
+    arcstr::literal!("copyWithin"),
+    arcstr::literal!("entries"),
+    arcstr::literal!("every"),
+    arcstr::literal!("fill"),
+    arcstr::literal!("filter"),
+    arcstr::literal!("find"),
+    arcstr::literal!("findIndex"),
+    arcstr::literal!("flat"),
+    arcstr::literal!("flatMap"),
+    arcstr::literal!("forEach"),
+    arcstr::literal!("includes"),
+    arcstr::literal!("indexOf"),
+    arcstr::literal!("join"),
+    arcstr::literal!("map"),
+    arcstr::literal!("reduce"),
+    arcstr::literal!("reduceRight"),
+    arcstr::literal!("reverse"),
+    arcstr::literal!("shift"),
+    arcstr::literal!("slice"),
+    arcstr::literal!("some"),
+    arcstr::literal!("sort"),
+    arcstr::literal!("unshift"),
+    arcstr::literal!("push"),
+    arcstr::literal!("pop"),
     // String object
-    "String",
-    "charAt",
-    "charCodeAt",
-    "concat",
-    "endsWith",
-    "includes",
-    "indexOf",
-    "lastIndexOf",
-    "match",
-    "matchAll",
-    "normalize",
-    "padEnd",
-    "padStart",
-    "repeat",
-    "replace",
-    "replaceAll",
-    "search",
-    "slice",
-    "split",
-    "startsWith",
-    "substring",
-    "toLowerString",
-    "toUpperString",
-    "trim",
-    "trimEnd",
-    "trimStart",
+    arcstr::literal!("String"),
+    arcstr::literal!("charAt"),
+    arcstr::literal!("charCodeAt"),
+    arcstr::literal!("concat"),
+    arcstr::literal!("endsWith"),
+    arcstr::literal!("includes"),
+    arcstr::literal!("indexOf"),
+    arcstr::literal!("lastIndexOf"),
+    arcstr::literal!("match"),
+    arcstr::literal!("matchAll"),
+    arcstr::literal!("normalize"),
+    arcstr::literal!("padEnd"),
+    arcstr::literal!("padStart"),
+    arcstr::literal!("repeat"),
+    arcstr::literal!("replace"),
+    arcstr::literal!("replaceAll"),
+    arcstr::literal!("search"),
+    arcstr::literal!("slice"),
+    arcstr::literal!("split"),
+    arcstr::literal!("startsWith"),
+    arcstr::literal!("substring"),
+    arcstr::literal!("toLowerString"),
+    arcstr::literal!("toUpperString"),
+    arcstr::literal!("trim"),
+    arcstr::literal!("trimEnd"),
+    arcstr::literal!("trimStart"),
     // Number object
-    "Number",
+    arcstr::literal!("Number"),
     // Boolean object
-    "Boolean",
+    arcstr::literal!("Boolean"),
     // RegExp object
-    "RegExp",
-    "exec",
-    "test",
-    "flags",
-    "index",
-    "lastIndex",
+    arcstr::literal!("RegExp"),
+    arcstr::literal!("exec"),
+    arcstr::literal!("test"),
+    arcstr::literal!("flags"),
+    arcstr::literal!("index"),
+    arcstr::literal!("lastIndex"),
     // Symbol object
-    "Symbol",
-    "for",
-    "keyFor",
-    "description",
-    "[Symbol.toPrimitive]",
-    "",
+    arcstr::literal!("Symbol"),
+    arcstr::literal!("for"),
+    arcstr::literal!("keyFor"),
+    arcstr::literal!("description"),
+    arcstr::literal!("[Symbol.toPrimitive]"),
+    arcstr::literal!(""),
     // Map object
-    "Map",
-    "clear",
-    "delete",
-    "get",
-    "has",
-    "set",
-    "size",
+    arcstr::literal!("Map"),
+    arcstr::literal!("clear"),
+    arcstr::literal!("delete"),
+    arcstr::literal!("get"),
+    arcstr::literal!("has"),
+    arcstr::literal!("set"),
+    arcstr::literal!("size"),
     // Set object
-    "Set",
+    arcstr::literal!("Set"),
     // Reflect object
-    "Reflect",
+    arcstr::literal!("Reflect"),
     // Error objects
-    "Error",
-    "TypeError",
-    "RangeError",
-    "SyntaxError",
-    "ReferenceError",
-    "EvalError",
-    "URIError",
-    "message",
+    arcstr::literal!("Error"),
+    arcstr::literal!("TypeError"),
+    arcstr::literal!("RangeError"),
+    arcstr::literal!("SyntaxError"),
+    arcstr::literal!("ReferenceError"),
+    arcstr::literal!("EvalError"),
+    arcstr::literal!("URIError"),
+    arcstr::literal!("message"),
     // Date object
-    "Date",
-    "toJSON",
+    arcstr::literal!("Date"),
+    arcstr::literal!("toJSON"),
 ];
-
-const MAX_CONSTANT_STRING_LENGTH: usize = {
+// MYTODO
+const MAX_CONSTANT_STRING_LENGTH: usize = 20;
+/* const MAX_CONSTANT_STRING_LENGTH: usize = {
     let mut max = 0;
     let mut i = 0;
     while i < CONSTANTS_ARRAY.len() {
@@ -176,7 +179,7 @@ const MAX_CONSTANT_STRING_LENGTH: usize = {
         i += 1;
     }
     max
-};
+}; */
 
 unsafe fn try_alloc(layout: Layout) -> *mut u8 {
     let ptr = alloc(layout);
@@ -186,21 +189,25 @@ unsafe fn try_alloc(layout: Layout) -> *mut u8 {
     ptr
 }
 
-thread_local! {
-    static CONSTANTS: HashSet<JsString> = {
-        let mut constants = HashSet::new();
+#[repr(transparent)]
+struct Constants(HashSet<JsString>);
+unsafe impl Sync for Constants {}
+unsafe impl Send for Constants {}
 
-        for s in CONSTANTS_ARRAY.iter() {
-            let s = JsString {
-                inner: Inner::new(s),
-                _marker: PhantomData,
-            };
-            constants.insert(s);
-        }
+static CONSTANTS: Lazy<HashSet<JsString>> = Lazy::new(|| {
+    let mut constants = HashSet::new();
 
-        constants
-    };
-}
+    for s in CONSTANTS_ARRAY.iter() {
+        let s = JsString {
+            inner: s.clone(),
+            // inner: Inner::new(s),
+            // _marker: PhantomData,
+        };
+        constants.insert(s);
+    }
+
+    constants
+});
 
 /// The inner representation of a [`JsString`].
 #[repr(C)]
@@ -217,6 +224,7 @@ struct Inner {
     data: [u8; 0],
 }
 
+#[allow(unused)]
 impl Inner {
     /// Create a new `Inner` from `&str`.
     #[inline]
@@ -317,10 +325,11 @@ impl Inner {
 /// on the stack and a pointer to the data (this is also known as fat pointers).
 /// The `JsString` length and data is stored on the heap. and just an non-null
 /// pointer is kept, so its size is the size of a pointer.
-#[derive(Finalize)]
+#[derive(Finalize, Clone)]
 pub struct JsString {
-    inner: NonNull<Inner>,
-    _marker: PhantomData<Rc<str>>,
+    inner: ArcStr,
+    // inner: NonNull<Inner>,
+    // _marker: PhantomData<Rc<str>>,
 }
 
 impl Default for JsString {
@@ -343,14 +352,15 @@ impl JsString {
         let s = s.as_ref();
 
         if s.len() <= MAX_CONSTANT_STRING_LENGTH {
-            if let Some(constant) = CONSTANTS.with(|c| c.get(s).cloned()) {
+            if let Some(constant) = CONSTANTS.get(s).cloned() {
                 return constant;
             }
         }
 
         Self {
-            inner: Inner::new(s),
-            _marker: PhantomData,
+            inner: ArcStr::from(s),
+            // inner: Inner::new(s),
+            // _marker: PhantomData,
         }
     }
 
@@ -362,10 +372,11 @@ impl JsString {
     {
         let x = x.as_ref();
         let y = y.as_ref();
+        Self::concat_array(&[x, y])
 
-        let this = Self {
+        /* let this = Self {
             inner: Inner::concat_array(&[x, y]),
-            _marker: PhantomData,
+            // _marker: PhantomData,
         };
 
         if this.len() <= MAX_CONSTANT_STRING_LENGTH {
@@ -374,18 +385,18 @@ impl JsString {
             }
         }
 
-        this
+        this */
     }
 
     /// Concatenate array of string.
     pub fn concat_array(strings: &[&str]) -> Self {
         let this = Self {
-            inner: Inner::concat_array(strings),
-            _marker: PhantomData,
+            inner: ArcStr::from(strings.join("")),
+            // _marker: PhantomData,
         };
 
         if this.len() <= MAX_CONSTANT_STRING_LENGTH {
-            if let Some(constant) = CONSTANTS.with(|c| c.get(&this).cloned()) {
+            if let Some(constant) = CONSTANTS.get(&this).cloned() {
                 return constant;
             }
         }
@@ -394,26 +405,22 @@ impl JsString {
     }
 
     /// Return the inner representation.
-    #[inline]
+    /* #[inline]
     fn inner(&self) -> &Inner {
         unsafe { self.inner.as_ref() }
-    }
+    } */
 
     /// Return the JavaScript string as a rust `&str`.
     #[inline]
     pub fn as_str(&self) -> &str {
-        let inner = self.inner();
-
-        unsafe {
-            let slice = core::slice::from_raw_parts(inner.data.as_ptr(), inner.len);
-            core::str::from_utf8_unchecked(slice)
-        }
+        self.inner.as_ref()
     }
 
     /// Gets the number of `JsString`s which point to this allocation.
     #[inline]
     pub fn refcount(this: &Self) -> usize {
-        this.inner().refcount.get()
+        // MYTODO
+        ArcStr::strong_count(&this.inner).unwrap()
     }
 
     /// Returns `true` if the two `JsString`s point to the same allocation (in a vein similar to [`ptr::eq`]).
@@ -421,7 +428,7 @@ impl JsString {
     /// [`ptr::eq`]: core::ptr::eq
     #[inline]
     pub fn ptr_eq(x: &Self, y: &Self) -> bool {
-        x.inner == y.inner
+        x.inner.as_ptr() == y.inner.as_ptr()
     }
 
     /// `6.1.4.1 StringIndexOf ( string, searchValue, fromIndex )`
@@ -530,7 +537,7 @@ unsafe impl Trace for JsString {
     unsafe_empty_trace!();
 }
 
-impl Clone for JsString {
+/* impl Clone for JsString {
     #[inline]
     fn clone(&self) -> Self {
         let inner = self.inner();
@@ -541,9 +548,9 @@ impl Clone for JsString {
             _marker: PhantomData,
         }
     }
-}
+} */
 
-impl Drop for JsString {
+/* impl Drop for JsString {
     #[inline]
     fn drop(&mut self) {
         let inner = self.inner();
@@ -557,7 +564,7 @@ impl Drop for JsString {
             inner.refcount.set(inner.refcount.get() - 1);
         }
     }
-}
+} */
 
 impl core::fmt::Debug for JsString {
     #[inline]
@@ -740,7 +747,7 @@ mod tests {
         assert_eq!(x.as_str(), s);
     }
 
-    // TODO
+    // MYTODO
     /* #[test]
     fn hash() {
         use core::hash::{Hash, Hasher};
