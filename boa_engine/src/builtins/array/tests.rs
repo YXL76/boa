@@ -105,10 +105,10 @@ fn of() {
     );
 
     context
-        .eval(r#"let a = Array.of.call(Date, "a", undefined, 3);"#)
+        .eval(r#"let a = Array.of.call(RegExp, "a", undefined, 3);"#)
         .unwrap();
     assert_eq!(
-        context.eval("a instanceof Date").unwrap(),
+        context.eval("a instanceof RegExp").unwrap(),
         JsValue::new(true)
     );
     assert_eq!(context.eval("a[0]").unwrap(), JsValue::new("a"));

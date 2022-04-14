@@ -11,5 +11,4 @@ edition = "2021"
 [dependencies]
 boa_engine = { path = "../boa_engine", features = ["console"], version = "0.14.0" }
 boa_gc = { path = "../boa_gc", version = "0.14.0" }
-gc = { git = "https://github.com/YXL76/rust-gc", rev = "95eef38627ebd1b44f5a42340b6adce4394892fd" }
-
+gc = { git = "https://github.com/YXL76/rust-gc", branch = "no_std" }

@@ -38,7 +38,7 @@ use crate::{
         set::set_iterator::SetIterator,
         string::string_iterator::StringIterator,
         typed_array::integer_indexed_object::IntegerIndexed,
-        DataView, Date, RegExp,
+        DataView, /* Date, */ RegExp,
     },
     context::intrinsics::StandardConstructor,
     property::{Attribute, PropertyDescriptor, PropertyKey},
@@ -157,7 +157,7 @@ pub enum ObjectKind {
     Error,
     Ordinary,
     Proxy(Proxy),
-    Date(Date),
+    // Date(Date),
     Global,
     Arguments(Arguments),
     NativeObject(Box<dyn NativeObject>),
@@ -376,12 +376,12 @@ impl ObjectData {
     }
 
     /// Create the `Date` object data
-    pub fn date(date: Date) -> Self {
+    /* pub fn date(date: Date) -> Self {
         Self {
             kind: ObjectKind::Date(date),
             internal_methods: &ORDINARY_INTERNAL_METHODS,
         }
-    }
+    } */
 
     /// Create the `Global` object data
     pub fn global() -> Self {
@@ -446,7 +446,7 @@ impl Display for ObjectKind {
             Self::Boolean(_) => "Boolean",
             Self::Number(_) => "Number",
             Self::BigInt(_) => "BigInt",
-            Self::Date(_) => "Date",
+            // Self::Date(_) => "Date",
             Self::Global => "Global",
             Self::Arguments(_) => "Arguments",
             Self::NativeObject(_) => "NativeObject",
@@ -948,7 +948,7 @@ impl Object {
         }
     }
 
-    #[inline]
+    /* #[inline]
     pub fn is_date(&self) -> bool {
         matches!(
             self.data,
@@ -957,9 +957,9 @@ impl Object {
                 ..
             }
         )
-    }
+    } */
 
-    #[inline]
+    /* #[inline]
     pub fn as_date(&self) -> Option<&Date> {
         match self.data {
             ObjectData {
@@ -968,7 +968,7 @@ impl Object {
             } => Some(date),
             _ => None,
         }
-    }
+    } */
 
     /// Checks if it a `RegExp` object.
     #[inline]

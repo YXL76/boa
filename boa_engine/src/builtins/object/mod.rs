@@ -509,7 +509,7 @@ impl Object {
                 ObjectKind::Boolean(_) => "Boolean",
                 ObjectKind::Number(_) => "Number",
                 ObjectKind::String(_) => "String",
-                ObjectKind::Date(_) => "Date",
+                // ObjectKind::Date(_) => "Date",
                 ObjectKind::RegExp(_) => "RegExp",
                 _ => "Object",
             }

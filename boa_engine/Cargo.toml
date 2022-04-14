@@ -23,7 +23,7 @@ console = []
 boa_unicode = { path = "../boa_unicode", version = "0.14.0" }
 boa_interner = { path = "../boa_interner", version = "0.14.0" }
 boa_gc = { path = "../boa_gc", version = "0.14.0" }
-gc = { git = "https://github.com/YXL76/rust-gc", rev = "95eef38627ebd1b44f5a42340b6adce4394892fd" }
+gc = { git = "https://github.com/YXL76/rust-gc", branch = "no_std" }
 boa_profiler = { path = "../boa_profiler", version = "0.14.0" }
 serde = { version = "1.0.136", default-features = false, features = ["alloc", "derive", "rc"] }
 serde_json = { version = "1.0.79",  default-features = false, features = ["alloc"] }
@@ -35,7 +35,7 @@ num-integer = "0.1.44"
 bitflags = "1.3.2"
 indexmap = "1.8.1"
 ryu-js = "0.2.2"
-chrono = "0.4.19"
+# chrono = "0.4.19"
 fast-float = "0.2.0"
 unicode-normalization = "0.1.19"
 dyn-clone = "1.0.5"

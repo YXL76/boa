@@ -101,7 +101,6 @@ dependencies = [
  "boa_interner",
  "boa_profiler",
  "boa_unicode",
- "chrono",
  "criterion",
  "dyn-clone",
  "fast-float",
@@ -239,19 +238,6 @@ name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
-
-[[package]]
-name = "chrono"
-version = "0.4.19"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "670ad68c9088c2a963aaa298cb369688cf3f9465ce5e2d4ca10e6e0098a1ce73"
-dependencies = [
- "libc",
- "num-integer",
- "num-traits",
- "time",
- "winapi",
-]
 
 [[package]]
 name = "clap"
@@ -537,17 +523,18 @@ dependencies = [
 [[package]]
 name = "gc"
 version = "0.4.1"
-source = "git+https://github.com/YXL76/rust-gc?rev=95eef38627ebd1b44f5a42340b6adce4394892fd#95eef38627ebd1b44f5a42340b6adce4394892fd"
+source = "git+https://github.com/YXL76/rust-gc?branch=no_std#f3b9a33d9a9b83c38387f6aee2cdd1eefedce9b8"
 dependencies = [
  "gc_derive",
  "hashbrown 0.12.0",
  "serde",
+ "spin",
 ]
 
 [[package]]
 name = "gc_derive"
 version = "0.4.1"
-source = "git+https://github.com/YXL76/rust-gc?rev=95eef38627ebd1b44f5a42340b6adce4394892fd#95eef38627ebd1b44f5a42340b6adce4394892fd"
+source = "git+https://github.com/YXL76/rust-gc?branch=no_std#f3b9a33d9a9b83c38387f6aee2cdd1eefedce9b8"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1444,17 +1431,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "time"
-version = "0.1.44"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6db9e6914ab8b1ae1c260a4ae7a49b6c5611b40328a735b21862567685e73255"
-dependencies = [
- "libc",
- "wasi",
- "winapi",
 ]
 
 [[package]]

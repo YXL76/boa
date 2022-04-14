@@ -7,7 +7,7 @@ pub mod boolean;
 // #[cfg(feature = "console")]
 // pub mod console;
 pub mod dataview;
-pub mod date;
+// pub mod date;
 pub mod error;
 pub mod function;
 pub mod generator;
@@ -36,7 +36,7 @@ pub(crate) use self::{
     bigint::BigInt,
     boolean::Boolean,
     dataview::DataView,
-    date::Date,
+    // date::Date,
     error::{
         AggregateError, Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError,
         UriError,
@@ -148,7 +148,7 @@ pub fn init(context: &mut Context) {
         ArrayBuffer,
         BigInt,
         Boolean,
-        Date,
+        // Date,
         DataView,
         Map,
         Number,

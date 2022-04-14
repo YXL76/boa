@@ -23,6 +23,8 @@ once_cell = "1.10.0"
 colored = "2.0.0"
 fxhash = "0.2.1"
 num-format = "0.4.0"
-gc = { git = "https://github.com/YXL76/rust-gc", rev = "95eef38627ebd1b44f5a42340b6adce4394892fd", features = ["derive"] }
+gc = { git = "https://github.com/YXL76/rust-gc", branch = "no_std", features = [
+    "derive",
+] }
 rayon = "1.5.1"
 anyhow = "1.0.56"
