@@ -113,7 +113,6 @@ dependencies = [
  "num-integer",
  "num-traits",
  "once_cell",
- "rand",
  "regress",
  "ryu-js",
  "serde",

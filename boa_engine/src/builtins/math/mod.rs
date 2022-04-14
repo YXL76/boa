@@ -716,7 +716,8 @@ impl Math {
     #[allow(clippy::unnecessary_wraps)]
     pub(crate) fn random(_: &JsValue, _: &[JsValue], _: &mut Context) -> JsResult<JsValue> {
         // NOTE: Each Math.random function created for distinct realms must produce a distinct sequence of values from successive calls.
-        Ok(rand::random::<f64>().into())
+        // MYTODO
+        Ok(1.0.into())
     }
 
     /// Round a number to the nearest integer.
