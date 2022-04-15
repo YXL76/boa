@@ -531,7 +531,8 @@ impl Number {
         } else if (x - y) == 0. {
             x
         } else if x == 0.0 {
-            f64::from_bits(1).copysign(y)
+            // f64::from_bits(1).copysign(y)
+            unsafe { core::intrinsics::copysignf64(f64::from_bits(1), y) }
         } else if y > x || x > 0.0 {
             f64::from_bits(x.to_bits() + 1)
         } else {

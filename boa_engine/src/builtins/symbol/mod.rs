@@ -29,8 +29,7 @@ use crate::{
 };
 use boa_profiler::Profiler;
 use hashbrown::HashMap;
-use once_cell::sync::Lazy;
-use spin::Mutex;
+use spin::{Lazy, Mutex};
 use tap::{Conv, Pipe};
 
 static GLOBAL_SYMBOL_REGISTRY: Lazy<Mutex<GlobalSymbolRegistry>> =

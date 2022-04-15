@@ -18,6 +18,7 @@ use crate::{
 };
 
 use boa_profiler::Profiler;
+use num_traits::Float;
 use tap::{Conv, Pipe};
 
 #[cfg(test)]

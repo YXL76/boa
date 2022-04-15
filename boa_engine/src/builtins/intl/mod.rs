@@ -16,6 +16,7 @@ use crate::{
 };
 use alloc::vec::Vec;
 use boa_profiler::Profiler;
+use hashbrown::hash_map::DefaultHashBuilder;
 use indexmap::IndexSet;
 use tap::{Conv, Pipe};
 
@@ -63,7 +64,7 @@ impl Intl {
         let locales = &args[0];
 
         // 2. Let seen be a new empty List.
-        let mut seen = IndexSet::new();
+        let mut seen = IndexSet::<JsString, DefaultHashBuilder>::default();
 
         // 3. If Type(locales) is String or Type(locales) is Object and locales has an [[InitializedLocale]] internal slot, then
         // TODO: check if Type(locales) is object and handle the internal slots

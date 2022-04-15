@@ -8,6 +8,7 @@
 //! need to store a `usize`. This reduces memory consumption and improves performance in the
 //! compiler.
 
+#![no_std]
 #![doc(
     html_logo_url = "https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg",
     html_favicon_url = "https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg"
@@ -69,11 +70,14 @@
     rustdoc::missing_doc_code_examples
 )]
 
+extern crate alloc;
+
 #[cfg(test)]
 mod tests;
 
 use core::{fmt::Display, num::NonZeroUsize};
 
+use alloc::string::{String, ToString};
 use gc::{unsafe_empty_trace, Finalize, Trace};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};

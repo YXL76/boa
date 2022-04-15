@@ -6,6 +6,7 @@
 //!
 //! [uax31]: http://unicode.org/reports/tr31
 
+#![no_std]
 #![doc(
     html_logo_url = "https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg",
     html_favicon_url = "https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg"
@@ -116,7 +117,7 @@ impl UnicodeProperties for char {
         !self.is_pattern_syntax()
             && !self.is_pattern_whitespace()
             && (self.is_other_id_start()
-                || matches!(
+                || core::matches!(
                     get_general_category(self),
                     GeneralCategory::LowercaseLetter
                         | GeneralCategory::ModifierLetter
@@ -133,7 +134,7 @@ impl UnicodeProperties for char {
             && !self.is_pattern_whitespace()
             && (self.is_id_start()
                 || self.is_other_id_continue()
-                || matches!(
+                || core::matches!(
                     get_general_category(self),
                     GeneralCategory::NonspacingMark
                         | GeneralCategory::SpacingMark

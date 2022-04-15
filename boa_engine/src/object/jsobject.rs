@@ -16,8 +16,7 @@ use core::{
     result::Result as StdResult,
 };
 use hashbrown::HashMap;
-use once_cell::sync::Lazy;
-use spin::Mutex;
+use spin::{Lazy, Mutex};
 
 /// A wrapper type for an immutably borrowed type T.
 pub type Ref<'a, T> = boa_gc::Ref<'a, T>;

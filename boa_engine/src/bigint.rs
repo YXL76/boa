@@ -8,7 +8,7 @@ use core::{
     ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Neg, Rem, Shl, Shr, Sub},
 };
 use num_integer::Integer;
-use num_traits::{pow::Pow, FromPrimitive, One, ToPrimitive, Zero};
+use num_traits::{pow::Pow, Float, FromPrimitive, One, ToPrimitive, Zero};
 
 /// The raw bigint type.
 pub type RawBigInt = num_bigint::BigInt;

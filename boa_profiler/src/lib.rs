@@ -1,3 +1,4 @@
+#![no_std]
 #![allow(missing_copy_implementations, missing_debug_implementations)]
 
 use core::fmt::{self, Debug};

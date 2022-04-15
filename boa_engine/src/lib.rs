@@ -67,6 +67,7 @@
     rustdoc::missing_doc_code_examples
 )]
 #![no_std]
+#![feature(core_intrinsics)]
 
 #[macro_use]
 extern crate alloc;

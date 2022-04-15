@@ -13,7 +13,7 @@ use crate::{
     },
     Context, JsBigInt, JsResult, JsString, JsValue,
 };
-use alloc::{boxed::Box, vec::Vec};
+use alloc::{boxed::Box, string::ToString, vec::Vec};
 use boa_interner::ToInternedString;
 use boa_profiler::Profiler;
 use core::{convert::TryInto, mem::size_of, ops::Neg};

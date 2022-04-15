@@ -30,6 +30,7 @@ use alloc::{
     vec::Vec,
 };
 use boa_profiler::Profiler;
+use hashbrown::hash_map::DefaultHashBuilder;
 use serde_json::{self, Value as JSONValue};
 use tap::{Conv, Pipe};
 
@@ -242,7 +243,8 @@ impl Json {
                 // ii. If isArray is true, then
                 if replacer_obj.is_array_abstract(context)? {
                     // 1. Set PropertyList to a new empty List.
-                    let mut property_set = indexmap::IndexSet::new();
+                    let mut property_set =
+                        indexmap::IndexSet::<JsString, DefaultHashBuilder>::default();
 
                     // 2. Let len be ? LengthOfArrayLike(replacer).
                     let len = replacer_obj.length_of_array_like(context)?;

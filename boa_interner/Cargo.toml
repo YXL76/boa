@@ -11,8 +11,6 @@ categories = ["data-structures"]
 license = "Unlicense/MIT"
 
 [dependencies]
-string-interner = "0.14.0"
-serde = { version = "1.0.136", features = ["derive"], optional = true }
-gc = { git = "https://github.com/YXL76/rust-gc", branch = "no_std", features = [
-    "derive",
-] }
+string-interner = { git = "https://github.com/Robbepop/string-interner", default-features = false, features = ["serde-1", "inline-more", "backends"] }
+serde = { version = "1.0.136", default-features = false, features = ["alloc", "derive"], optional = true }
+gc = { git = "https://github.com/YXL76/rust-gc", branch = "no_std", features = ["derive"] }

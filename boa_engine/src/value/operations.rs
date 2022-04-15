@@ -3,6 +3,7 @@ use super::{
     WellKnownSymbols,
 };
 use crate::builtins::number::{f64_to_int32, f64_to_uint32, Number};
+use num_traits::Float;
 
 impl JsValue {
     #[inline]
@@ -152,13 +153,20 @@ impl JsValue {
                     }
                 }
             }
-            (Self::Rational(x), Self::Rational(y)) => Self::new((x % y).copysign(*x)),
+            // (Self::Rational(x), Self::Rational(y)) => Self::new((x % y).copysign(*x)),
+            (Self::Rational(x), Self::Rational(y)) => {
+                Self::new(unsafe { core::intrinsics::copysignf64(x % y, *x) })
+            }
             (Self::Integer(x), Self::Rational(y)) => {
                 let x = f64::from(*x);
-                Self::new((x % y).copysign(x))
+                // Self::new((x % y).copysign(x))
+                Self::new(unsafe { core::intrinsics::copysignf64(x % y, x) })
             }
 
-            (Self::Rational(x), Self::Integer(y)) => Self::new((x % f64::from(*y)).copysign(*x)),
+            // (Self::Rational(x), Self::Integer(y)) => Self::new((x % f64::from(*y)).copysign(*x)),
+            (Self::Rational(x), Self::Integer(y)) => {
+                Self::new(unsafe { core::intrinsics::copysignf64(x % f64::from(*y), *x) })
+            }
 
             (Self::BigInt(ref x), Self::BigInt(ref y)) => {
                 if y.is_zero() {

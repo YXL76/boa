@@ -23,7 +23,7 @@ use core::{
     hash::{Hash, Hasher},
     sync::atomic::{AtomicU64, Ordering},
 };
-use once_cell::sync::Lazy;
+use spin::Lazy;
 
 /// A structure that contains the JavaScript well known symbols.
 ///

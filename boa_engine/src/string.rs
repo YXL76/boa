@@ -17,7 +17,7 @@ use core::{
     ptr::{copy_nonoverlapping, NonNull},
 };
 use hashbrown::HashSet;
-use once_cell::sync::Lazy;
+use spin::Lazy;
 
 const CONSTANTS_ARRAY: [ArcStr; 127] = [
     // Empty string

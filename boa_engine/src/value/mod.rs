@@ -26,8 +26,8 @@ use core::{
 use hashbrown::HashSet;
 use num_bigint::BigInt;
 use num_integer::Integer;
-use num_traits::Zero;
-use once_cell::sync::Lazy;
+use num_traits::{Float, Zero};
+use spin::Lazy;
 
 mod conversions;
 pub(crate) mod display;
@@ -596,7 +596,8 @@ impl JsValue {
         }
 
         // 3. Let int be the mathematical value whose sign is the sign of number and whose magnitude is floor(abs(ℝ(number))).
-        let int = number.abs().floor().copysign(number) as i64;
+        // let int = number.abs().floor().copysign(number) as i64;
+        let int = unsafe { core::intrinsics::copysignf64(number.abs().floor(), number) } as i64;
 
         // 4. Let int8bit be int modulo 2^8.
         let int_8_bit = int % 2i64.pow(8);
@@ -625,7 +626,8 @@ impl JsValue {
         }
 
         // 3. Let int be the mathematical value whose sign is the sign of number and whose magnitude is floor(abs(ℝ(number))).
-        let int = number.abs().floor().copysign(number) as i64;
+        // let int = number.abs().floor().copysign(number) as i64;
+        let int = unsafe { core::intrinsics::copysignf64(number.abs().floor(), number) } as i64;
 
         // 4. Let int8bit be int modulo 2^8.
         let int_8_bit = int % 2i64.pow(8);
@@ -697,7 +699,8 @@ impl JsValue {
         }
 
         // 3. Let int be the mathematical value whose sign is the sign of number and whose magnitude is floor(abs(ℝ(number))).
-        let int = number.abs().floor().copysign(number) as i64;
+        // let int = number.abs().floor().copysign(number) as i64;
+        let int = unsafe { core::intrinsics::copysignf64(number.abs().floor(), number) } as i64;
 
         // 4. Let int16bit be int modulo 2^16.
         let int_16_bit = int % 2i64.pow(16);
@@ -726,7 +729,8 @@ impl JsValue {
         }
 
         // 3. Let int be the mathematical value whose sign is the sign of number and whose magnitude is floor(abs(ℝ(number))).
-        let int = number.abs().floor().copysign(number) as i64;
+        // let int = number.abs().floor().copysign(number) as i64;
+        let int = unsafe { core::intrinsics::copysignf64(number.abs().floor(), number) } as i64;
 
         // 4. Let int16bit be int modulo 2^16.
         let int_16_bit = int % 2i64.pow(16);
@@ -840,7 +844,9 @@ impl JsValue {
         } else {
             // 5. Let integer be floor(abs(ℝ(number))).
             // 6. If number < +0𝔽, set integer to -integer.
-            let integer = number.abs().floor().copysign(number) as i64;
+            // let integer = number.abs().floor().copysign(number) as i64;
+            let integer =
+                unsafe { core::intrinsics::copysignf64(number.abs().floor(), number) } as i64;
 
             // 7. Return integer.
             Ok(IntegerOrInfinity::Integer(integer))
