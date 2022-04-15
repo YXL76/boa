@@ -67,10 +67,12 @@
     rustdoc::missing_doc_code_examples
 )]
 #![no_std]
-#![feature(core_intrinsics)]
+#![feature(core_intrinsics, format_args_nl)]
 
 #[macro_use]
 extern crate alloc;
+#[macro_use]
+extern crate ingram_kernel;
 
 pub mod bigint;
 pub mod builtins;
