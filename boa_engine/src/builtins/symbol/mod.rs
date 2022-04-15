@@ -29,11 +29,14 @@ use crate::{
 };
 use boa_profiler::Profiler;
 use hashbrown::HashMap;
-use spin::{Lazy, Mutex};
+use spin::Once;
 use tap::{Conv, Pipe};
 
-static GLOBAL_SYMBOL_REGISTRY: Lazy<Mutex<GlobalSymbolRegistry>> =
-    Lazy::new(|| Mutex::new(GlobalSymbolRegistry::new()));
+// MYTODO
+static GLOBAL_SYMBOL_REGISTRY: Once<GlobalSymbolRegistry> = Once::new();
+pub(crate) fn init() {
+    GLOBAL_SYMBOL_REGISTRY.call_once(|| GlobalSymbolRegistry::new());
+}
 
 struct GlobalSymbolRegistry {
     keys: HashMap<JsString, JsSymbol>,
@@ -277,8 +280,7 @@ impl Symbol {
         // 4. Let newSymbol be a new unique Symbol value whose [[Description]] value is stringKey.
         // 5. Append the Record { [[Key]]: stringKey, [[Symbol]]: newSymbol } to the GlobalSymbolRegistry List.
         // 6. Return newSymbol.
-        Ok(GLOBAL_SYMBOL_REGISTRY
-            .lock()
+        Ok(unsafe { &mut *GLOBAL_SYMBOL_REGISTRY.as_mut_ptr() }
             .get_or_insert_key(string_key)
             .into())
     }
@@ -304,7 +306,7 @@ impl Symbol {
             //     a. If SameValue(e.[[Symbol]], sym) is true, return e.[[Key]].
             // 3. Assert: GlobalSymbolRegistry does not currently contain an entry for sym.
             // 4. Return undefined.
-            let symbol = GLOBAL_SYMBOL_REGISTRY.lock().get_symbol(&sym);
+            let symbol = unsafe { &*GLOBAL_SYMBOL_REGISTRY.as_mut_ptr() }.get_symbol(&sym);
 
             Ok(symbol.map(JsValue::from).unwrap_or_default())
         } else {

@@ -27,7 +27,7 @@ use hashbrown::HashSet;
 use num_bigint::BigInt;
 use num_integer::Integer;
 use num_traits::{Float, Zero};
-use spin::Lazy;
+use spin::Once;
 
 mod conversions;
 pub(crate) mod display;
@@ -46,15 +46,20 @@ pub use integer::IntegerOrInfinity;
 pub use operations::*;
 pub use r#type::Type;
 
-static TWO_E_64: Lazy<BigInt> = Lazy::new(|| {
-    const TWO_E_64: u128 = 2u128.pow(64);
-    BigInt::from(TWO_E_64)
-});
+static TWO_E_64: Once<BigInt> = Once::new();
 
-static TWO_E_63: Lazy<BigInt> = Lazy::new(|| {
-    const TWO_E_63: u128 = 2u128.pow(63);
-    BigInt::from(TWO_E_63)
-});
+static TWO_E_63: Once<BigInt> = Once::new();
+pub(crate) fn init() {
+    TWO_E_64.call_once(|| {
+        const TWO_E_64: u128 = 2u128.pow(64);
+        BigInt::from(TWO_E_64)
+    });
+
+    TWO_E_63.call_once(|| {
+        const TWO_E_63: u128 = 2u128.pow(63);
+        BigInt::from(TWO_E_63)
+    });
+}
 
 /// A Javascript value
 #[derive(Trace, Finalize, Debug, Clone)]
@@ -750,11 +755,11 @@ impl JsValue {
         let n = self.to_bigint(context)?;
 
         // 2. Let int64bit be ℝ(n) modulo 2^64.
-        let int64_bit = n.as_inner().mod_floor(&TWO_E_64);
+        let int64_bit = n.as_inner().mod_floor(unsafe { &*TWO_E_64.as_mut_ptr() });
 
         // 3. If int64bit ≥ 2^63, return ℤ(int64bit - 2^64); otherwise return ℤ(int64bit).
-        if int64_bit >= *TWO_E_63 {
-            Ok(int64_bit.sub(&*TWO_E_64))
+        if int64_bit.ge(unsafe { &*TWO_E_63.as_mut_ptr() }) {
+            Ok(int64_bit.sub(unsafe { &*TWO_E_64.as_mut_ptr() }))
         } else {
             Ok(int64_bit)
         }

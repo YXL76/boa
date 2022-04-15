@@ -1,5 +1,6 @@
 //! This module implements the Rust representation of a JavaScript object.
 
+pub(crate) use jsobject::init;
 pub use jsobject::{JsObject, RecursionLimiter, Ref, RefMut};
 pub use operations::IntegrityLevel;
 pub use property_map::*;

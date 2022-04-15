@@ -90,6 +90,14 @@ pub mod syntax;
 pub mod value;
 pub mod vm;
 
+pub fn init() {
+    crate::string::init();
+    crate::value::init();
+    crate::builtins::symbol::init();
+    crate::symbol::init();
+    crate::object::init();
+}
+
 #[cfg(test)]
 mod tests;
 

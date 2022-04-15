@@ -17,9 +17,9 @@ use core::{
     ptr::{copy_nonoverlapping, NonNull},
 };
 use hashbrown::HashSet;
-use spin::Lazy;
+use spin::Once;
 
-const CONSTANTS_ARRAY: [ArcStr; 127] = [
+/* const CONSTANTS_ARRAY: [ArcStr; 127] = [
     // Empty string
     arcstr::literal!(""),
     // Misc
@@ -165,7 +165,7 @@ const CONSTANTS_ARRAY: [ArcStr; 127] = [
     // Date object
     arcstr::literal!("Date"),
     arcstr::literal!("toJSON"),
-];
+]; */
 // MYTODO
 const MAX_CONSTANT_STRING_LENGTH: usize = 20;
 /* const MAX_CONSTANT_STRING_LENGTH: usize = {
@@ -194,20 +194,414 @@ struct Constants(HashSet<JsString>);
 unsafe impl Sync for Constants {}
 unsafe impl Send for Constants {}
 
-static CONSTANTS: Lazy<HashSet<JsString>> = Lazy::new(|| {
-    let mut constants = HashSet::new();
+static CONSTANTS: Once<HashSet<JsString>> = Once::new();
 
-    for s in CONSTANTS_ARRAY.iter() {
-        let s = JsString {
-            inner: s.clone(),
-            // inner: Inner::new(s),
-            // _marker: PhantomData,
-        };
-        constants.insert(s);
-    }
+pub(crate) fn init() {
+    CONSTANTS.call_once(|| {
+        let mut constants = HashSet::new();
 
-    constants
-});
+        constants.insert(JsString {
+            inner: arcstr::literal!(""),
+        });
+        // Misc
+        constants.insert(JsString {
+            inner: arcstr::literal!(","),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!(":"),
+        });
+        // Generic use
+        constants.insert(JsString {
+            inner: arcstr::literal!("name"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("length"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("arguments"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("prototype"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("constructor"),
+        });
+        // typeof
+        constants.insert(JsString {
+            inner: arcstr::literal!("null"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("undefined"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("number"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("string"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("symbol"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("bigint"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("object"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("function"),
+        });
+        // Property descriptor
+        constants.insert(JsString {
+            inner: arcstr::literal!("value"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("set"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("writable"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("enumerable"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("configurable"),
+        });
+        // Object object
+        constants.insert(JsString {
+            inner: arcstr::literal!("Object"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("assing"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("create"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toString"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("valueOf"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("is"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("seal"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("isSealed"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("freeze"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("isFrozen"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("keys"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("values"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("entries"),
+        });
+        // Function object
+        constants.insert(JsString {
+            inner: arcstr::literal!("Function"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("apply"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("bind"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("call"),
+        });
+        // Array object
+        constants.insert(JsString {
+            inner: arcstr::literal!("Array"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("from"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("isArray"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("of"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get [Symbol.species]"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("copyWithin"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("entries"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("every"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("fill"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("filter"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("find"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("findIndex"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("flat"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("flatMap"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("forEach"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("includes"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("indexOf"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("join"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("map"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("reduce"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("reduceRight"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("reverse"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("shift"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("slice"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("some"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("sort"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("unshift"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("push"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("pop"),
+        });
+        // String object
+        constants.insert(JsString {
+            inner: arcstr::literal!("String"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("charAt"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("charCodeAt"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("concat"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("endsWith"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("includes"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("indexOf"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("lastIndexOf"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("match"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("matchAll"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("normalize"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("padEnd"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("padStart"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("repeat"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("replace"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("replaceAll"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("search"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("slice"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("split"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("startsWith"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("substring"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toLowerString"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toUpperString"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("trim"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("trimEnd"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("trimStart"),
+        });
+        // Number object
+        constants.insert(JsString {
+            inner: arcstr::literal!("Number"),
+        });
+        // Boolean object
+        constants.insert(JsString {
+            inner: arcstr::literal!("Boolean"),
+        });
+        // RegExp object
+        constants.insert(JsString {
+            inner: arcstr::literal!("RegExp"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("exec"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("test"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("flags"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("index"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("lastIndex"),
+        });
+        // Symbol object
+        constants.insert(JsString {
+            inner: arcstr::literal!("Symbol"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("for"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("keyFor"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("description"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("[Symbol.toPrimitive]"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!(""),
+        });
+        // Map object
+        constants.insert(JsString {
+            inner: arcstr::literal!("Map"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("clear"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("delete"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("has"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("set"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("size"),
+        });
+        // Set object
+        constants.insert(JsString {
+            inner: arcstr::literal!("Set"),
+        });
+        // Reflect object
+        constants.insert(JsString {
+            inner: arcstr::literal!("Reflect"),
+        });
+        // Error objects
+        constants.insert(JsString {
+            inner: arcstr::literal!("Error"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("TypeError"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("RangeError"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("SyntaxError"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("ReferenceError"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("EvalError"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("URIError"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("message"),
+        });
+        // Date object
+        constants.insert(JsString {
+            inner: arcstr::literal!("Date"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toJSON"),
+        });
+
+        constants
+    });
+}
 
 /// The inner representation of a [`JsString`].
 #[repr(C)]
@@ -352,7 +746,7 @@ impl JsString {
         let s = s.as_ref();
 
         if s.len() <= MAX_CONSTANT_STRING_LENGTH {
-            if let Some(constant) = CONSTANTS.get(s).cloned() {
+            if let Some(constant) = unsafe { &*CONSTANTS.as_mut_ptr() }.get(s).cloned() {
                 return constant;
             }
         }
@@ -396,7 +790,7 @@ impl JsString {
         };
 
         if this.len() <= MAX_CONSTANT_STRING_LENGTH {
-            if let Some(constant) = CONSTANTS.get(&this).cloned() {
+            if let Some(constant) = unsafe { &*CONSTANTS.as_mut_ptr() }.get(&this).cloned() {
                 return constant;
             }
         }
