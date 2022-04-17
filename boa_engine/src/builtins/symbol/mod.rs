@@ -306,7 +306,7 @@ impl Symbol {
             //     a. If SameValue(e.[[Symbol]], sym) is true, return e.[[Key]].
             // 3. Assert: GlobalSymbolRegistry does not currently contain an entry for sym.
             // 4. Return undefined.
-            let symbol = unsafe { &*GLOBAL_SYMBOL_REGISTRY.as_mut_ptr() }.get_symbol(&sym);
+            let symbol = unsafe { GLOBAL_SYMBOL_REGISTRY.get_unchecked() }.get_symbol(&sym);
 
             Ok(symbol.map(JsValue::from).unwrap_or_default())
         } else {

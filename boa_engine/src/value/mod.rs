@@ -755,11 +755,11 @@ impl JsValue {
         let n = self.to_bigint(context)?;
 
         // 2. Let int64bit be ℝ(n) modulo 2^64.
-        let int64_bit = n.as_inner().mod_floor(unsafe { &*TWO_E_64.as_mut_ptr() });
+        let int64_bit = n.as_inner().mod_floor(unsafe { TWO_E_64.get_unchecked() });
 
         // 3. If int64bit ≥ 2^63, return ℤ(int64bit - 2^64); otherwise return ℤ(int64bit).
-        if int64_bit.ge(unsafe { &*TWO_E_63.as_mut_ptr() }) {
-            Ok(int64_bit.sub(unsafe { &*TWO_E_64.as_mut_ptr() }))
+        if int64_bit.ge(unsafe { TWO_E_63.get_unchecked() }) {
+            Ok(int64_bit.sub(unsafe { TWO_E_64.get_unchecked() }))
         } else {
             Ok(int64_bit)
         }

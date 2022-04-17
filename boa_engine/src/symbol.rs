@@ -120,7 +120,7 @@ impl WellKnownSymbols {
 
     #[inline]
     pub fn async_iterator() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }
             .async_iterator
             .clone()
     }
@@ -132,7 +132,7 @@ impl WellKnownSymbols {
     /// Called by the semantics of the instanceof operator.
     #[inline]
     pub fn has_instance() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }
             .has_instance
             .clone()
     }
@@ -144,7 +144,7 @@ impl WellKnownSymbols {
     /// by `Array.prototype.concat`.
     #[inline]
     pub fn is_concat_spreadable() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }
             .is_concat_spreadable
             .clone()
     }
@@ -155,7 +155,9 @@ impl WellKnownSymbols {
     /// Called by the semantics of the `for-of` statement.
     #[inline]
     pub fn iterator() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }.iterator.clone()
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }
+            .iterator
+            .clone()
     }
 
     /// The `Symbol.match` well known symbol.
@@ -164,7 +166,7 @@ impl WellKnownSymbols {
     /// against a string. Called by the `String.prototype.match` method.
     #[inline]
     pub fn r#match() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }.r#match.clone()
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }.r#match.clone()
     }
 
     /// The `Symbol.matchAll` well known symbol.
@@ -174,7 +176,7 @@ impl WellKnownSymbols {
     /// Called by the `String.prototype.matchAll` method.
     #[inline]
     pub fn match_all() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }
             .match_all
             .clone()
     }
@@ -185,7 +187,7 @@ impl WellKnownSymbols {
     /// of a string. Called by the `String.prototype.replace` method.
     #[inline]
     pub fn replace() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }.replace.clone()
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }.replace.clone()
     }
 
     /// The `Symbol.search` well known symbol.
@@ -195,7 +197,7 @@ impl WellKnownSymbols {
     /// Called by the `String.prototype.search` method.
     #[inline]
     pub fn search() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }.search.clone()
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }.search.clone()
     }
 
     /// The `Symbol.species` well known symbol.
@@ -204,7 +206,7 @@ impl WellKnownSymbols {
     /// that is used to create derived objects.
     #[inline]
     pub fn species() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }.species.clone()
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }.species.clone()
     }
 
     /// The `Symbol.split` well known symbol.
@@ -214,7 +216,7 @@ impl WellKnownSymbols {
     /// Called by the `String.prototype.split` method.
     #[inline]
     pub fn split() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }.split.clone()
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }.split.clone()
     }
 
     /// The `Symbol.toPrimitive` well known symbol.
@@ -223,7 +225,7 @@ impl WellKnownSymbols {
     /// Called by the `ToPrimitive` (`Value::to_primitve`) abstract operation.
     #[inline]
     pub fn to_primitive() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }
             .to_primitive
             .clone()
     }
@@ -235,7 +237,7 @@ impl WellKnownSymbols {
     /// Accessed by the built-in method `Object.prototype.toString`.
     #[inline]
     pub fn to_string_tag() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }
             .to_string_tag
             .clone()
     }
@@ -246,7 +248,7 @@ impl WellKnownSymbols {
     /// names that are excluded from the `with` environment bindings of the associated object.
     #[inline]
     pub fn unscopables() -> JsSymbol {
-        unsafe { &*WELL_KNOW_SYMBOLS.as_mut_ptr() }
+        unsafe { WELL_KNOW_SYMBOLS.get_unchecked() }
             .unscopables
             .clone()
     }

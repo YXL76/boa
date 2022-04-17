@@ -746,7 +746,7 @@ impl JsString {
         let s = s.as_ref();
 
         if s.len() <= MAX_CONSTANT_STRING_LENGTH {
-            if let Some(constant) = unsafe { &*CONSTANTS.as_mut_ptr() }.get(s).cloned() {
+            if let Some(constant) = unsafe { CONSTANTS.get_unchecked() }.get(s).cloned() {
                 return constant;
             }
         }
@@ -790,7 +790,7 @@ impl JsString {
         };
 
         if this.len() <= MAX_CONSTANT_STRING_LENGTH {
-            if let Some(constant) = unsafe { &*CONSTANTS.as_mut_ptr() }.get(&this).cloned() {
+            if let Some(constant) = unsafe { CONSTANTS.get_unchecked() }.get(&this).cloned() {
                 return constant;
             }
         }
