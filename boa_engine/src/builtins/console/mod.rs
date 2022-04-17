@@ -22,10 +22,14 @@ use crate::{
     value::{display::display_obj, JsValue, Numeric},
     Context, JsResult, JsString,
 };
-use alloc::{string::String, vec::Vec};
+use alloc::{
+    string::{String, ToString},
+    vec::Vec,
+};
 use boa_profiler::Profiler;
 use hashbrown::HashMap;
-use std::time::SystemTime;
+// use std::time::SystemTime;
+use num_traits::Float;
 use tap::{Conv, Pipe};
 
 /// This represents the different types of log messages.
@@ -127,7 +131,7 @@ pub fn formatter(data: &[JsValue], context: &mut Context) -> JsResult<String> {
 #[derive(Debug, Default)]
 pub(crate) struct Console {
     count_map: HashMap<JsString, u32>,
-    timer_map: HashMap<JsString, u128>,
+    // timer_map: HashMap<JsString, u128>,
     groups: Vec<String>,
 }
 
@@ -151,9 +155,9 @@ impl BuiltIn for Console {
             .function(Self::group, "group", 0)
             .function(Self::group, "groupCollapsed", 0)
             .function(Self::group_end, "groupEnd", 0)
-            .function(Self::time, "time", 0)
-            .function(Self::time_log, "timeLog", 0)
-            .function(Self::time_end, "timeEnd", 0)
+            // .function(Self::time, "time", 0)
+            // .function(Self::time_log, "timeLog", 0)
+            // .function(Self::time_end, "timeEnd", 0)
             .function(Self::dir, "dir", 0)
             .function(Self::dir, "dirxml", 0)
             .build()
@@ -302,7 +306,7 @@ impl Console {
                 context
                     .interner()
                     .resolve_expect(frame.code.name)
-                    .to_owned(),
+                    .to_string(),
             );
             prev_frame = frame.prev.as_ref();
         }
@@ -406,15 +410,15 @@ impl Console {
         Ok(JsValue::undefined())
     }
 
-    /// Returns current system time in ms.
+    /* /// Returns current system time in ms.
     fn system_time_in_ms() -> u128 {
         let now = SystemTime::now();
         now.duration_since(SystemTime::UNIX_EPOCH)
             .expect("negative duration")
             .as_millis()
-    }
+    } */
 
-    /// `console.time(label)`
+    /* /// `console.time(label)`
     ///
     /// Starts the timer for given label.
     ///
@@ -441,9 +445,9 @@ impl Console {
         }
 
         Ok(JsValue::undefined())
-    }
+    } */
 
-    /// `console.timeLog(label, ...data)`
+    /* /// `console.timeLog(label, ...data)`
     ///
     /// Prints elapsed time for timer with given label.
     ///
@@ -478,9 +482,9 @@ impl Console {
         }
 
         Ok(JsValue::undefined())
-    }
+    } */
 
-    /// `console.timeEnd(label)`
+    /* /// `console.timeEnd(label)`
     ///
     /// Removes the timer with given label.
     ///
@@ -514,7 +518,7 @@ impl Console {
         }
 
         Ok(JsValue::undefined())
-    }
+    } */
 
     /// `console.group(...data)`
     ///
