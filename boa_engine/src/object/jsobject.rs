@@ -30,6 +30,10 @@ pub struct JsObject {
     inner: Gc<boa_gc::Cell<Object>>,
 }
 
+// MYTODO
+unsafe impl Send for JsObject {}
+unsafe impl Sync for JsObject {}
+
 impl JsObject {
     /// Create a new `JsObject` from an internal `Object`.
     #[inline]

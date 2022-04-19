@@ -10,6 +10,9 @@ keywords = ["javascript", "js", "garbage", "memory"]
 categories = ["command-line-utilities"]
 license = "Unlicense/MIT"
 
+[features]
+nightly = ["gc/nightly"]
+
 [dependencies]
 gc = { git = "https://github.com/YXL76/rust-gc", branch = "no_std", features = [
     "derive",

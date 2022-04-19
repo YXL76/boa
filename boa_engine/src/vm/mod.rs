@@ -114,7 +114,7 @@ enum ShouldExit {
 
 /// Indicates if the execution of a codeblock has ended normally or has been yielded.
 #[derive(Debug, Clone, Copy)]
-pub(crate) enum ReturnType {
+pub enum ReturnType {
     Normal,
     Yield,
 }
@@ -1853,5 +1853,80 @@ impl Context {
         let result = self.vm.pop();
         self.vm.stack.truncate(start_stack_size);
         Ok((result, ReturnType::Normal))
+    }
+
+    #[inline]
+    pub fn run_steps(&mut self, steps: usize) -> JsResult<(JsValue, ReturnType)> {
+        let mut cnt = 0;
+        while cnt < steps && self.vm.frame().pc < self.vm.frame().code.code.len() {
+            cnt += 1;
+            let result = self.execute_instruction();
+
+            match result {
+                Ok(ShouldExit::True) => {
+                    let result = self.vm.pop();
+                    return Ok((result, ReturnType::Normal));
+                }
+                Ok(ShouldExit::False) => {}
+                Ok(ShouldExit::Yield) => {
+                    let result = self.vm.stack.pop().unwrap_or(JsValue::Undefined);
+                    return Ok((result, ReturnType::Yield));
+                }
+                Err(e) => {
+                    if let Some(address) = self.vm.frame().catch.last() {
+                        let address = address.next;
+                        let try_stack_entry = self
+                            .vm
+                            .frame_mut()
+                            .try_env_stack
+                            .last_mut()
+                            .expect("must exist");
+                        let try_stack_entry_copy = *try_stack_entry;
+                        try_stack_entry.num_env = 0;
+                        try_stack_entry.num_loop_stack_entries = 0;
+                        for _ in 0..try_stack_entry_copy.num_env {
+                            self.realm.environments.pop();
+                        }
+                        let mut num_env = try_stack_entry_copy.num_env;
+                        for _ in 0..try_stack_entry_copy.num_loop_stack_entries {
+                            num_env -= self
+                                .vm
+                                .frame_mut()
+                                .loop_env_stack
+                                .pop()
+                                .expect("must exist");
+                        }
+                        *self
+                            .vm
+                            .frame_mut()
+                            .loop_env_stack
+                            .last_mut()
+                            .expect("must exist") -= num_env;
+                        self.vm.frame_mut().try_env_stack.pop().expect("must exist");
+                        for _ in 0..self.vm.frame().pop_on_return {
+                            self.vm.pop();
+                        }
+                        self.vm.frame_mut().pop_on_return = 0;
+                        self.vm.frame_mut().pc = address as usize;
+                        self.vm.frame_mut().catch.pop();
+                        self.vm.frame_mut().finally_return = FinallyReturn::Err;
+                        self.vm.push(e);
+                    } else {
+                        return Err(e);
+                    }
+                }
+            }
+        }
+
+        if self.vm.frame().pc >= self.vm.frame().code.code.len() {
+            if self.vm.stack.is_empty() {
+                return Ok((JsValue::undefined(), ReturnType::Normal));
+            }
+
+            let result = self.vm.pop();
+            return Ok((result, ReturnType::Normal));
+        }
+
+        Ok((JsValue::undefined(), ReturnType::Yield))
     }
 }

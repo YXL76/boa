@@ -713,6 +713,48 @@ impl Context {
         Ok(result)
     }
 
+    #[inline]
+    pub fn parse_and_compile<S>(&mut self, src: S) -> JsResult<()>
+    where
+        S: AsRef<[u8]>,
+    {
+        let parsing_result = Parser::new(src.as_ref(), false)
+            .parse_all(&mut self.interner)
+            .map_err(|e| e.to_string());
+
+        let statement_list = match parsing_result {
+            Ok(statement_list) => statement_list,
+            Err(e) => return self.throw_syntax_error(e),
+        };
+
+        let code_block = self.compile(&statement_list)?;
+
+        let global_object = self.global_object().clone().into();
+
+        self.vm.push_frame(CallFrame {
+            prev: None,
+            code: code_block,
+            this: global_object,
+            pc: 0,
+            catch: Vec::new(),
+            finally_return: FinallyReturn::None,
+            finally_jump: Vec::new(),
+            pop_on_return: 0,
+            loop_env_stack: vec![0],
+            try_env_stack: vec![crate::vm::TryStackEntry {
+                num_env: 0,
+                num_loop_stack_entries: 0,
+            }],
+            param_count: 0,
+            arg_count: 0,
+            generator_resume_kind: GeneratorResumeKind::Normal,
+        });
+
+        self.realm.set_global_binding_number();
+
+        Ok(())
+    }
+
     /// Return the intrinsic constructors and objects.
     #[inline]
     pub fn intrinsics(&self) -> &Intrinsics {

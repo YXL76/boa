@@ -1577,8 +1577,8 @@ impl<'context> FunctionBuilder<'context> {
 /// ```
 #[derive(Debug)]
 pub struct ObjectInitializer<'context> {
-    context: &'context mut Context,
-    object: JsObject,
+    pub context: &'context mut Context,
+    pub object: JsObject,
 }
 
 impl<'context> ObjectInitializer<'context> {
