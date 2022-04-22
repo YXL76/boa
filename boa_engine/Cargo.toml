@@ -14,7 +14,13 @@ readme = "../README.md"
 [features]
 profiler = ["boa_profiler/profiler"]
 deser = ["boa_interner/serde"]
-nightly = ["boa_gc/nightly", "gc/nightly", "serde/unstable", "hashbrown/nightly", "regress/nightly", "boa_interner/nightly"]
+nightly = [
+    "boa_gc/nightly",
+    "serde/unstable",
+    "hashbrown/nightly",
+    "regress/nightly",
+    "boa_interner/nightly",
+]
 
 # Enable Boa's WHATWG console object implementation.
 console = []
@@ -22,8 +28,8 @@ console = []
 [dependencies]
 boa_unicode = { path = "../boa_unicode", version = "0.14.0" }
 boa_interner = { path = "../boa_interner", version = "0.14.0" }
-boa_gc = { path = "../boa_gc", version = "0.14.0" }
-gc = { git = "https://github.com/YXL76/rust-gc", branch = "no_std" }
+# boa_gc = { path = "../boa_gc", version = "0.14.0" }
+boa_gc = { path = "../../rust-gc/gc" }
 boa_profiler = { path = "../boa_profiler", version = "0.14.0" }
 serde = { version = "1.0.136", default-features = false, features = ["alloc", "derive", "rc"] }
 serde_json = { version = "1.0.79", default-features = false, features = ["alloc"] }

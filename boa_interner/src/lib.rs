@@ -78,7 +78,7 @@ mod tests;
 use core::{fmt::Display, num::NonZeroUsize};
 
 use alloc::string::{String, ToString};
-use gc::{unsafe_empty_trace, Finalize, Trace};
+use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 use string_interner::{backend::BucketBackend, StringInterner, Symbol};

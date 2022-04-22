@@ -20,7 +20,7 @@ use crate::{
     Context, JsBigInt, JsResult, JsString, JsValue,
 };
 use alloc::vec::Vec;
-use boa_gc::Gc;
+use boa_gc::{Gc, GcCell};
 use boa_interner::{Interner, Sym};
 use core::mem::size_of;
 use hashbrown::HashMap;
@@ -2403,7 +2403,7 @@ impl<'b> ByteCompiler<'b> {
     /// A class expression leaves the resulting class object on the stack for following operations.
     fn class(&mut self, class: &Class, expression: bool) -> JsResult<()> {
         let mut code = CodeBlock::new(class.name(), 0, true, true);
-        code.computed_field_names = Some(gc::GcCell::new(vec![]));
+        code.computed_field_names = Some(GcCell::new(vec![]));
         let mut compiler = ByteCompiler {
             code_block: code,
             literals_map: HashMap::new(),
