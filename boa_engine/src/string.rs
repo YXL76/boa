@@ -189,11 +189,6 @@ unsafe fn try_alloc(layout: Layout) -> *mut u8 {
     ptr
 }
 
-#[repr(transparent)]
-struct Constants(HashSet<JsString>);
-unsafe impl Sync for Constants {}
-unsafe impl Send for Constants {}
-
 static CONSTANTS: Once<HashSet<JsString>> = Once::new();
 
 pub(crate) fn init() {

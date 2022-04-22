@@ -13,7 +13,7 @@ use crate::{
     object::{ConstructorBuilder, JsObject, ObjectData},
     Context, JsResult, JsString, JsValue,
 };
-
+use alloc::boxed::Box;
 use boa_gc::{Finalize, Trace};
 use boa_profiler::Profiler;
 

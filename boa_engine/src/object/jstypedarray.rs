@@ -5,7 +5,7 @@ use crate::{
     Context, JsResult, JsString, JsValue,
 };
 use boa_gc::{Finalize, Trace};
-use std::ops::Deref;
+use core::ops::Deref;
 
 /// JavaScript `TypedArray` rust object.
 #[derive(Debug, Clone, Trace, Finalize)]
