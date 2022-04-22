@@ -30,6 +30,7 @@ use crate::{
             arguments::ParameterMap, BoundFunction, Captures, Function, NativeFunctionSignature,
         },
         generator::Generator,
+        intl::date_time_format::DateTimeFormat,
         map::map_iterator::MapIterator,
         map::ordered_map::OrderedMap,
         object::for_in_iterator::ForInIterator,
@@ -61,10 +62,12 @@ mod tests;
 pub(crate) mod internal_methods;
 mod jsarray;
 mod jsobject;
+mod jstypedarray;
 mod operations;
 mod property_map;
 
 pub use jsarray::*;
+pub use jstypedarray::*;
 
 pub(crate) trait JsObjectType:
     Into<JsValue> + Into<JsObject> + Deref<Target = JsObject>
@@ -163,6 +166,7 @@ pub enum ObjectKind {
     Arguments(Arguments),
     NativeObject(Box<dyn NativeObject>),
     IntegerIndexed(IntegerIndexed),
+    DateTimeFormat(Box<DateTimeFormat>),
 }
 
 impl ObjectData {
@@ -419,6 +423,14 @@ impl ObjectData {
             internal_methods: &INTEGER_INDEXED_EXOTIC_INTERNAL_METHODS,
         }
     }
+
+    /// Create the `DateTimeFormat` object data
+    pub fn date_time_format(date_time_fmt: Box<DateTimeFormat>) -> Self {
+        Self {
+            kind: ObjectKind::DateTimeFormat(date_time_fmt),
+            internal_methods: &ORDINARY_INTERNAL_METHODS,
+        }
+    }
 }
 
 impl Display for ObjectKind {
@@ -453,6 +465,7 @@ impl Display for ObjectKind {
             Self::NativeObject(_) => "NativeObject",
             Self::IntegerIndexed(_) => "TypedArray",
             Self::DataView(_) => "DataView",
+            Self::DateTimeFormat(_) => "DateTimeFormat",
         })
     }
 }

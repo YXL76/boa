@@ -1,6 +1,7 @@
 use crate::{
     builtins::{error::r#type::create_throw_type_error, iterable::IteratorPrototypes},
     object::{JsObject, ObjectData},
+    property::PropertyDescriptorBuilder,
     Context,
 };
 
@@ -107,17 +108,21 @@ pub struct StandardConstructors {
     typed_float64_array: StandardConstructor,
     array_buffer: StandardConstructor,
     data_view: StandardConstructor,
+    date_time_format: StandardConstructor,
 }
 
 impl Default for StandardConstructors {
     fn default() -> Self {
-        Self {
+        let result = Self {
             object: StandardConstructor::default(),
             proxy: StandardConstructor::default(),
             function: StandardConstructor::default(),
             generator: StandardConstructor::default(),
             generator_function: StandardConstructor::default(),
-            array: StandardConstructor::default(),
+            array: StandardConstructor::with_prototype(JsObject::from_proto_and_data(
+                None,
+                ObjectData::array(),
+            )),
             bigint: StandardConstructor::default(),
             number: StandardConstructor::with_prototype(JsObject::from_proto_and_data(
                 None,
@@ -157,7 +162,21 @@ impl Default for StandardConstructors {
             typed_float64_array: StandardConstructor::default(),
             array_buffer: StandardConstructor::default(),
             data_view: StandardConstructor::default(),
-        }
+            date_time_format: StandardConstructor::default(),
+        };
+
+        // The value of `Array.prototype` is the Array prototype object.
+        result.array.prototype.insert(
+            "length",
+            PropertyDescriptorBuilder::new()
+                .value(0)
+                .writable(true)
+                .enumerable(false)
+                .configurable(false)
+                .build(),
+        );
+
+        result
     }
 }
 
@@ -340,6 +359,11 @@ impl StandardConstructors {
     #[inline]
     pub fn data_view(&self) -> &StandardConstructor {
         &self.data_view
+    }
+
+    #[inline]
+    pub fn date_time_format(&self) -> &StandardConstructor {
+        &self.date_time_format
     }
 }
 

@@ -8,6 +8,7 @@
 //! [spec]: https://tc39.es/ecma402/#intl-object
 
 use crate::{
+    builtins::intl::date_time_format::DateTimeFormat,
     builtins::{Array, BuiltIn, JsArgs},
     object::ObjectInitializer,
     property::Attribute,
@@ -15,6 +16,9 @@ use crate::{
     Context, JsResult, JsString, JsValue,
 };
 use alloc::vec::Vec;
+
+pub mod date_time_format;
+
 use boa_profiler::Profiler;
 use hashbrown::hash_map::DefaultHashBuilder;
 use indexmap::IndexSet;
@@ -31,12 +35,18 @@ impl BuiltIn for Intl {
         let _timer = Profiler::global().start_event(Self::NAME, "init");
 
         let string_tag = WellKnownSymbols::to_string_tag();
+        let date_time_format = DateTimeFormat::init(context);
         ObjectInitializer::new(context)
             .function(Self::get_canonical_locales, "getCanonicalLocales", 1)
             .property(
                 string_tag,
                 Self::NAME,
                 Attribute::READONLY | Attribute::NON_ENUMERABLE | Attribute::CONFIGURABLE,
+            )
+            .property(
+                "DateTimeFormat",
+                date_time_format,
+                Attribute::WRITABLE | Attribute::NON_ENUMERABLE | Attribute::CONFIGURABLE,
             )
             .build()
             .conv::<JsValue>()

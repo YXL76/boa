@@ -43,6 +43,18 @@ impl Display for TryFromCharError {
     }
 }
 
+impl From<f32> for JsValue {
+    #[allow(clippy::float_cmp)]
+    #[inline]
+    fn from(value: f32) -> Self {
+        // if value as i32 as f64 == value {
+        //     Self::Integer(value as i32)
+        // } else {
+        Self::Rational(value.into())
+        // }
+    }
+}
+
 impl From<f64> for JsValue {
     #[allow(clippy::float_cmp)]
     #[inline]
@@ -55,15 +67,31 @@ impl From<f64> for JsValue {
     }
 }
 
-impl From<f32> for JsValue {
-    #[allow(clippy::float_cmp)]
+impl From<u8> for JsValue {
     #[inline]
-    fn from(value: f32) -> Self {
-        // if value as i32 as f32 == value {
-        //     Self::Integer(value as i32)
-        // } else {
-        Self::Rational(value.into())
-        // }
+    fn from(value: u8) -> Self {
+        Self::Integer(value.into())
+    }
+}
+
+impl From<i8> for JsValue {
+    #[inline]
+    fn from(value: i8) -> Self {
+        Self::Integer(value.into())
+    }
+}
+
+impl From<u16> for JsValue {
+    #[inline]
+    fn from(value: u16) -> Self {
+        Self::Integer(value.into())
+    }
+}
+
+impl From<i16> for JsValue {
+    #[inline]
+    fn from(value: i16) -> Self {
+        Self::Integer(value.into())
     }
 }
 
