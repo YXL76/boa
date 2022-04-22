@@ -593,6 +593,170 @@ pub(crate) fn init() {
         constants.insert(JsString {
             inner: arcstr::literal!("toJSON"),
         });
+        // Name Minifier (https://github.com/evanw/esbuild/blob/e9728a6410a50357ac22441115d5fe40fe2bf4d2/internal/js_ast/js_ast.go#L1931)
+        constants.insert(JsString {
+            inner: arcstr::literal!("a"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("b"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("c"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("d"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("e"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("f"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("g"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("h"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("i"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("j"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("k"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("l"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("m"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("n"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("o"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("p"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("q"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("r"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("s"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("t"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("u"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("v"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("w"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("x"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("y"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("z"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("A"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("B"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("C"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("D"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("E"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("F"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("G"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("H"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("I"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("J"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("K"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("L"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("M"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("N"),
+        });
+
+        constants.insert(JsString {
+            inner: arcstr::literal!("O"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("P"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Q"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("R"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("S"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("T"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("U"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("V"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("W"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("X"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Y"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Z"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("_"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("$"),
+        });
 
         constants
     });

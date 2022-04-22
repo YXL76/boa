@@ -16,7 +16,7 @@
 //! [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
 
 use crate::JsString;
-use alloc::{rc::Rc, string::ToString};
+use alloc::{string::ToString, sync::Arc};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use core::{
     fmt::{self, Display},
@@ -264,12 +264,8 @@ struct Inner {
 /// This represents a JavaScript symbol primitive.
 #[derive(Debug, Clone)]
 pub struct JsSymbol {
-    inner: Rc<Inner>,
+    inner: Arc<Inner>,
 }
-
-// MYTODO
-unsafe impl Send for JsSymbol {}
-unsafe impl Sync for JsSymbol {}
 
 impl JsSymbol {
     /// Create a new symbol.
@@ -280,7 +276,7 @@ impl JsSymbol {
             .unwrap();
 
         Self {
-            inner: Rc::new(Inner { hash, description }),
+            inner: Arc::new(Inner { hash, description }),
         }
     }
 
@@ -288,7 +284,7 @@ impl JsSymbol {
     #[inline]
     fn with_hash(hash: u64, description: Option<JsString>) -> Self {
         Self {
-            inner: Rc::new(Inner { hash, description }),
+            inner: Arc::new(Inner { hash, description }),
         }
     }
 

@@ -75,7 +75,7 @@ pub(crate) trait JsObjectType:
 }
 
 /// Static `prototype`, usually set on constructors as a key to point to their respective prototype object.
-pub static PROTOTYPE: &str = "prototype";
+pub const PROTOTYPE: &str = "prototype";
 
 pub type JsPrototype = Option<JsObject>;
 

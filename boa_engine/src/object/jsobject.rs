@@ -16,7 +16,7 @@ use core::{
     result::Result as StdResult,
 };
 use hashbrown::HashMap;
-use spin::Once;
+use spin::{Mutex, Once};
 
 /// A wrapper type for an immutably borrowed type T.
 pub type Ref<'a, T> = boa_gc::Ref<'a, T>;
@@ -29,10 +29,6 @@ pub type RefMut<'a, T, U> = boa_gc::RefMut<'a, T, U>;
 pub struct JsObject {
     inner: Gc<boa_gc::Cell<Object>>,
 }
-
-// MYTODO
-unsafe impl Send for JsObject {}
-unsafe impl Sync for JsObject {}
 
 impl JsObject {
     /// Create a new `JsObject` from an internal `Object`.
@@ -760,20 +756,21 @@ impl Drop for RecursionLimiter {
     fn drop(&mut self) {
         if self.top_level {
             // When the top level of the graph is dropped, we can free the entire map for the next traversal.
-            unsafe { &mut *SEEN.as_mut_ptr() }.clear();
+            unsafe { SEEN.get_unchecked() }.lock().clear();
         } else if !self.live {
             // This was the first RL for this object to become live, so it's no longer live now that it's dropped.
-            unsafe { &mut *SEEN.as_mut_ptr() }.insert(self.ptr, RecursionValueState::Visited);
+            unsafe { SEEN.get_unchecked() }
+                .lock()
+                .insert(self.ptr, RecursionValueState::Visited);
         }
     }
 }
 
-// MYTODO
 /// The map of pointers to `JsObject` that have been visited during the current `Debug::fmt` graph,
 /// and the current state of their RecursionLimiter (dropped or live -- see `RecursionValueState`)
-static SEEN: Once<HashMap<usize, RecursionValueState>> = Once::new();
+static SEEN: Once<Mutex<HashMap<usize, RecursionValueState>>> = Once::new();
 pub(crate) fn init() {
-    SEEN.call_once(|| HashMap::new());
+    SEEN.call_once(|| Mutex::new(HashMap::new()));
 }
 
 impl RecursionLimiter {
@@ -786,7 +783,7 @@ impl RecursionLimiter {
         // We shouldn't have to worry too much about this being moved during Debug::fmt.
         let ptr = (o.as_ref() as *const _) as usize;
         let (top_level, visited, live) = {
-            let hm = unsafe { &mut *SEEN.as_mut_ptr() };
+            let mut hm = unsafe { SEEN.get_unchecked() }.lock();
             let top_level = hm.is_empty();
             let old_state = hm.insert(ptr, RecursionValueState::Live);
 
