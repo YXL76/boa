@@ -9,6 +9,7 @@ repository = "https://github.com/boa-dev/boa"
 keywords = ["javascript", "ECMASCript", "compiler", "test262", "tester"]
 categories = ["command-line-utilites"]
 license = "Unlicense/MIT"
+publish = false
 
 [dependencies]
 boa_engine = { path = "../boa_engine", version = "0.14.0" }
@@ -25,4 +26,4 @@ fxhash = "0.2.1"
 num-format = "0.4.0"
 gc = { version = "0.4.1", features = ["derive"] }
 rayon = "1.5.2"
-anyhow = "1.0.56"
+anyhow = "1.0.57"
