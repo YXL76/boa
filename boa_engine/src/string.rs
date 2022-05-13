@@ -19,153 +19,6 @@ use core::{
 use hashbrown::HashSet;
 use spin::Once;
 
-/* const CONSTANTS_ARRAY: [ArcStr; 127] = [
-    // Empty string
-    arcstr::literal!(""),
-    // Misc
-    arcstr::literal!(","),
-    arcstr::literal!(":"),
-    // Generic use
-    arcstr::literal!("name"),
-    arcstr::literal!("length"),
-    arcstr::literal!("arguments"),
-    arcstr::literal!("prototype"),
-    arcstr::literal!("constructor"),
-    // typeof
-    arcstr::literal!("null"),
-    arcstr::literal!("undefined"),
-    arcstr::literal!("number"),
-    arcstr::literal!("string"),
-    arcstr::literal!("symbol"),
-    arcstr::literal!("bigint"),
-    arcstr::literal!("object"),
-    arcstr::literal!("function"),
-    // Property descriptor
-    arcstr::literal!("value"),
-    arcstr::literal!("get"),
-    arcstr::literal!("set"),
-    arcstr::literal!("writable"),
-    arcstr::literal!("enumerable"),
-    arcstr::literal!("configurable"),
-    // Object object
-    arcstr::literal!("Object"),
-    arcstr::literal!("assing"),
-    arcstr::literal!("create"),
-    arcstr::literal!("toString"),
-    arcstr::literal!("valueOf"),
-    arcstr::literal!("is"),
-    arcstr::literal!("seal"),
-    arcstr::literal!("isSealed"),
-    arcstr::literal!("freeze"),
-    arcstr::literal!("isFrozen"),
-    arcstr::literal!("keys"),
-    arcstr::literal!("values"),
-    arcstr::literal!("entries"),
-    // Function object
-    arcstr::literal!("Function"),
-    arcstr::literal!("apply"),
-    arcstr::literal!("bind"),
-    arcstr::literal!("call"),
-    // Array object
-    arcstr::literal!("Array"),
-    arcstr::literal!("from"),
-    arcstr::literal!("isArray"),
-    arcstr::literal!("of"),
-    arcstr::literal!("get [Symbol.species]"),
-    arcstr::literal!("copyWithin"),
-    arcstr::literal!("entries"),
-    arcstr::literal!("every"),
-    arcstr::literal!("fill"),
-    arcstr::literal!("filter"),
-    arcstr::literal!("find"),
-    arcstr::literal!("findIndex"),
-    arcstr::literal!("flat"),
-    arcstr::literal!("flatMap"),
-    arcstr::literal!("forEach"),
-    arcstr::literal!("includes"),
-    arcstr::literal!("indexOf"),
-    arcstr::literal!("join"),
-    arcstr::literal!("map"),
-    arcstr::literal!("reduce"),
-    arcstr::literal!("reduceRight"),
-    arcstr::literal!("reverse"),
-    arcstr::literal!("shift"),
-    arcstr::literal!("slice"),
-    arcstr::literal!("some"),
-    arcstr::literal!("sort"),
-    arcstr::literal!("unshift"),
-    arcstr::literal!("push"),
-    arcstr::literal!("pop"),
-    // String object
-    arcstr::literal!("String"),
-    arcstr::literal!("charAt"),
-    arcstr::literal!("charCodeAt"),
-    arcstr::literal!("concat"),
-    arcstr::literal!("endsWith"),
-    arcstr::literal!("includes"),
-    arcstr::literal!("indexOf"),
-    arcstr::literal!("lastIndexOf"),
-    arcstr::literal!("match"),
-    arcstr::literal!("matchAll"),
-    arcstr::literal!("normalize"),
-    arcstr::literal!("padEnd"),
-    arcstr::literal!("padStart"),
-    arcstr::literal!("repeat"),
-    arcstr::literal!("replace"),
-    arcstr::literal!("replaceAll"),
-    arcstr::literal!("search"),
-    arcstr::literal!("slice"),
-    arcstr::literal!("split"),
-    arcstr::literal!("startsWith"),
-    arcstr::literal!("substring"),
-    arcstr::literal!("toLowerString"),
-    arcstr::literal!("toUpperString"),
-    arcstr::literal!("trim"),
-    arcstr::literal!("trimEnd"),
-    arcstr::literal!("trimStart"),
-    // Number object
-    arcstr::literal!("Number"),
-    // Boolean object
-    arcstr::literal!("Boolean"),
-    // RegExp object
-    arcstr::literal!("RegExp"),
-    arcstr::literal!("exec"),
-    arcstr::literal!("test"),
-    arcstr::literal!("flags"),
-    arcstr::literal!("index"),
-    arcstr::literal!("lastIndex"),
-    // Symbol object
-    arcstr::literal!("Symbol"),
-    arcstr::literal!("for"),
-    arcstr::literal!("keyFor"),
-    arcstr::literal!("description"),
-    arcstr::literal!("[Symbol.toPrimitive]"),
-    arcstr::literal!(""),
-    // Map object
-    arcstr::literal!("Map"),
-    arcstr::literal!("clear"),
-    arcstr::literal!("delete"),
-    arcstr::literal!("get"),
-    arcstr::literal!("has"),
-    arcstr::literal!("set"),
-    arcstr::literal!("size"),
-    // Set object
-    arcstr::literal!("Set"),
-    // Reflect object
-    arcstr::literal!("Reflect"),
-    // Error objects
-    arcstr::literal!("Error"),
-    arcstr::literal!("TypeError"),
-    arcstr::literal!("RangeError"),
-    arcstr::literal!("SyntaxError"),
-    arcstr::literal!("ReferenceError"),
-    arcstr::literal!("EvalError"),
-    arcstr::literal!("URIError"),
-    arcstr::literal!("message"),
-    // Date object
-    arcstr::literal!("Date"),
-    arcstr::literal!("toJSON"),
-]; */
 // MYTODO
 const MAX_CONSTANT_STRING_LENGTH: usize = 20;
 /* const MAX_CONSTANT_STRING_LENGTH: usize = {
@@ -198,14 +51,12 @@ pub(crate) fn init() {
         constants.insert(JsString {
             inner: arcstr::literal!(""),
         });
-        // Misc
         constants.insert(JsString {
             inner: arcstr::literal!(","),
         });
         constants.insert(JsString {
             inner: arcstr::literal!(":"),
         });
-        // Generic use
         constants.insert(JsString {
             inner: arcstr::literal!("name"),
         });
@@ -221,7 +72,18 @@ pub(crate) fn init() {
         constants.insert(JsString {
             inner: arcstr::literal!("constructor"),
         });
-        // typeof
+        constants.insert(JsString {
+            inner: arcstr::literal!("return"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("throw"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("global"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("globalThis"),
+        });
         constants.insert(JsString {
             inner: arcstr::literal!("null"),
         });
@@ -246,7 +108,6 @@ pub(crate) fn init() {
         constants.insert(JsString {
             inner: arcstr::literal!("function"),
         });
-        // Property descriptor
         constants.insert(JsString {
             inner: arcstr::literal!("value"),
         });
@@ -265,12 +126,11 @@ pub(crate) fn init() {
         constants.insert(JsString {
             inner: arcstr::literal!("configurable"),
         });
-        // Object object
         constants.insert(JsString {
             inner: arcstr::literal!("Object"),
         });
         constants.insert(JsString {
-            inner: arcstr::literal!("assing"),
+            inner: arcstr::literal!("assign"),
         });
         constants.insert(JsString {
             inner: arcstr::literal!("create"),
@@ -297,6 +157,39 @@ pub(crate) fn init() {
             inner: arcstr::literal!("isFrozen"),
         });
         constants.insert(JsString {
+            inner: arcstr::literal!("isExtensible"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("hasOwnProperty"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("isPrototypeOf"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setPrototypeOf"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getPrototypeOf"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("defineProperty"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("defineProperties"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("deleteProperty"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("construct"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("hasOwn"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("ownKeys"),
+        });
+        constants.insert(JsString {
             inner: arcstr::literal!("keys"),
         });
         constants.insert(JsString {
@@ -305,7 +198,9 @@ pub(crate) fn init() {
         constants.insert(JsString {
             inner: arcstr::literal!("entries"),
         });
-        // Function object
+        constants.insert(JsString {
+            inner: arcstr::literal!("fromEntries"),
+        });
         constants.insert(JsString {
             inner: arcstr::literal!("Function"),
         });
@@ -318,9 +213,14 @@ pub(crate) fn init() {
         constants.insert(JsString {
             inner: arcstr::literal!("call"),
         });
-        // Array object
+        constants.insert(JsString {
+            inner: arcstr::literal!("Generator"),
+        });
         constants.insert(JsString {
             inner: arcstr::literal!("Array"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("at"),
         });
         constants.insert(JsString {
             inner: arcstr::literal!("from"),
@@ -330,9 +230,6 @@ pub(crate) fn init() {
         });
         constants.insert(JsString {
             inner: arcstr::literal!("of"),
-        });
-        constants.insert(JsString {
-            inner: arcstr::literal!("get [Symbol.species]"),
         });
         constants.insert(JsString {
             inner: arcstr::literal!("copyWithin"),
@@ -356,6 +253,12 @@ pub(crate) fn init() {
             inner: arcstr::literal!("findIndex"),
         });
         constants.insert(JsString {
+            inner: arcstr::literal!("findLast"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("findLastIndex"),
+        });
+        constants.insert(JsString {
             inner: arcstr::literal!("flat"),
         });
         constants.insert(JsString {
@@ -377,6 +280,9 @@ pub(crate) fn init() {
             inner: arcstr::literal!("map"),
         });
         constants.insert(JsString {
+            inner: arcstr::literal!("next"),
+        });
+        constants.insert(JsString {
             inner: arcstr::literal!("reduce"),
         });
         constants.insert(JsString {
@@ -390,6 +296,9 @@ pub(crate) fn init() {
         });
         constants.insert(JsString {
             inner: arcstr::literal!("slice"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("splice"),
         });
         constants.insert(JsString {
             inner: arcstr::literal!("some"),
@@ -406,7 +315,6 @@ pub(crate) fn init() {
         constants.insert(JsString {
             inner: arcstr::literal!("pop"),
         });
-        // String object
         constants.insert(JsString {
             inner: arcstr::literal!("String"),
         });
@@ -417,10 +325,19 @@ pub(crate) fn init() {
             inner: arcstr::literal!("charCodeAt"),
         });
         constants.insert(JsString {
+            inner: arcstr::literal!("codePointAt"),
+        });
+        constants.insert(JsString {
             inner: arcstr::literal!("concat"),
         });
         constants.insert(JsString {
             inner: arcstr::literal!("endsWith"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("fromCharCode"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("fromCodePoint"),
         });
         constants.insert(JsString {
             inner: arcstr::literal!("includes"),
@@ -447,6 +364,9 @@ pub(crate) fn init() {
             inner: arcstr::literal!("padStart"),
         });
         constants.insert(JsString {
+            inner: arcstr::literal!("raw"),
+        });
+        constants.insert(JsString {
             inner: arcstr::literal!("repeat"),
         });
         constants.insert(JsString {
@@ -468,13 +388,19 @@ pub(crate) fn init() {
             inner: arcstr::literal!("startsWith"),
         });
         constants.insert(JsString {
+            inner: arcstr::literal!("substr"),
+        });
+        constants.insert(JsString {
             inner: arcstr::literal!("substring"),
         });
         constants.insert(JsString {
-            inner: arcstr::literal!("toLowerString"),
+            inner: arcstr::literal!("toLocaleString"),
         });
         constants.insert(JsString {
-            inner: arcstr::literal!("toUpperString"),
+            inner: arcstr::literal!("toLowerCase"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toUpperCase"),
         });
         constants.insert(JsString {
             inner: arcstr::literal!("trim"),
@@ -485,15 +411,72 @@ pub(crate) fn init() {
         constants.insert(JsString {
             inner: arcstr::literal!("trimStart"),
         });
-        // Number object
         constants.insert(JsString {
             inner: arcstr::literal!("Number"),
         });
-        // Boolean object
+        constants.insert(JsString {
+            inner: arcstr::literal!("Infinity"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("NaN"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("parseInt"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("parseFloat"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("isFinite"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("isNaN"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("parseInt"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("EPSILON"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("MAX_SAFE_INTEGER"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("MIN_SAFE_INTEGER"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("MAX_VALUE"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("MIN_VALUE"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("isSafeInteger"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("isInteger"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toExponential"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toFixed"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toPrecision"),
+        });
         constants.insert(JsString {
             inner: arcstr::literal!("Boolean"),
         });
-        // RegExp object
+        constants.insert(JsString {
+            inner: arcstr::literal!("BigInt"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("asIntN"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("asUintN"),
+        });
         constants.insert(JsString {
             inner: arcstr::literal!("RegExp"),
         });
@@ -512,7 +495,54 @@ pub(crate) fn init() {
         constants.insert(JsString {
             inner: arcstr::literal!("lastIndex"),
         });
-        // Symbol object
+        constants.insert(JsString {
+            inner: arcstr::literal!("hasIndices"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("ignoreCase"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("multiline"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("dotAll"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("unicode"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("sticky"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("source"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get hasIndices"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get global"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get ignoreCase"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get multiline"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get dotAll"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get unicode"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get sticky"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get flags"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get source"),
+        });
         constants.insert(JsString {
             inner: arcstr::literal!("Symbol"),
         });
@@ -526,12 +556,62 @@ pub(crate) fn init() {
             inner: arcstr::literal!("description"),
         });
         constants.insert(JsString {
-            inner: arcstr::literal!("[Symbol.toPrimitive]"),
+            inner: arcstr::literal!("asyncIterator"),
         });
         constants.insert(JsString {
-            inner: arcstr::literal!(""),
+            inner: arcstr::literal!("hasInstance"),
         });
-        // Map object
+        constants.insert(JsString {
+            inner: arcstr::literal!("species"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Symbol.species"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("unscopables"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("iterator"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Symbol.iterator"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Symbol.match"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("[Symbol.match]"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Symbol.matchAll"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Symbol.replace"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("[Symbol.replace]"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Symbol.search"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("[Symbol.search]"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Symbol.split"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("[Symbol.split]"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toStringTag"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toPrimitive"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get description"),
+        });
         constants.insert(JsString {
             inner: arcstr::literal!("Map"),
         });
@@ -553,17 +633,26 @@ pub(crate) fn init() {
         constants.insert(JsString {
             inner: arcstr::literal!("size"),
         });
-        // Set object
         constants.insert(JsString {
             inner: arcstr::literal!("Set"),
         });
-        // Reflect object
+        constants.insert(JsString {
+            inner: arcstr::literal!("add"),
+        });
         constants.insert(JsString {
             inner: arcstr::literal!("Reflect"),
         });
-        // Error objects
+        constants.insert(JsString {
+            inner: arcstr::literal!("Proxy"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("revocable"),
+        });
         constants.insert(JsString {
             inner: arcstr::literal!("Error"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("AggregateError"),
         });
         constants.insert(JsString {
             inner: arcstr::literal!("TypeError"),
@@ -581,19 +670,479 @@ pub(crate) fn init() {
             inner: arcstr::literal!("EvalError"),
         });
         constants.insert(JsString {
+            inner: arcstr::literal!("ThrowTypeError"),
+        });
+        constants.insert(JsString {
             inner: arcstr::literal!("URIError"),
         });
         constants.insert(JsString {
             inner: arcstr::literal!("message"),
         });
-        // Date object
         constants.insert(JsString {
             inner: arcstr::literal!("Date"),
         });
         constants.insert(JsString {
             inner: arcstr::literal!("toJSON"),
         });
-        // Name Minifier (https://github.com/evanw/esbuild/blob/e9728a6410a50357ac22441115d5fe40fe2bf4d2/internal/js_ast/js_ast.go#L1931)
+        constants.insert(JsString {
+            inner: arcstr::literal!("getDate"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getDay"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getFullYear"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getHours"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getMilliseconds"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getMinutes"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getMonth"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getSeconds"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getTime"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getYear"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getUTCDate"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getUTCDay"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getUTCFullYear"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getUTCHours"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getUTCMinutes"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getUTCMonth"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getUTCSeconds"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setDate"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setFullYear"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setHours"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setMilliseconds"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setMinutes"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setMonth"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setSeconds"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setYear"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setTime"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setUTCDate"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setUTCFullYear"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setUTCHours"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setUTCMinutes"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setUTCMonth"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setUTCSeconds"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toDateString"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toGMTString"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toISOString"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toTimeString"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("toUTCString"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("now"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("UTC"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("JSON"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("parse"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("stringify"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Array Iterator"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Set Iterator"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("String Iterator"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Map Iterator"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("For In Iterator"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Math"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("LN10"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("LN2"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("LOG10E"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("LOG2E"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("PI"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("SQRT1_2"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("SQRT2"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("abs"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("acos"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("acosh"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("asin"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("asinh"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("atan"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("atanh"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("atan2"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("cbrt"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("ceil"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("clz32"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("cos"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("cosh"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("exp"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("expm1"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("floor"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("fround"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("hypot"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("imul"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("log"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("log1p"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("log10"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("log2"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("max"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("min"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("pow"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("random"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("round"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("sign"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("sin"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("sinh"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("sqrt"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("tan"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("tanh"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("trunc"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Intl"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("DateTimeFormat"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("TypedArray"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("ArrayBuffer"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Int8Array"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Uint8Array"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Int16Array"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Uint16Array"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Int32Array"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Uint32Array"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("BigInt64Array"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("BigUint64Array"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Float32Array"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("Float64Array"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("buffer"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("byteLength"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("byteOffset"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("isView"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("subarray"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get byteLength"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get buffer"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get byteOffset"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get size"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("get length"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("DataView"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getBigInt64"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getBigUint64"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getFloat32"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getFloat64"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getInt8"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getInt16"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getInt32"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getUint8"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getUint16"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("getUint32"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setBigInt64"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setBigUint64"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setFloat32"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setFloat64"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setInt8"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setInt16"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setInt32"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setUint8"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setUint16"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("setUint32"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("console"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("assert"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("debug"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("error"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("info"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("trace"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("warn"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("exception"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("count"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("countReset"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("group"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("groupCollapsed"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("groupEnd"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("time"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("timeLog"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("timeEnd"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("dir"),
+        });
+        constants.insert(JsString {
+            inner: arcstr::literal!("dirxml"),
+        });
         constants.insert(JsString {
             inner: arcstr::literal!("a"),
         });
@@ -714,7 +1263,6 @@ pub(crate) fn init() {
         constants.insert(JsString {
             inner: arcstr::literal!("N"),
         });
-
         constants.insert(JsString {
             inner: arcstr::literal!("O"),
         });
@@ -870,6 +1418,14 @@ impl Inner {
 
         dealloc(x.as_ptr().cast::<_>(), layout);
     }
+
+    #[inline]
+    fn as_str(&self) -> &str {
+        unsafe {
+            let slice = std::slice::from_raw_parts(self.data.as_ptr(), self.len);
+            std::str::from_utf8_unchecked(slice)
+        }
+    }
 }
 
 /// This represents a JavaScript primitive string.
@@ -932,8 +1488,9 @@ impl JsString {
             // _marker: PhantomData,
         };
 
-        if this.len() <= MAX_CONSTANT_STRING_LENGTH {
-            if let Some(constant) = CONSTANTS.with(|c| c.get(&this).cloned()) {
+        if s.len() <= MAX_CONSTANT_STRING_LENGTH {
+            if let Some(constant) = CONSTANTS.with(|c| c.get(s).cloned()) {
+                unsafe { Inner::dealloc(inner) };
                 return constant;
             }
         }
@@ -971,9 +1528,9 @@ impl JsString {
 
     /// Gets the number of `JsString`s which point to this allocation.
     #[inline]
-    pub fn refcount(this: &Self) -> usize {
+    pub fn refcount(this: &Self) -> Option<usize> {
         // MYTODO
-        ArcStr::strong_count(&this.inner).unwrap()
+        ArcStr::strong_count(&this.inner)
     }
 
     /// Returns `true` if the two `JsString`s point to the same allocation (in a vein similar to [`ptr::eq`]).
@@ -1093,9 +1650,9 @@ unsafe impl Trace for JsString {
 /* impl Clone for JsString {
     #[inline]
     fn clone(&self) -> Self {
-        let inner = self.inner();
-        inner.refcount.set(inner.refcount.get() + 1);
-
+        if let InnerKind::Heap(inner) = self.inner() {
+            inner.refcount.set(inner.refcount.get() + 1);
+        }
         Self {
             inner: self.inner,
             _marker: PhantomData,
@@ -1106,15 +1663,16 @@ unsafe impl Trace for JsString {
 /* impl Drop for JsString {
     #[inline]
     fn drop(&mut self) {
-        let inner = self.inner();
-        if inner.refcount.get() == 1 {
-            // Safety: If refcount is 1 and we call drop, that means this is the last
-            // JsString which points to this memory allocation, so deallocating it is safe.
-            unsafe {
-                Inner::dealloc(self.inner);
+        if let InnerKind::Heap(inner) = self.inner() {
+            if inner.refcount.get() == 1 {
+                // Safety: If refcount is 1 and we call drop, that means this is the last
+                // JsString which points to this memory allocation, so deallocating it is safe.
+                unsafe {
+                    Inner::dealloc(self.inner.get_heap_unchecked());
+                }
+            } else {
+                inner.refcount.set(inner.refcount.get() - 1);
             }
-        } else {
-            inner.refcount.set(inner.refcount.get() - 1);
         }
     }
 } */
@@ -1259,25 +1817,39 @@ mod tests {
     #[test]
     fn refcount() {
         let x = JsString::new("Hello wrold");
-        assert_eq!(JsString::refcount(&x), 1);
+        assert_eq!(JsString::refcount(&x), Some(1));
 
         {
             let y = x.clone();
-            assert_eq!(JsString::refcount(&x), 2);
-            assert_eq!(JsString::refcount(&y), 2);
+            assert_eq!(JsString::refcount(&x), Some(2));
+            assert_eq!(JsString::refcount(&y), Some(2));
 
             {
                 let z = y.clone();
-                assert_eq!(JsString::refcount(&x), 3);
-                assert_eq!(JsString::refcount(&y), 3);
-                assert_eq!(JsString::refcount(&z), 3);
+                assert_eq!(JsString::refcount(&x), Some(3));
+                assert_eq!(JsString::refcount(&y), Some(3));
+                assert_eq!(JsString::refcount(&z), Some(3));
             }
 
-            assert_eq!(JsString::refcount(&x), 2);
-            assert_eq!(JsString::refcount(&y), 2);
+            assert_eq!(JsString::refcount(&x), Some(2));
+            assert_eq!(JsString::refcount(&y), Some(2));
         }
 
-        assert_eq!(JsString::refcount(&x), 1);
+        assert_eq!(JsString::refcount(&x), Some(1));
+    }
+
+    #[test]
+    fn static_refcount() {
+        let x = JsString::new("");
+        assert_eq!(JsString::refcount(&x), None);
+
+        {
+            let y = x.clone();
+            assert_eq!(JsString::refcount(&x), None);
+            assert_eq!(JsString::refcount(&y), None);
+        };
+
+        assert_eq!(JsString::refcount(&x), None);
     }
 
     #[test]
@@ -1290,6 +1862,18 @@ mod tests {
         let z = JsString::new("Hello");
         assert!(!JsString::ptr_eq(&x, &z));
         assert!(!JsString::ptr_eq(&y, &z));
+    }
+
+    #[test]
+    fn static_ptr_eq() {
+        let x = JsString::new("");
+        let y = x.clone();
+
+        assert!(JsString::ptr_eq(&x, &y));
+
+        let z = JsString::new("");
+        assert!(JsString::ptr_eq(&x, &z));
+        assert!(JsString::ptr_eq(&y, &z));
     }
 
     #[test]
@@ -1330,14 +1914,14 @@ mod tests {
 
         let xy = JsString::concat(x, y);
         assert_eq!(xy, "hello, ");
-        assert_eq!(JsString::refcount(&xy), 1);
+        assert_eq!(JsString::refcount(&xy), Some(1));
 
         let xyz = JsString::concat(xy, z);
         assert_eq!(xyz, "hello, world");
-        assert_eq!(JsString::refcount(&xyz), 1);
+        assert_eq!(JsString::refcount(&xyz), Some(1));
 
         let xyzw = JsString::concat(xyz, w);
         assert_eq!(xyzw, "hello, world!");
-        assert_eq!(JsString::refcount(&xyzw), 1);
+        assert_eq!(JsString::refcount(&xyzw), Some(1));
     }
 }

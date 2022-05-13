@@ -33,7 +33,7 @@ use alloc::vec::Vec;
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_profiler::Profiler;
 use core::cmp::Ordering;
-use num_traits::{Float, Signed, Zero};
+use num_traits::{Signed, Zero};
 
 use tap::{Conv, Pipe};
 

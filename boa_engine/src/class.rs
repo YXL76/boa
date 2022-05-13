@@ -63,7 +63,7 @@
 
 use crate::{
     builtins::function::NativeFunctionSignature,
-    object::{ConstructorBuilder, JsObject, NativeObject, ObjectData, PROTOTYPE},
+    object::{ConstructorBuilder, JsFunction, JsObject, NativeObject, ObjectData, PROTOTYPE},
     property::{Attribute, PropertyDescriptor, PropertyKey},
     Context, JsResult, JsValue,
 };
@@ -169,8 +169,8 @@ impl<'context> ClassBuilder<'context> {
     }
 
     #[inline]
-    pub(crate) fn build(mut self) -> JsObject {
-        self.builder.build()
+    pub(crate) fn build(mut self) -> JsFunction {
+        JsFunction::from_object_unchecked(self.builder.build().into())
     }
 
     /// Add a method to the class.
@@ -240,8 +240,8 @@ impl<'context> ClassBuilder<'context> {
     pub fn accessor<K>(
         &mut self,
         key: K,
-        get: Option<JsObject>,
-        set: Option<JsObject>,
+        get: Option<JsFunction>,
+        set: Option<JsFunction>,
         attribute: Attribute,
     ) -> &mut Self
     where
@@ -258,8 +258,8 @@ impl<'context> ClassBuilder<'context> {
     pub fn static_accessor<K>(
         &mut self,
         key: K,
-        get: Option<JsObject>,
-        set: Option<JsObject>,
+        get: Option<JsFunction>,
+        set: Option<JsFunction>,
         attribute: Attribute,
     ) -> &mut Self
     where

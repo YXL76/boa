@@ -12,20 +12,20 @@ use crate::syntax::{
     lexer::{Error as LexError, TokenKind},
     parser::{
         expression::{
-            AssignmentExpression, AsyncGeneratorMethod, AsyncMethod, GeneratorMethod,
-            LeftHandSideExpression, PropertyName,
+            AssignmentExpression, AsyncGeneratorMethod, AsyncMethod, BindingIdentifier,
+            GeneratorMethod, LeftHandSideExpression, PropertyName,
         },
         function::{
             FormalParameter, FormalParameters, FunctionBody, UniqueFormalParameters,
             FUNCTION_BREAK_TOKENS,
         },
-        statement::{BindingIdentifier, StatementList},
+        statement::StatementList,
         AllowAwait, AllowDefault, AllowYield, Cursor, ParseError, TokenParser,
     },
 };
 use alloc::{boxed::Box, vec::Vec};
 use boa_interner::{Interner, Sym};
-use hashbrown::HashMap;
+use hashbrown::{HashMap, HashSet};
 use node::Node;
 
 /// Class declaration parsing.
@@ -556,9 +556,45 @@ where
                 } else {
                     let strict = cursor.strict_mode();
                     cursor.set_strict_mode(true);
+                    let position = cursor
+                        .peek(0, interner)?
+                        .ok_or(ParseError::AbruptEnd)?
+                        .span()
+                        .start();
                     let statement_list =
                         StatementList::new(false, true, false, true, &FUNCTION_BREAK_TOKENS)
                             .parse(cursor, interner)?;
+
+                    let lexically_declared_names = statement_list.lexically_declared_names();
+                    let mut lexically_declared_names_map: HashMap<Sym, bool> = HashMap::default();
+                    for (name, is_function_declaration) in &lexically_declared_names {
+                        if let Some(existing_is_function_declaration) =
+                            lexically_declared_names_map.get(name)
+                        {
+                            if !(!cursor.strict_mode()
+                                && *is_function_declaration
+                                && *existing_is_function_declaration)
+                            {
+                                return Err(ParseError::general(
+                                    "lexical name declared multiple times",
+                                    position,
+                                ));
+                            }
+                        }
+                        lexically_declared_names_map.insert(*name, *is_function_declaration);
+                    }
+
+                    let mut var_declared_names = HashSet::new();
+                    statement_list.var_declared_names_new(&mut var_declared_names);
+                    for (lex_name, _) in &lexically_declared_names {
+                        if var_declared_names.contains(lex_name) {
+                            return Err(ParseError::general(
+                                "lexical name declared in var names",
+                                position,
+                            ));
+                        }
+                    }
+
                     cursor.expect(
                         TokenKind::Punctuator(Punctuator::CloseBlock),
                         "class definition",

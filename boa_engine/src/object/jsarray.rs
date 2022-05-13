@@ -1,6 +1,6 @@
 use crate::{
     builtins::Array,
-    object::{JsObject, JsObjectType},
+    object::{JsFunction, JsObject, JsObjectType},
     value::IntoOrUndefined,
     Context, JsResult, JsString, JsValue,
 };
@@ -35,9 +35,9 @@ impl JsArray {
         }
     }
 
-    /// Create an array from a `JsObject`, if the object is not an array throw a `TypeError`.
+    /// Create a [`JsArray`] from a [`JsObject`], if the object is not an array throw a `TypeError`.
     ///
-    /// This does not copy the fields of the array, it only does a shallow copy.
+    /// This does not clone the fields of the array, it only does a shallow clone of the object.
     #[inline]
     pub fn from_object(object: JsObject, context: &mut Context) -> JsResult<Self> {
         if object.borrow().is_array() {
@@ -208,7 +208,7 @@ impl JsArray {
     #[inline]
     pub fn find(
         &self,
-        predicate: JsObject,
+        predicate: JsFunction,
         this_arg: Option<JsValue>,
         context: &mut Context,
     ) -> JsResult<JsValue> {
@@ -222,7 +222,7 @@ impl JsArray {
     #[inline]
     pub fn filter(
         &self,
-        callback: JsObject,
+        callback: JsFunction,
         this_arg: Option<JsValue>,
         context: &mut Context,
     ) -> JsResult<Self> {
@@ -241,7 +241,7 @@ impl JsArray {
     #[inline]
     pub fn map(
         &self,
-        callback: JsObject,
+        callback: JsFunction,
         this_arg: Option<JsValue>,
         context: &mut Context,
     ) -> JsResult<Self> {
@@ -260,7 +260,7 @@ impl JsArray {
     #[inline]
     pub fn every(
         &self,
-        callback: JsObject,
+        callback: JsFunction,
         this_arg: Option<JsValue>,
         context: &mut Context,
     ) -> JsResult<bool> {
@@ -278,7 +278,7 @@ impl JsArray {
     #[inline]
     pub fn some(
         &self,
-        callback: JsObject,
+        callback: JsFunction,
         this_arg: Option<JsValue>,
         context: &mut Context,
     ) -> JsResult<bool> {
@@ -294,7 +294,7 @@ impl JsArray {
     }
 
     #[inline]
-    pub fn sort(&self, compare_fn: Option<JsObject>, context: &mut Context) -> JsResult<Self> {
+    pub fn sort(&self, compare_fn: Option<JsFunction>, context: &mut Context) -> JsResult<Self> {
         Array::sort(
             &self.inner.clone().into(),
             &[compare_fn.into_or_undefined()],
@@ -326,7 +326,7 @@ impl JsArray {
     #[inline]
     pub fn reduce(
         &self,
-        callback: JsObject,
+        callback: JsFunction,
         initial_value: Option<JsValue>,
         context: &mut Context,
     ) -> JsResult<JsValue> {
@@ -340,7 +340,7 @@ impl JsArray {
     #[inline]
     pub fn reduce_right(
         &self,
-        callback: JsObject,
+        callback: JsFunction,
         initial_value: Option<JsValue>,
         context: &mut Context,
     ) -> JsResult<JsValue> {

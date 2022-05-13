@@ -28,8 +28,9 @@ use crate::syntax::{
     },
 };
 
-use boa_interner::Interner;
+use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
+use hashbrown::HashSet;
 
 /// For statement parsing
 ///
@@ -117,7 +118,9 @@ where
                 ));
             }
             (Some(init), TokenKind::Keyword((Keyword::In, false))) => {
-                let init = node_to_iterable_loop_initializer(init, init_position)?;
+                let init_position = token.span().start();
+                let init =
+                    node_to_iterable_loop_initializer(init, init_position, cursor.strict_mode())?;
 
                 let _next = cursor.next(interner)?;
                 let expr = Expression::new(None, true, self.allow_yield, self.allow_await)
@@ -136,10 +139,38 @@ where
                     return Err(ParseError::wrong_function_declaration_non_strict(position));
                 }
 
+                // It is a Syntax Error if the BoundNames of ForDeclaration contains "let".
+                // It is a Syntax Error if any element of the BoundNames of ForDeclaration also occurs in the VarDeclaredNames of Statement.
+                // It is a Syntax Error if the BoundNames of ForDeclaration contains any duplicate entries.
+                let mut vars = HashSet::new();
+                body.var_declared_names(&mut vars);
+                let mut bound_names = HashSet::new();
+                for name in init.bound_names() {
+                    if name == Sym::LET {
+                        return Err(ParseError::general(
+                            "Cannot use 'let' as a lexically bound name",
+                            init_position,
+                        ));
+                    }
+                    if vars.contains(&name) {
+                        return Err(ParseError::general(
+                            "For loop initializer declared in loop body",
+                            init_position,
+                        ));
+                    }
+                    if !bound_names.insert(name) {
+                        return Err(ParseError::general(
+                            "For loop initializer cannot contain duplicate identifiers",
+                            init_position,
+                        ));
+                    }
+                }
+
                 return Ok(ForInLoop::new(init, expr, body).into());
             }
             (Some(init), TokenKind::Keyword((Keyword::Of, false))) => {
-                let init = node_to_iterable_loop_initializer(init, init_position)?;
+                let init =
+                    node_to_iterable_loop_initializer(init, init_position, cursor.strict_mode())?;
 
                 let _next = cursor.next(interner)?;
                 let iterable = Expression::new(None, true, self.allow_yield, self.allow_await)
@@ -156,6 +187,33 @@ where
                 // Early Error: It is a Syntax Error if IsLabelledFunction(the first Statement) is true.
                 if let Node::FunctionDecl(_) = body {
                     return Err(ParseError::wrong_function_declaration_non_strict(position));
+                }
+
+                // It is a Syntax Error if the BoundNames of ForDeclaration contains "let".
+                // It is a Syntax Error if any element of the BoundNames of ForDeclaration also occurs in the VarDeclaredNames of Statement.
+                // It is a Syntax Error if the BoundNames of ForDeclaration contains any duplicate entries.
+                let mut vars = HashSet::new();
+                body.var_declared_names(&mut vars);
+                let mut bound_names = HashSet::new();
+                for name in init.bound_names() {
+                    if name == Sym::LET {
+                        return Err(ParseError::general(
+                            "Cannot use 'let' as a lexically bound name",
+                            init_position,
+                        ));
+                    }
+                    if vars.contains(&name) {
+                        return Err(ParseError::general(
+                            "For loop initializer declared in loop body",
+                            init_position,
+                        ));
+                    }
+                    if !bound_names.insert(name) {
+                        return Err(ParseError::general(
+                            "For loop initializer cannot contain duplicate identifiers",
+                            init_position,
+                        ));
+                    }
                 }
 
                 return Ok(ForOfLoop::new(init, iterable, body).into());
@@ -222,6 +280,7 @@ where
 fn node_to_iterable_loop_initializer(
     node: &Node,
     position: Position,
+    strict: bool,
 ) -> Result<IterableLoopInitializer, ParseError> {
     match node {
         Node::Identifier(name) => Ok(IterableLoopInitializer::Identifier(*name)),
@@ -278,7 +337,7 @@ fn node_to_iterable_loop_initializer(
             position,
         ))),
         Node::Object(object) => {
-            if let Some(pattern) = object_decl_to_declaration_pattern(object) {
+            if let Some(pattern) = object_decl_to_declaration_pattern(object, strict) {
                 Ok(IterableLoopInitializer::DeclarationPattern(pattern))
             } else {
                 Err(ParseError::lex(LexError::Syntax(
@@ -288,7 +347,7 @@ fn node_to_iterable_loop_initializer(
             }
         }
         Node::ArrayDecl(array) => {
-            if let Some(pattern) = array_decl_to_declaration_pattern(array) {
+            if let Some(pattern) = array_decl_to_declaration_pattern(array, strict) {
                 Ok(IterableLoopInitializer::DeclarationPattern(pattern))
             } else {
                 Err(ParseError::lex(LexError::Syntax(

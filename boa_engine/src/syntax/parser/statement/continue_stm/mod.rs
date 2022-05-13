@@ -16,7 +16,7 @@ use crate::syntax::{
     lexer::TokenKind,
     parser::{
         cursor::{Cursor, SemicolonResult},
-        statement::LabelIdentifier,
+        expression::LabelIdentifier,
         AllowAwait, AllowYield, ParseError, TokenParser,
     },
 };

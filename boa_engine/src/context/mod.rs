@@ -182,7 +182,7 @@ impl Context {
     where
         S: AsRef<[u8]>,
     {
-        Parser::new(src.as_ref(), self.strict).parse_all(&mut self.interner)
+        Parser::new(src.as_ref(), self.strict).parse_all(self)
     }
 
     /// <https://tc39.es/ecma262/#sec-call>
@@ -202,12 +202,6 @@ impl Context {
     #[inline]
     pub fn global_object(&self) -> &JsObject {
         self.realm.global_object()
-    }
-
-    /// Return a reference to the global object string bindings.
-    #[inline]
-    pub(crate) fn global_bindings(&self) -> &GlobalPropertyMap {
-        self.realm.global_bindings()
     }
 
     /// Return a mutable reference to the global object string bindings.
@@ -648,7 +642,7 @@ impl Context {
         let main_timer = Profiler::global().start_event("Evaluation", "Main");
 
         let parsing_result = Parser::new(src.as_ref(), false)
-            .parse_all(&mut self.interner)
+            .parse_all(self)
             .map_err(|e| e.to_string());
 
         let statement_list = match parsing_result {
@@ -673,6 +667,23 @@ impl Context {
         let mut compiler = ByteCompiler::new(Sym::MAIN, statement_list.strict(), self);
         compiler.create_declarations(statement_list.items())?;
         compiler.compile_statement_list(statement_list.items(), true)?;
+        Ok(Gc::new(compiler.finish()))
+    }
+
+    /// Compile the AST into a `CodeBlock` with an additional declarative environment.
+    #[inline]
+    pub(crate) fn compile_with_new_declarative(
+        &mut self,
+        statement_list: &StatementList,
+        strict: bool,
+    ) -> JsResult<Gc<CodeBlock>> {
+        let _timer = Profiler::global().start_event("Compilation", "Main");
+        let mut compiler = ByteCompiler::new(Sym::MAIN, statement_list.strict(), self);
+        compiler.compile_statement_list_with_new_declarative(
+            statement_list.items(),
+            true,
+            strict || statement_list.strict(),
+        )?;
         Ok(Gc::new(compiler.finish()))
     }
 
@@ -719,7 +730,7 @@ impl Context {
         S: AsRef<[u8]>,
     {
         let parsing_result = Parser::new(src.as_ref(), false)
-            .parse_all(&mut self.interner)
+            .parse_all( self)
             .map_err(|e| e.to_string());
 
         let statement_list = match parsing_result {

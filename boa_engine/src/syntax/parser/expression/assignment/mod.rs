@@ -230,7 +230,7 @@ where
                     }
 
                     cursor.next(interner)?.expect("= token vanished");
-                    if let Some(target) = AssignTarget::from_node(&lhs) {
+                    if let Some(target) = AssignTarget::from_node(&lhs, cursor.strict_mode()) {
                         if let AssignTarget::Identifier(ident) = target {
                             self.name = Some(ident.sym());
                         }

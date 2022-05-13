@@ -50,15 +50,14 @@ use crate::syntax::{
                 DeclarationPatternArray, DeclarationPatternObject,
             },
         },
-        Keyword, Node, Position, Punctuator,
+        Keyword, Node, Punctuator,
     },
     lexer::{Error as LexError, InputElement, Token, TokenKind},
-    parser::expression::{await_expr::AwaitExpression, Initializer},
+    parser::expression::{await_expr::AwaitExpression, BindingIdentifier, Initializer},
 };
-use alloc::{string::ToString, vec::Vec};
-use boa_interner::{Interner, Sym};
+use alloc::vec::Vec;
+use boa_interner::Interner;
 use boa_profiler::Profiler;
-use hashbrown::HashSet;
 
 pub(in crate::syntax::parser) use declaration::ClassTail;
 pub(in crate::syntax) use declaration::PrivateElement;
@@ -314,108 +313,6 @@ where
             while cursor.next_if(Punctuator::Semicolon, interner)?.is_some() {}
         }
 
-        // Handle any redeclarations
-        // https://tc39.es/ecma262/#sec-block-static-semantics-early-errors
-        {
-            let mut lexically_declared_names: HashSet<Sym> = HashSet::new();
-            let mut var_declared_names: HashSet<Sym> = HashSet::new();
-
-            // TODO: Use more helpful positions in errors when spans are added to Nodes
-            for item in &items {
-                match item {
-                    Node::LetDeclList(decl_list) | Node::ConstDeclList(decl_list) => {
-                        for decl in decl_list.as_ref() {
-                            // if name in VarDeclaredNames or can't be added to
-                            // LexicallyDeclaredNames, raise an error
-                            match decl {
-                                node::Declaration::Identifier { ident, .. } => {
-                                    if var_declared_names.contains(&ident.sym())
-                                        || !lexically_declared_names.insert(ident.sym())
-                                    {
-                                        return Err(ParseError::lex(LexError::Syntax(
-                                            format!(
-                                                "Redeclaration of variable `{}`",
-                                                interner.resolve_expect(ident.sym())
-                                            )
-                                            .into(),
-                                            match cursor.peek(0, interner)? {
-                                                Some(token) => token.span().end(),
-                                                None => Position::new(1, 1),
-                                            },
-                                        )));
-                                    }
-                                }
-                                node::Declaration::Pattern(p) => {
-                                    for ident in p.idents() {
-                                        if var_declared_names.contains(&ident)
-                                            || !lexically_declared_names.insert(ident)
-                                        {
-                                            return Err(ParseError::lex(LexError::Syntax(
-                                                format!(
-                                                    "Redeclaration of variable `{}`",
-                                                    interner.resolve_expect(ident)
-                                                )
-                                                .into(),
-                                                match cursor.peek(0, interner)? {
-                                                    Some(token) => token.span().end(),
-                                                    None => Position::new(1, 1),
-                                                },
-                                            )));
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    Node::VarDeclList(decl_list) => {
-                        for decl in decl_list.as_ref() {
-                            match decl {
-                                node::Declaration::Identifier { ident, .. } => {
-                                    // if name in LexicallyDeclaredNames, raise an error
-                                    if lexically_declared_names.contains(&ident.sym()) {
-                                        return Err(ParseError::lex(LexError::Syntax(
-                                            format!(
-                                                "Redeclaration of variable `{}`",
-                                                interner.resolve_expect(ident.sym())
-                                            )
-                                            .into(),
-                                            match cursor.peek(0, interner)? {
-                                                Some(token) => token.span().end(),
-                                                None => Position::new(1, 1),
-                                            },
-                                        )));
-                                    }
-                                    // otherwise, add to VarDeclaredNames
-                                    var_declared_names.insert(ident.sym());
-                                }
-                                node::Declaration::Pattern(p) => {
-                                    for ident in p.idents() {
-                                        // if name in LexicallyDeclaredNames, raise an error
-                                        if lexically_declared_names.contains(&ident) {
-                                            return Err(ParseError::lex(LexError::Syntax(
-                                                format!(
-                                                    "Redeclaration of variable `{}`",
-                                                    interner.resolve_expect(ident)
-                                                )
-                                                .into(),
-                                                match cursor.peek(0, interner)? {
-                                                    Some(token) => token.span().end(),
-                                                    None => Position::new(1, 1),
-                                                },
-                                            )));
-                                        }
-                                        // otherwise, add to VarDeclaredNames
-                                        var_declared_names.insert(ident);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    _ => (),
-                }
-            }
-        }
-
         items.sort_by(Node::hoistable_order);
 
         Ok(items.into())
@@ -487,124 +384,6 @@ where
             }
             _ => Statement::new(self.allow_yield, self.allow_await, self.allow_return)
                 .parse(cursor, interner),
-        }
-    }
-}
-
-/// Label identifier parsing.
-///
-/// This seems to be the same as a `BindingIdentifier`.
-///
-/// More information:
-///  - [ECMAScript specification][spec]
-///
-/// [spec]: https://tc39.es/ecma262/#prod-LabelIdentifier
-pub(super) type LabelIdentifier = BindingIdentifier;
-
-/// Binding identifier parsing.
-///
-/// More information:
-///  - [ECMAScript specification][spec]
-///
-/// [spec]: https://tc39.es/ecma262/#prod-BindingIdentifier
-#[derive(Debug, Clone, Copy)]
-pub(super) struct BindingIdentifier {
-    allow_yield: AllowYield,
-    allow_await: AllowAwait,
-}
-
-impl BindingIdentifier {
-    /// Creates a new `BindingIdentifier` parser.
-    pub(super) fn new<Y, A>(allow_yield: Y, allow_await: A) -> Self
-    where
-        Y: Into<AllowYield>,
-        A: Into<AllowAwait>,
-    {
-        Self {
-            allow_yield: allow_yield.into(),
-            allow_await: allow_await.into(),
-        }
-    }
-}
-
-impl<R> TokenParser<R> for BindingIdentifier
-where
-    R: Read,
-{
-    type Output = Sym;
-
-    /// Strict mode parsing as per <https://tc39.es/ecma262/#sec-identifiers-static-semantics-early-errors>.
-    fn parse(
-        self,
-        cursor: &mut Cursor<R>,
-        interner: &mut Interner,
-    ) -> Result<Self::Output, ParseError> {
-        let _timer = Profiler::global().start_event("BindingIdentifier", "Parsing");
-
-        let next_token = cursor.next(interner)?.ok_or(ParseError::AbruptEnd)?;
-
-        match next_token.kind() {
-            TokenKind::Identifier(Sym::ARGUMENTS) if cursor.strict_mode() => {
-                Err(ParseError::lex(LexError::Syntax(
-                    "unexpected identifier 'arguments' in strict mode".into(),
-                    next_token.span().start(),
-                )))
-            }
-            TokenKind::Identifier(Sym::EVAL) if cursor.strict_mode() => {
-                Err(ParseError::lex(LexError::Syntax(
-                    "unexpected identifier 'eval' in strict mode".into(),
-                    next_token.span().start(),
-                )))
-            }
-            TokenKind::Keyword((Keyword::Let, _)) if cursor.strict_mode() => {
-                Err(ParseError::lex(LexError::Syntax(
-                    "unexpected identifier 'let' in strict mode".into(),
-                    next_token.span().start(),
-                )))
-            }
-            TokenKind::Keyword((Keyword::Let, _)) => Ok(Sym::LET),
-            TokenKind::Identifier(ref s) => Ok(*s),
-            TokenKind::Keyword((Keyword::Yield, _)) if self.allow_yield.0 => {
-                // Early Error: It is a Syntax Error if this production has a [Yield] parameter and StringValue of Identifier is "yield".
-                Err(ParseError::general(
-                    "Unexpected identifier",
-                    next_token.span().start(),
-                ))
-            }
-            TokenKind::Keyword((Keyword::Yield, _)) if !self.allow_yield.0 => {
-                if cursor.strict_mode() {
-                    Err(ParseError::general(
-                        "yield keyword in binding identifier not allowed in strict mode",
-                        next_token.span().start(),
-                    ))
-                } else {
-                    Ok(Sym::YIELD)
-                }
-            }
-            TokenKind::Keyword((Keyword::Await, _)) if cursor.arrow() => Ok(Sym::AWAIT),
-            TokenKind::Keyword((Keyword::Await, _)) if self.allow_await.0 => {
-                // Early Error: It is a Syntax Error if this production has an [Await] parameter and StringValue of Identifier is "await".
-                Err(ParseError::general(
-                    "Unexpected identifier",
-                    next_token.span().start(),
-                ))
-            }
-            TokenKind::Keyword((Keyword::Await, _)) if !self.allow_await.0 => {
-                if cursor.strict_mode() {
-                    Err(ParseError::general(
-                        "await keyword in binding identifier not allowed in strict mode",
-                        next_token.span().start(),
-                    ))
-                } else {
-                    Ok(Sym::AWAIT)
-                }
-            }
-            _ => Err(ParseError::expected(
-                ["identifier".to_string()],
-                next_token.to_string(interner),
-                next_token.span(),
-                "binding identifier",
-            )),
         }
     }
 }

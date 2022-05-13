@@ -5,7 +5,6 @@ use alloc::string::String;
 use boa_gc::{Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 
-use hashbrown::HashSet;
 #[cfg(feature = "deser")]
 use serde::{Deserialize, Serialize};
 
@@ -41,12 +40,9 @@ impl Block {
         self.statements.items()
     }
 
-    pub(crate) fn lexically_declared_names(&self, interner: &Interner) -> HashSet<Sym> {
-        self.statements.lexically_declared_names(interner)
-    }
-
-    pub(crate) fn var_declared_named(&self) -> HashSet<Sym> {
-        self.statements.var_declared_names()
+    /// Get the lexically declared names of the block.
+    pub(crate) fn lexically_declared_names(&self) -> Vec<(Sym, bool)> {
+        self.statements.lexically_declared_names()
     }
 
     /// Implements the display formatting with indentation.

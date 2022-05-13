@@ -3,7 +3,6 @@ use super::{
     WellKnownSymbols,
 };
 use crate::builtins::number::{f64_to_int32, f64_to_uint32, Number};
-use num_traits::Float;
 
 impl JsValue {
     #[inline]

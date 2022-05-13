@@ -29,7 +29,6 @@ use alloc::{
 use boa_profiler::Profiler;
 use hashbrown::HashMap;
 // use std::time::SystemTime;
-use num_traits::Float;
 use tap::{Conv, Pipe};
 
 /// This represents the different types of log messages.

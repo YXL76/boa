@@ -8,7 +8,7 @@ use core::{
     ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Neg, Rem, Shl, Shr, Sub},
 };
 use num_integer::Integer;
-use num_traits::{pow::Pow, Float, FromPrimitive, One, ToPrimitive, Zero};
+use num_traits::{pow::Pow, FromPrimitive, One, ToPrimitive, Zero};
 
 /// The raw bigint type.
 pub type RawBigInt = num_bigint::BigInt;
@@ -180,7 +180,7 @@ impl JsBigInt {
             let inner = if n > 0 {
                 x.inner.as_ref().clone().shr(n as usize)
             } else {
-                x.inner.as_ref().clone().shl(n.abs() as usize)
+                x.inner.as_ref().clone().shl(n.unsigned_abs())
             };
 
             Ok(Self::new(inner))
@@ -195,7 +195,7 @@ impl JsBigInt {
             let inner = if n > 0 {
                 x.inner.as_ref().clone().shl(n as usize)
             } else {
-                x.inner.as_ref().clone().shr(n.abs() as usize)
+                x.inner.as_ref().clone().shr(n.unsigned_abs())
             };
 
             Ok(Self::new(inner))
