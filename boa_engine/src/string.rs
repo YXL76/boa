@@ -20,7 +20,7 @@ use hashbrown::HashSet;
 use spin::Once;
 
 // MYTODO
-const MAX_CONSTANT_STRING_LENGTH: usize = 20;
+const MAX_CONSTANT_STRING_LENGTH: usize = 16;
 /* const MAX_CONSTANT_STRING_LENGTH: usize = {
     let mut max = 0;
     let mut i = 0;
