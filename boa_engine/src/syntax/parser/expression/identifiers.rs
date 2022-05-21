@@ -12,6 +12,7 @@ use crate::syntax::{
     lexer::{Error as LexError, TokenKind},
     parser::{cursor::Cursor, AllowAwait, AllowYield, ParseError, TokenParser},
 };
+use alloc::string::ToString;
 use boa_interner::{Interner, Sym};
 use boa_profiler::Profiler;
 
@@ -218,7 +219,7 @@ where
             }
             TokenKind::Keyword((Keyword::Await, _)) if !self.allow_await.0 => Ok(Sym::AWAIT),
             _ => Err(ParseError::expected(
-                ["identifier".to_owned()],
+                ["identifier".to_string()],
                 next_token.to_string(interner),
                 next_token.span(),
                 "binding identifier",

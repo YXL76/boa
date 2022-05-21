@@ -2,7 +2,7 @@
 
 use crate::syntax::ast::node::{Declaration, Node};
 use alloc::rc::Rc;
-use alloc::{boxed::Box, string::String};
+use alloc::{boxed::Box, string::String, vec::Vec};
 use boa_gc::{unsafe_empty_trace, Finalize, Trace};
 use boa_interner::{Interner, Sym, ToInternedString};
 use core::ops::Deref;

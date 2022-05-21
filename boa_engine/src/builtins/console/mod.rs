@@ -28,6 +28,7 @@ use alloc::{
 };
 use boa_profiler::Profiler;
 use hashbrown::HashMap;
+use num_traits::Float;
 // use std::time::SystemTime;
 use tap::{Conv, Pipe};
 

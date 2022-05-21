@@ -1,5 +1,5 @@
 use crate::{environments::CompileTimeEnvironment, Context, JsResult, JsValue};
-use alloc::vec::Vec;
+use alloc::{borrow::ToOwned, vec::Vec};
 use boa_gc::{Cell, Finalize, Gc, Trace};
 use boa_interner::Sym;
 use hashbrown::HashSet;

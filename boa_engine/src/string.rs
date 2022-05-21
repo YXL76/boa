@@ -1422,8 +1422,8 @@ impl Inner {
     #[inline]
     fn as_str(&self) -> &str {
         unsafe {
-            let slice = std::slice::from_raw_parts(self.data.as_ptr(), self.len);
-            std::str::from_utf8_unchecked(slice)
+            let slice = core::slice::from_raw_parts(self.data.as_ptr(), self.len);
+            core::str::from_utf8_unchecked(slice)
         }
     }
 }

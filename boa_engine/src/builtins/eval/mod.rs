@@ -15,6 +15,7 @@ use crate::{
     property::Attribute,
     Context, JsValue,
 };
+use alloc::string::ToString;
 use boa_profiler::Profiler;
 use hashbrown::HashSet;
 

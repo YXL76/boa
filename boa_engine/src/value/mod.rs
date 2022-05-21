@@ -26,7 +26,7 @@ use core::{
 use hashbrown::HashSet;
 use num_bigint::BigInt;
 use num_integer::Integer;
-use num_traits::Zero;
+use num_traits::{Float, Zero};
 use spin::Once;
 
 mod conversions;

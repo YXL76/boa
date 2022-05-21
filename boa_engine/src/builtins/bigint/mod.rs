@@ -23,6 +23,7 @@ use crate::{
 use alloc::string::ToString;
 use boa_profiler::Profiler;
 use num_bigint::ToBigInt;
+use num_traits::Float;
 use tap::{Conv, Pipe};
 
 #[cfg(test)]

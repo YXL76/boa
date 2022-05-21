@@ -15,7 +15,7 @@ use crate::{
     symbol::WellKnownSymbols,
     Context, JsResult, JsString, JsValue,
 };
-use alloc::vec::Vec;
+use alloc::{string::ToString, vec::Vec};
 
 pub mod date_time_format;
 #[cfg(test)]
@@ -426,7 +426,7 @@ fn insert_unicode_extension_and_canonicalize(locale: &str, extension: &str) -> J
         // 5. If privateIndex = -1, then
         None => {
             // a. Let locale be the string-concatenation of locale and extension.
-            locale.to_owned() + extension
+            locale.to_string() + extension
         }
         // 6. Else,
         Some(idx) => {
@@ -440,7 +440,7 @@ fn insert_unicode_extension_and_canonicalize(locale: &str, extension: &str) -> J
 
             // c. Let locale be the string-concatenation of preExtension, extension,
             // and postExtension.
-            pre_extension.to_owned() + extension + post_extension
+            pre_extension.to_string() + extension + post_extension
         }
     };
 
