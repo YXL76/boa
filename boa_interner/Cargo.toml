@@ -10,10 +10,7 @@ keywords = ["javascript", "js", "string", "interner"]
 categories = ["data-structures"]
 license = "Unlicense/MIT"
 
-[features]
-nightly = ["string-interner/nightly"]
-
 [dependencies]
-string-interner = { git = "https://github.com/yxl76/string-interner", branch = "ingram", default-features = false, features = ["serde-1", "inline-more", "backends"] }
+string-interner = { git = "https://github.com/Robbepop/string-interner", default-features = false, features = ["serde-1", "inline-more", "backends"] }
 serde = { version = "1.0.137", default-features = false, features = ["alloc", "derive"], optional = true }
 boa_gc = { path = "../../rust-gc/gc", features = ["derive"] }
